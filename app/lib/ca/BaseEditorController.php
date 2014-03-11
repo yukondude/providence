@@ -57,6 +57,7 @@
  			
  			JavascriptLoadManager::register('bundleListEditorUI');
  			JavascriptLoadManager::register('panel');
+ 			JavascriptLoadManager::register('openlayers');
  			
  			$this->opo_datamodel = Datamodel::load();
  			$this->opo_app_plugin_manager = new ApplicationPluginManager();
