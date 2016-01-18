@@ -919,7 +919,7 @@ class SearchResult extends BaseObject {
 		$pa_options['makeLink'] = $vb_return_as_link;
 		
 		$vn_max_levels_from_top 			= isset($pa_options['maxLevelsFromTop']) ? (int)$pa_options['maxLevelsFromTop'] : null;
-		$vn_max_levels_from_bottom 			= isset($pa_options['maxLevelsFromBottom']) ? (int)$pa_options['maxLevelsFromBottom'] : null;
+		$vn_max_levels_from_bottom 			= caGetOption(array('maxLevelsFromBottom', 'maxLevels', 'level_limit', 'hierarchy_limit'), $pa_options, null);
 		$vn_remove_first_items 				= isset($pa_options['removeFirstItems']) ? (int)$pa_options['removeFirstItems'] : 0;
 
 		$va_check_access 					= isset($pa_options['checkAccess']) ? (is_array($pa_options['checkAccess']) ? $pa_options['checkAccess'] : array($pa_options['checkAccess'])) : null;
@@ -1420,8 +1420,10 @@ class SearchResult extends BaseObject {
 			if (is_null($vm_val)) { continue; } // Skip null values; indicates that there was no related value
 			
 			if ($pa_options['returnWithStructure']) {
+				if (!is_array($vm_val)) { $vm_val = array($vm_val); }
 				$va_return_values = array_merge($va_return_values, $vm_val);
 			} elseif ($pa_options['returnAsArray']) {
+				if (!is_array($vm_val)) { $vm_val = array($vm_val); }
 				foreach($vm_val as $vn_i => $vs_val) {
 					// We include blanks in arrays so various get() calls on different fields in the same record set align
 					$va_return_values[] = $vs_val;
@@ -1771,7 +1773,7 @@ class SearchResult extends BaseObject {
 					}
 				}
 				break;
-		}	
+		}
 		
 		if (!$pa_options['returnAllLocales']) { $va_return_values = caExtractValuesByUserLocale($va_return_values); } 	
 		if ($pa_options['returnWithStructure']) { 
@@ -1899,10 +1901,10 @@ class SearchResult extends BaseObject {
 			$pt_instance->setLabelTypeList($this->opo_subject_instance->getAppConfig()->get(($pa_path_components['field_name'] == 'nonpreferred_labels') ? "{$vs_table_name}_nonpreferred_label_type_list" : "{$vs_table_name}_preferred_label_type_list"));
 		}
 		if (isset($pa_options['convertCodesToIdno']) && $pa_options['convertCodesToIdno'] && ($vs_list_code = $pt_instance->getFieldInfo($vs_field_name,"LIST_CODE"))) {
-			$vs_prop = caGetListItemIdno($vs_prop); 
+			$vs_prop = caGetListItemIdno($vs_prop);
 		} else {
 			if (isset($pa_options['convertCodesToIdno']) && $pa_options['convertCodesToIdno'] && ($vs_list_code = $pt_instance->getFieldInfo($vs_field_name,"LIST"))) {
-				$vs_prop = $this->opt_list->caGetListItemIDForValue($vs_list_code, $vs_prop);
+				$vs_prop = caGetListItemIdno(caGetListItemIDForValue($vs_list_code, $vs_prop));
 			} 
 		}
 		return $vs_prop;

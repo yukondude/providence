@@ -2143,7 +2143,7 @@
 
 			$vs_table = $this->tableName();
 			foreach($va_elements as $vn_element_id => $vs_element_code) {
-				$va_vals = $this->get("{$vs_table}.{$vs_element_code}", array("returnAsArray" => true, "returnAllLocales" => true, 'forDuplication' => true));
+				$va_vals = $this->get("{$vs_table}.{$vs_element_code}", array("returnAsArray" => true, "returnWithStructure" => true, "returnAllLocales" => true, 'forDuplication' => true));
 				if (!is_array($va_vals)) { continue; }
 				if (sizeof($va_restrictToAttributesByCodes)>0 || sizeof($va_restrictToAttributesByIds)>0) {
 					if (!(in_array($vs_element_code,$va_restrictToAttributesByCodes) || in_array($vn_element_id,$va_restrictToAttributesByIds))) {
@@ -2271,7 +2271,7 @@
 				$va_search_strings = array();
 				
 				$vn_id = $this->getPrimaryKey();
-				print_R($va_element_list);
+
 				foreach($va_element_list as $vs_table => $va_elements_by_table) {
 					foreach($va_elements_by_table as $vn_element_id => $va_element_info) {
 						$va_search_strings[$vs_table][] = "{$vs_table}.".$va_element_info['element_code'].":{$vn_id}";
@@ -2324,10 +2324,10 @@
 		 * @return mixed 
 		 */
 		public function getAuthorityElementList($pa_options=null) {
-			if (!($vn_datatype = $this->authorityElementDatatype())) { return null; }
+			if (!($vn_datatype = $this->authorityElementDatatype())) { return array(); }
 			if (!($vn_id = caGetOption('row_id', $pa_options, null))) { 
-				if (!($vn_id = $this->getPrimaryKey())) { 
-					return null; 
+				if (!($vn_id = $this->getPrimaryKey())) {
+					return array();
 				}
 			}
 			

@@ -478,12 +478,12 @@ define("__CA_BUNDLE_DISPLAY_TEMPLATE_TAG_REGEX__", "/\^([0-9]+(?=[.,;])|[\/A-Za-
 					&&
 					!($po_request->getAppConfig()->get($vs_table_name.'_editor_defaults_to_summary_view'))
 				){
-					$vs_buf .= caNavLink($po_request, '&#60; prev', 'prev', $po_request->getModulePath(), $po_request->getController(), 'Edit'.'/'.$po_request->getActionExtra(), array($vs_pk => $vn_prev_id)).'&nbsp;';
+					$vs_buf .= caNavLink($po_request, _t('&#60; prev'), 'prev', $po_request->getModulePath(), $po_request->getController(), 'Edit'.'/'.$po_request->getActionExtra(), array($vs_pk => $vn_prev_id)).'&nbsp;';
 				} else {
-					$vs_buf .= caNavLink($po_request, '&#60; prev', 'prev', $po_request->getModulePath(), $po_request->getController(), 'Summary', array($vs_pk => $vn_prev_id)).'&nbsp;';
+					$vs_buf .= caNavLink($po_request, _t('&#60; prev'), 'prev', $po_request->getModulePath(), $po_request->getController(), 'Summary', array($vs_pk => $vn_prev_id)).'&nbsp;';
 				}
 			} else {
-				$vs_buf .=  '<span class="prev disabled">&#60; prev</span>';
+				$vs_buf .=  '<span class="prev disabled">'._t('&#60; prev').'</span>';
 			}
 				
 			$vs_buf .= "<span class='resultCount'>".ResultContext::getResultsLinkForLastFind($po_request, $vs_table_name,  $vs_back_text, ''). " (".($vn_current_pos)."/".sizeof($va_found_ids).")</span>";
@@ -495,12 +495,12 @@ define("__CA_BUNDLE_DISPLAY_TEMPLATE_TAG_REGEX__", "/\^([0-9]+(?=[.,;])|[\/A-Za-
 					&&
 					!($po_request->getAppConfig()->get($vs_table_name.'_editor_defaults_to_summary_view'))
 				){
-					$vs_buf .= '&nbsp;'.caNavLink($po_request, '&#62; next', 'next', $po_request->getModulePath(), $po_request->getController(), 'Edit'.'/'.$po_request->getActionExtra(), array($vs_pk => $vn_next_id));
+					$vs_buf .= '&nbsp;'.caNavLink($po_request, _t('&#62; next'), 'next', $po_request->getModulePath(), $po_request->getController(), 'Edit'.'/'.$po_request->getActionExtra(), array($vs_pk => $vn_next_id));
 				} else {
-					$vs_buf .= '&nbsp;'.caNavLink($po_request, '&#62; next', 'next', $po_request->getModulePath(), $po_request->getController(), 'Summary', array($vs_pk => $vn_next_id));
+					$vs_buf .= '&nbsp;'.caNavLink($po_request, _t('&#62; next'), 'next', $po_request->getModulePath(), $po_request->getController(), 'Summary', array($vs_pk => $vn_next_id));
 				}
 			} else {
-				$vs_buf .=  '<span class="next disabled">&#62; next</span>';
+				$vs_buf .=  '<span class="next disabled">'._t('&#62; next').'</span>';
 			}
 		} elseif ($vn_item_id) {
 			$vs_buf .= ResultContext::getResultsLinkForLastFind($po_request, $vs_table_name,  $vs_back_text, '');
@@ -896,6 +896,22 @@ define("__CA_BUNDLE_DISPLAY_TEMPLATE_TAG_REGEX__", "/\^([0-9]+(?=[.,;])|[\/A-Za-
 				if ($vs_get_spec = $po_view->request->config->get("{$vs_table_name}_inspector_display_below_media")) {
 					$vs_buf .= caProcessTemplateForIDs($vs_get_spec, $vs_table_name, array($t_item->getPrimaryKey()));
 				}
+			}
+
+			//
+			// Output configurable additional info from config, if set
+			//
+
+			if ($vs_additional_info = $po_view->request->config->get("{$vs_table_name}_inspector_additional_info")) {
+				if(is_array($vs_additional_info)){
+					$vs_buf .= "<br/>";
+					foreach($vs_additional_info as $vs_info){
+						$vs_buf .= caProcessTemplateForIDs($vs_info, $vs_table_name, array($t_item->getPrimaryKey()),array('requireLinkTags' => true))."<br/>\n";
+					}
+				} else {
+					$vs_buf .= "<br/>".caProcessTemplateForIDs($vs_additional_info, $vs_table_name, array($t_item->getPrimaryKey()),array('requireLinkTags' => true))."<br/>\n";
+				}
+
 			}
 			
 			$vs_buf .= "<div id='toolIcons'>";	
@@ -1560,22 +1576,6 @@ define("__CA_BUNDLE_DISPLAY_TEMPLATE_TAG_REGEX__", "/\^([0-9]+(?=[.,;])|[\/A-Za-
 					$vs_buf .= "<strong>".$t_item->getFieldInfo('shipping_method', 'LABEL')."</strong>: ".$t_item->getChoiceListValue('shipping_method', $vn_shipping_method)."<br/>\n";
 				}
 			}
-
-			//
-			// Output configurable additional info from config, if set
-			// 
-
-			if ($vs_additional_info = $po_view->request->config->get("{$vs_table_name}_inspector_additional_info")) {
-				if(is_array($vs_additional_info)){
-					$vs_buf .= "<br/>";
-					foreach($vs_additional_info as $vs_info){
-						$vs_buf .= caProcessTemplateForIDs($vs_info, $vs_table_name, array($t_item->getPrimaryKey()),array('requireLinkTags' => true))."<br/>\n";
-					}
-				} else {
-					$vs_buf .= "<br/>".caProcessTemplateForIDs($vs_additional_info, $vs_table_name, array($t_item->getPrimaryKey()),array('requireLinkTags' => true))."<br/>\n";
-				}
-				
-			}
 			
 		// -------------------------------------------------------------------------------------
 		// Export
@@ -2014,7 +2014,7 @@ define("__CA_BUNDLE_DISPLAY_TEMPLATE_TAG_REGEX__", "/\^([0-9]+(?=[.,;])|[\/A-Za-
 		if (preg_match_all(__CA_BUNDLE_DISPLAY_TEMPLATE_TAG_REGEX__, $ps_template, $va_matches)) {
 			foreach($va_matches[1] as $vn_i => $vs_possible_tag) {
 				if (strpos($vs_possible_tag, "~") !== false) { continue; }	// don't clip trailing characters when there's a tag directive specified
-				$va_matches[1][$vn_i] = rtrim($vs_possible_tag, "/.");	// remove trailing slashes and periods
+				$va_matches[1][$vn_i] = rtrim($vs_possible_tag, "/.%");	// remove trailing slashes, periods and percent signs as they're potentially valid tag characters that are never meant to be at the end
 			}
 			$va_tags = $va_matches[1];
 		}
@@ -2305,11 +2305,13 @@ define("__CA_BUNDLE_DISPLAY_TEMPLATE_TAG_REGEX__", "/\^([0-9]+(?=[.,;])|[\/A-Za-
 		$va_expression_vars = array();
 
 		/** @var $qr_res SearchResult */
+		$va_ids_with_access = array();
 		while($qr_res->nextHit()) {
 			
 			$vs_pk_val = $qr_res->get($vs_pk, array('checkAccess' => $pa_check_access));
 			if (is_array($pa_check_access) && sizeof($pa_check_access) && !in_array($qr_res->get("{$ps_tablename}.access"), $pa_check_access)) { continue; }
 			$vs_template =  $ps_template;
+			$va_ids_with_access[] = $vs_pk_val;
 
 			// check if we skip this row because of skipIfExpression
 			if(strlen($ps_skip_if_expression) > 0) {
@@ -2329,7 +2331,7 @@ define("__CA_BUNDLE_DISPLAY_TEMPLATE_TAG_REGEX__", "/\^([0-9]+(?=[.,;])|[\/A-Za-
 			// Grab values for codes used in ifdef and ifnotdef directives
 			$va_directive_tag_vals = array();	
 			foreach($va_directive_tags as $vs_directive_tag) {
-				$va_directive_tag_vals[$vs_directive_tag] = $qr_res->get($vs_directive_tag, array('assumeDisplayField' => true, 'convertCodesToDisplayText' => true, 'dontUseElementTemplate' => true));
+				$va_directive_tag_vals[$vs_directive_tag] = $qr_res->get($vs_directive_tag, array('assumeDisplayField' => true, 'convertCodesToDisplayText' => true, 'dontUseElementTemplate' => true, 'primaryIDs' => $va_primary_ids));
 			}
 			
 			
@@ -2692,7 +2694,7 @@ define("__CA_BUNDLE_DISPLAY_TEMPLATE_TAG_REGEX__", "/\^([0-9]+(?=[.,;])|[\/A-Za-
 								}
 								
 								if ($va_spec_bits[1] != '_hierarchyName') {
-									$va_val = $qr_res->get($vs_get_spec, array_merge($pa_options, $va_additional_options, array('returnWithStructure' => true, 'returnBlankValues' => true, 'returnAllLocales' => true, 'useLocaleCodes' => false, 'filters' => $va_tag_filters, 'primaryIDs' => $va_primary_ids)));
+									$va_val = $qr_res->get($vs_get_spec, array_merge($va_additional_options, $pa_options, array('returnWithStructure' => true, 'returnBlankValues' => true, 'returnAllLocales' => true, 'useLocaleCodes' => false, 'filters' => $va_tag_filters, 'primaryIDs' => $va_primary_ids)));
 								} else {
 									$va_val = array();
 								}
@@ -4244,5 +4246,40 @@ define("__CA_BUNDLE_DISPLAY_TEMPLATE_TAG_REGEX__", "/\^([0-9]+(?=[.,;])|[\/A-Za-
 		$vs_buf .= "});\n</script>\n";
 
 		return $vs_buf;
+	}
+	# ------------------------------------------------------------------
+	/**
+	 * Get bundle preview for a relationship bundle
+	 * @param BundlableLabelableBaseModelWithAttributes $t_rel_instance
+	 * @param array $pa_initial_values
+	 * @param string $ps_template
+	 * @param string $ps_delimiter
+	 * @return string
+	 */
+	function caGetBundlePreviewForRelationshipBundle($t_rel_instance, $pa_initial_values, $ps_template, $ps_delimiter='; ') {
+		if(!is_array($pa_initial_values) || sizeof($pa_initial_values) == 0) {
+			return '""';
+		}
+
+		// it's very unlikely that the preview will fit more then 10 items
+		if(sizeof($pa_initial_values) > 10) {
+			$pa_initial_values = array_slice($pa_initial_values, 0, 10);
+		}
+		if(!($t_rel_instance instanceof BundlableLabelableBaseModelWithAttributes)) {
+			return '""';
+		}
+
+		$va_ids = $va_previews = array();
+		foreach($pa_initial_values as $va_item) {
+			$va_ids[] = $va_item['id'];
+		}
+
+		$o_res = $t_rel_instance->makeSearchResult($t_rel_instance->tableName(),$va_ids);
+
+		while($o_res->nextHit()) {
+			$va_previews[] = $o_res->getWithTemplate($ps_template);
+		}
+
+		return caEscapeForBundlePreview(join($ps_delimiter, $va_previews));
 	}
 	# ------------------------------------------------------------------

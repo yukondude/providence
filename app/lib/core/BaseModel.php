@@ -7651,13 +7651,13 @@ class BaseModel extends BaseObject {
 		if (!is_array($va_hier)) { return array(); }
 		foreach($va_hier as $vn_i => $va_item) {
 			$va_levels[$vn_i] = $va_item['LEVEL'];
-			$va_ids[] = $vn_id = $va_item['NODE'][$vs_pk];
+			$va_ids[$vn_i] = $vn_id = $va_item['NODE'][$vs_pk];
 			$va_parent_ids[$vn_id] = $va_item['NODE']['parent_id'];
 		}
 		
 		$va_hierarchy_data = array();
 		
-		$va_vals = caProcessTemplateForIDs($ps_template, $this->tableName(), $va_ids, array_merge($pa_options, array('returnAsArray'=> true)));
+		$va_vals = caProcessTemplateForIDs($ps_template, $this->tableName(), $va_ids, array_merge($pa_options, array('includeBlankValuesInArray' => true, 'returnAsArray'=> true)));
 		
 		$pa_sort = caGetOption('sort', $pa_options, null);
 		if (!is_array($pa_sort) && $pa_sort) { $pa_sort = explode(";", $pa_sort); }
@@ -8277,7 +8277,7 @@ $pa_options["display_form_field_tips"] = true;
 							
 							$vs_null_option = null;
 							if (!$pa_options["nullOption"] && $vb_is_null) {
-								$vs_null_option = "- NONE -";
+								$vs_null_option = _t("- NONE -");
 							} else {
 								if ($pa_options["nullOption"]) {
 									$vs_null_option = $pa_options["nullOption"];
@@ -8371,7 +8371,7 @@ $pa_options["display_form_field_tips"] = true;
 										$vs_element = "<select name='".$pa_options["name"].$vs_multiple_name_extension."' ".$vs_js." ".$vs_is_multiple." ".$ps_size." id='".$pa_options["id"].$vs_multiple_name_extension."' {$vs_css_class_attr}  style='{$vs_dim_style}'".($pa_options['readonly'] ? ' disabled="disabled" ' : '').">\n";
 	
 										if (!$pa_options["nullOption"] && $vb_is_null) {
-											$vs_element .= "<option value=''>- NONE -</option>\n";
+											$vs_element .= "<option value=''>"._t('- NONE -')."</option>\n";
 										} else {
 											if ($pa_options["nullOption"]) {
 												$vs_element .= "<option value=''>".$pa_options["nullOption"]."</option>\n";
@@ -8466,7 +8466,7 @@ $pa_options["display_form_field_tips"] = true;
 										$va_opts[$pa_options["nullOption"]] = array($pa_options["nullOption"], null);
 									} else {
 										if ($vb_is_null) {
-											$va_opts["- NONE -"] = array("- NONE -", null);
+											$va_opts[_t("- NONE -")] = array(_t("- NONE -"), null);
 										}
 									}
 	
@@ -8559,7 +8559,7 @@ $pa_options["display_form_field_tips"] = true;
 											$vs_element.= "<option value=''>".$this->escapeHTML($pa_options["select_item_text"])."</option>\n";
 										}
 										if (!$pa_options["nullOption"] && $vb_is_null) {
-											$vs_element .= "<option value=''>- NONE -</option>\n";
+											$vs_element .= "<option value=''>"._t('- NONE -')."</option>\n";
 										} else {
 											if ($pa_options["nullOption"]) {
 												$vs_element .= "<option value=''>".$pa_options["nullOption"]."</option>\n";
@@ -8815,7 +8815,7 @@ $pa_options["display_form_field_tips"] = true;
 							$vs_element = "<select name='".$pa_options["name"]."' ".$vs_js." id='".$pa_options["id"]."' {$vs_css_class_attr} style='{$vs_dim_style}'".($pa_options['readonly'] ? ' disabled="disabled" ' : '').">\n";
 							foreach(array("Yes" => 1, "No" => 0) as $vs_option => $vs_value) {
 								$vs_selected = ($vs_value == $vm_field_value) ? "selected='selected'" : "";
-								$vs_element.= "<option value='$vs_value' {$vs_selected}".($pa_options['readonly'] ? ' disabled="disabled" ' : '').">$vs_option</option>\n";
+								$vs_element.= "<option value='$vs_value' {$vs_selected}".($pa_options['readonly'] ? ' disabled="disabled" ' : '').">"._t($vs_option)."</option>\n";
 							}
 							$vs_element .= "</select>\n";
 							break;
