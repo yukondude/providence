@@ -317,7 +317,54 @@
 		}
 		# -------------------------------------------------------
 		/**
-		 * Rebuild search indices
+		 * 
+		 */
+		public static function generate_search_statistics($po_opts=null) {
+			require_once(__CA_LIB_DIR__."/core/Search/SearchStatistics.php");
+			ini_set('memory_limit', '4000m');
+			set_time_limit(24 * 60 * 60 * 7); /* maximum indexing time: 7 days :-) */
+
+			$va_tables = null;
+			if ($vs_tables = (string)$po_opts->getOption('tables')) {
+				$va_tables = preg_split("![;,]+!", $vs_tables);
+			}
+			SearchStatistics::analyze($va_tables,['showProgress' => true, 'interactiveProgressDisplay' => true]);
+
+			return true;
+		}
+		# -------------------------------------------------------
+		/**
+		 *
+		 */
+		public static function generate_search_statisticsParamList() {
+			return array(
+				"tables|t-s" => _t('Specific tables to analyze, separated by commas or semicolons. If omitted all tables will be analyzed.')
+			);
+		}
+		# -------------------------------------------------------
+		/**
+		 *
+		 */
+		public static function generate_search_statisticsUtilityClass() {
+			return _t('Search');
+		}
+		# -------------------------------------------------------
+		/**
+		 *
+		 */
+		public static function generate_search_statisticsHelp() {
+			return _t("To come.");
+		}
+		# -------------------------------------------------------
+		/**
+		 *
+		 */
+		public static function generate_search_statisticsShortHelp() {
+			return _t("To come.");
+		}
+		# -------------------------------------------------------
+		/**
+		 * Rebuild sort values
 		 */
 		public static function rebuild_sort_values() {
 			$o_db = new Db();
