@@ -5,7 +5,7 @@
 */
 
 /*==========================================================================*/
-drop table ca_search_phrase_statistics;
+drop if exists table ca_search_phrase_statistics;
 create table ca_search_phrase_statistics
 (
   phrase_id       int unsigned  not null AUTO_INCREMENT,
@@ -25,7 +25,7 @@ create table ca_search_phrase_statistics
 ) engine=innodb CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 /*==========================================================================*/
-drop table ca_search_phrase_ngrams;
+drop if exists table ca_search_phrase_ngrams;
 create table ca_search_phrase_ngrams (
   phrase_id int unsigned not null,
   ngram char(4) not null,
