@@ -1,39 +1,16 @@
 /*
-	Date: 9 April 2016
-	Migration: 129
-	Description: Add tables for did-you-mean statistics
+	Date: 13 April 2016
+	Migration: 130
+	Description: Add primary key to ca_batch_log_items
 */
 
 /*==========================================================================*/
-drop table ca_search_phrase_statistics;
-create table ca_search_phrase_statistics
-(
-  phrase_id       int unsigned  not null AUTO_INCREMENT,
-  phrase         varchar(1024) not null,
-  stem           varchar(1024) not null,
-  word_count     tinyint unsigned not null default 0,
-  tf      		 int unsigned not null default 0,
-  idf            decimal(16,2) unsigned not null default 0,
-  tf_idf         decimal(16,2),
-  
 
-  primary key (phrase_id),
-  unique index u_phrase (phrase),
-  index i_stem (stem),
-  index i_tf (tf),
-  index i_idf (idf)
-) engine=innodb CHARACTER SET utf8 COLLATE utf8_general_ci;
-
-/*==========================================================================*/
-drop table ca_search_phrase_ngrams;
-create table ca_search_phrase_ngrams (
-  phrase_id int unsigned not null,
-  ngram char(4) not null,
-  seq tinyint(3) unsigned not null,
-  
-  index i_ngram (ngram),
-  index i_phrase_id (phrase_id)
-) engine=innodb CHARACTER SET utf8 COLLATE utf8_general_ci;
+ALTER TABLE ca_batch_log_items DROP FOREIGN KEY fk_ca_batch_log_items_batch_id;
+ALTER TABLE ca_batch_log_items DROP PRIMARY KEY;
+ALTER TABLE ca_batch_log_items ADD  `item_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY FIRST;
+ALTER TABLE ca_batch_log_items ADD FOREIGN KEY fk_ca_batch_log_items_batch_id (batch_id) REFERENCES ca_batch_log (batch_id) on delete restrict on update restrict;
+ALTER TABLE ca_batch_log_items ADD INDEX i_batch_row_id (batch_id, row_id);
 
 /* Always add the update to ca_schema_updates at the end of the file */
 INSERT IGNORE INTO ca_schema_updates (version_num, datetime) VALUES (130, unix_timestamp());
