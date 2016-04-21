@@ -237,7 +237,10 @@ class SearchStatistics extends SearchBase {
 	 *
 	 */
 	public function logPhrase($pa_phrase, $pn_id) {
-		$qr_res = $this->getDb()->query("SELECT phrase_id, tf, idf, tf_idf FROM ca_search_phrase_statistics WHERE phrase = ?", [$vs_phrase = join(" ", $pa_phrase)]);
+		$vs_phrase = join(" ", $pa_phrase);
+		if (strlen($vs_phase) > 1024) { return null; }		// phrase too long
+		
+		$qr_res = $this->getDb()->query("SELECT phrase_id, tf, idf, tf_idf FROM ca_search_phrase_statistics WHERE phrase = ?", [$vs_phrase]);
 	
 		if ($qr_res->nextRow()) {
 			if ($pn_id !== $this->last_id) {
@@ -262,6 +265,7 @@ class SearchStatistics extends SearchBase {
 			$this->createNgrams($vn_phrase_id, join(" ", $pa_phrase), 3);
 			$this->createNgrams($vn_phrase_id, join(" ", $pa_phrase), 4);
 		}
+		return true;
 	}
 	# -------------------------------------------------------
 	/**
