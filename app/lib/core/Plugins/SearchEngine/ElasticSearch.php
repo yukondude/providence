@@ -348,10 +348,12 @@ class WLPlugSearchEngineElasticSearch extends BaseSearchPlugin implements IWLPlu
 				'query' => array(
 					'bool' => array(
 						'must' => array(
-							'query_string' => array(
-								'analyze_wildcard' => true,
-								'query' => $vs_query
-							),
+							array(
+								'query_string' => array(
+									'analyze_wildcard' => true,
+									'query' => $vs_query
+								),
+							)
 						)
 					)
 				)
@@ -360,13 +362,18 @@ class WLPlugSearchEngineElasticSearch extends BaseSearchPlugin implements IWLPlu
 
 		// apply additional filters that may have been set by the query
 		if(($va_additional_filters = $o_query->getAdditionalFilters()) && is_array($va_additional_filters) && (sizeof($va_additional_filters) > 0)) {
-			foreach($va_additional_filters as $vs_filter_name => $va_filter) {
-				$va_search_params['body']['query']['bool']['filter'][$vs_filter_name] = $va_filter;
+			foreach($va_additional_filters as $va_filter) {
+				$va_search_params['body']['query']['bool']['must'][] = $va_filter;
 			}
 		}
 
 		Debug::msg("[ElasticSearch] actual query filters are: " . print_r($va_additional_filters, true));
-		$va_results = $this->getClient()->search($va_search_params);
+		try {
+			$va_results = $this->getClient()->search($va_search_params);
+		} catch(\Elasticsearch\Common\Exceptions\BadRequest400Exception $e) {
+			$va_results = ['hits' => ['hits' => []]];
+		}
+
 		return new WLPlugSearchEngineElasticSearchResult($va_results['hits']['hits'], $pn_subject_tablenum);
 	}
 	# -------------------------------------------------------

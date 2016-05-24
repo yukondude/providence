@@ -1,13 +1,13 @@
 <?php
 /** ---------------------------------------------------------------------
- * tests/testsWithData/queries/SimpleSearchQueryTest.php
+ * tests/testsWithData/queries/LengthAttributeValueSearchQueryTest.php
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
  * ----------------------------------------------------------------------
  *
  * Software by Whirl-i-Gig (http://www.whirl-i-gig.com)
- * Copyright 2015 Whirl-i-Gig
+ * Copyright 2016 Whirl-i-Gig
  *
  * For more information visit http://www.CollectiveAccess.org
  *
@@ -36,7 +36,7 @@ require_once(__CA_BASE_DIR__ . '/tests/testsWithData/AbstractSearchQueryTest.php
  * Class SimpleSearchQueryTest
  * Note: Requires testing profile!
  */
-class SimpleSearchQueryTest extends AbstractSearchQueryTest {
+class LengthAttributeValueSearchQueryTest extends AbstractSearchQueryTest {
 	# -------------------------------------------------------
 	public function setUp() {
 		// don't forget to call parent so that request is set up correctly
@@ -59,42 +59,35 @@ class SimpleSearchQueryTest extends AbstractSearchQueryTest {
 					"name" => "My test image",
 				),
 			),
-		)));
-
-		$this->assertGreaterThan(0, $this->addTestRecord('ca_objects', array(
-			'intrinsic_fields' => array(
-				'type_id' => 'dataset',
-			),
-			'preferred_labels' => array(
-				array(
-					"locale" => "en_US",
-					"name" => "My test dataset",
+			'attributes' => array(
+				// Length
+				'dimensions' => array(
+					array(
+						'dimensions_length' => '10 in',
+						'dimensions_width' => '30 cm',
+						'dimensions_height' => '12.34cm'
+					)
 				),
-			),
-		)));
-
-		$this->assertGreaterThan(0, $this->addTestRecord('ca_objects', array(
-			'intrinsic_fields' => array(
-				'type_id' => 'physical_object',
-			),
-			'preferred_labels' => array(
-				array(
-					"locale" => "en_US",
-					"name" => "Test physical object",
-				),
-			),
+			)
 		)));
 
 		// search queries
 		$this->setSearchQueries(array(
-			'My Test Image' => 1,
-			'test' => 3,
-			'ca_objects.type_id:image' => 1,
-			'asdf' => 0,
-			'ca_objects.type_id:image OR ca_objects.type_id:dataset' => 2,
-			'"physical" AND (ca_objects.type_id:image OR ca_objects.type_id:dataset)' => 0,
-			'((test) AND ((physical) AND (object))) AND (ca_objects.access:0)' => 1,
-			'((test) AND ((ca_objects.status:0) AND (object))) AND (ca_objects.access:0)' => 1
+			'ca_objects.dimensions_height:"12.35 cm"' => 0,
+			'ca_objects.dimensions_height:"12.34 cm"' => 1,
+
+			// length
+			'ca_objects.dimensions_length:[9in to 11in]' => 1,
+			'ca_objects.dimensions_length:[0in to 10in]' => 1,
+			'ca_objects.dimensions_length:[0in to 9.99in]' => 0,
+			'ca_objects.dimensions_length:10in' => 1,
+			'ca_objects.dimensions_length:[25cm to 30cm]' => 1,
+			'ca_objects.dimensions_length:[25cm to 11in]' => 1,
+			'ca_objects.dimensions_length:[25cm to 9in]' => 0, // 25cm > 9in
+			'ca_objects.dimensions_length:25.4cm' => 1,
+			'ca_objects.dimensions_length:25.3cm' => 0,
+			'ca_objects.dimensions_length:[0.5ft to 1ft]' => 1,
+			'ca_objects.dimensions_length:[1ft to 2ft]' => 0,
 		));
 	}
 	# -------------------------------------------------------
