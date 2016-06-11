@@ -286,10 +286,13 @@ class ca_change_log extends BaseModel {
 			}
 			$va_row['guid'] = $vs_guid;
 
-			// don't sync inserts/updates for deleted records
-			if(ca_guids::isDeleted($vs_guid) && ($va_row['changetype'] != 'D')) {
-				continue;
-			}
+			// don't sync inserts/updates for deleted records, UNLESS they're in a hierarchical table,
+			// in which case other records may have depended on them when they were inserted
+			// (meaning their insert() could fail if a related/parent record is absent)
+			$t_instance = Datamodel::load()->getInstance((int) $qr_results->get('logged_table_num'), true);
+			//if(!$t_instance->isHierarchical() && ca_guids::isDeleted($vs_guid) && ($va_row['changetype'] != 'D')) {
+			//	continue;
+			//}
 
 			// decode snapshot
 			$va_snapshot = caUnserializeForDatabase($qr_results->get('snapshot'));
@@ -309,7 +312,6 @@ class ca_change_log extends BaseModel {
 						}
 						break;
 					case 'type_id':
-						$t_instance = Datamodel::load()->getInstance((int) $qr_results->get('logged_table_num'), true);
 						if($t_instance) {
 							if($t_instance instanceof BaseRelationshipModel) {
 								$va_snapshot['type_code'] = caGetRelationshipTypeCode($vm_val);
@@ -362,6 +364,9 @@ class ca_change_log extends BaseModel {
 									$o_coder = MediaInfoCoder::load();
 									$va_snapshot['media'] = $o_coder->getMediaUrl($va_snapshot['media'], 'original');
 								}
+
+								// also unset media metadata, because otherwise json_encode is likely to bail
+								unset($va_snapshot['media_metadata']);
 							}
 
 							// handle left and right foreign keys in foo_x_bar table
@@ -371,9 +376,9 @@ class ca_change_log extends BaseModel {
 									$va_snapshot[$vs_fld . '_guid'] = $vs_left_guid;
 
 									// don't sync relationships involving deleted records
-									if(ca_guids::isDeleted($vs_left_guid) && ($va_row['changetype'] != 'D')) {
-										continue 3;
-									}
+									//if(ca_guids::isDeleted($vs_left_guid) && ($va_row['changetype'] != 'D')) {
+									//	continue 3;
+									//}
 								}
 
 								if($vs_fld == $t_instance->getProperty('RELATIONSHIP_RIGHT_FIELDNAME')) {
@@ -381,9 +386,9 @@ class ca_change_log extends BaseModel {
 									$va_snapshot[$vs_fld . '_guid'] = $vs_right_guid;
 
 									// don't sync relationships involving deleted records
-									if(ca_guids::isDeleted($vs_right_guid) && ($va_row['changetype'] != 'D')) {
-										continue 3;
-									}
+									//if(ca_guids::isDeleted($vs_right_guid) && ($va_row['changetype'] != 'D')) {
+									//	continue 3;
+									//}
 								}
 							}
 

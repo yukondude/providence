@@ -1396,10 +1396,10 @@
 		 * If none of the UI fields are set to *anything* then we return NULL; this is a signal
 		 * to ignore the label input (ie. it was a blank form bundle)
 		 *
-		 * @param HTTPRequest $po_request Request object
+		 * @param RequestHTTP $po_request Request object
 		 * @param string $ps_form_prefix
 		 * @param string $ps_label_id
-		 * @param boolean $ps_is_preferred
+		 * @param bool $pb_is_preferred
 		 *
 		 * @return array Array of values or null is no values were set in the request
 		 */
@@ -1594,6 +1594,18 @@
  			
  			return $va_labels;
  		}
+		# ------------------------------------------------------------------
+		public function getLabelIDs() {
+			if(!$this->getPrimaryKey()) { return []; }
+
+			$qr_res = $this->getDb()->query("
+ 				SELECT label_id
+ 				FROM ".$this->getLabelTableName()."
+ 				WHERE ".$this->primaryKey()." = ?
+ 			", (int)$this->getPrimaryKey());
+
+			return $qr_res->getAllFieldValues('label_id');
+		}
  		# ------------------------------------------------------------------
 		/**
 		 * Returns number of preferred labels for the current row

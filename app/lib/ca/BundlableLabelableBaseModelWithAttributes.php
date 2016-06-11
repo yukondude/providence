@@ -536,8 +536,16 @@ class BundlableLabelableBaseModelWithAttributes extends LabelableBaseModelWithAt
 					}
 				}
 			}
+
+			$va_options = ['restrictToAttributesByCodes' => $va_attrs_to_duplicate];
+
+			if($va_dont_duplicate_codes = $this->getAppConfig()->get($this->tableName().'_dont_duplicate_element_codes')) {
+				if(is_array($va_dont_duplicate_codes)) {
+					$va_options['excludeAttributesByCodes'] = $va_dont_duplicate_codes;
+				}
+			}
 	
-			if (!$t_dupe->copyAttributesFrom($this->getPrimaryKey(), ['restrictToAttributesByCodes' => $va_attrs_to_duplicate])) {
+			if (!$t_dupe->copyAttributesFrom($this->getPrimaryKey(), $va_options)) {
 				$this->errors = $t_dupe->errors;
 				if ($vb_we_set_transaction) { $o_t->rollback();}
 				return false;
@@ -811,38 +819,49 @@ class BundlableLabelableBaseModelWithAttributes extends LabelableBaseModelWithAt
 	# ------------------------------------------------------
 	/**
 	 * Check if a record already exists with the specified label
+	 *
+	 * @param int $pn_locale_id
+	 * @param array $pa_label_values
+	 * @param bool $pb_preferred_only
+	 * @return bool
 	 */
-	 public function checkForDupeLabel($pn_locale_id, $pa_label_values) {
-	 	$o_db = $this->getDb();
-	 	$t_label = $this->getLabelTableInstance();
-	 	
-	 	unset($pa_label_values['displayname']);
-	 	$va_sql = array();
-	 	foreach($pa_label_values as $vs_field => $vs_value) {
-	 		$va_sql[] = "(l.{$vs_field} = ?)";
-	 	}
-	 	
-	 	if ($t_label->hasField('is_preferred')) { $va_sql[] = "(l.is_preferred = 1)"; }
-	 	if ($t_label->hasField('locale_id')) { $va_sql[] = "(l.locale_id = ?)"; }
-	 	if ($this->hasField('deleted')) { $va_sql[] = "(t.deleted = 0)"; }
-	 	$va_sql[] = "(l.".$this->primaryKey()." <> ?)";
-	 	
-	 	$vs_sql = "SELECT ".$t_label->primaryKey()."
+	public function checkForDupeLabel($pn_locale_id, $pa_label_values, $pb_preferred_only=true) {
+		$o_db = $this->getDb();
+		$t_label = $this->getLabelTableInstance();
+		unset($pa_label_values['displayname']);
+		$va_wheres = array();
+		foreach($pa_label_values as $vs_field => $vs_value) {
+			$va_wheres[] = "(l.{$vs_field} = ?)";
+		}
+		if($pb_preferred_only) {
+			if ($t_label->hasField('is_preferred')) {
+				$va_wheres[] = "(l.is_preferred = 1)";
+			}
+		}
+		if($pn_locale_id && $t_label->hasField('locale_id')) {
+			$va_wheres[] = "(l.locale_id = ?)";
+		}
+		if ($this->hasField('deleted')) { $va_wheres[] = "(t.deleted = 0)"; }
+		if ($this->getPrimaryKey()) {
+			$va_wheres[] = "(l.".$this->primaryKey()." <> ?)";
+		}
+		$vs_sql = "SELECT ".$t_label->primaryKey()."
 	 	FROM ".$t_label->tableName()." l
 	 	INNER JOIN ".$this->tableName()." AS t ON t.".$this->primaryKey()." = l.".$this->primaryKey()."
-	 	WHERE ".join(' AND ', $va_sql);
-	
-	 	$va_values = array_values($pa_label_values);
-	 	$va_values[] = (int)$pn_locale_id;
-	 	$va_values[] = (int)$this->getPrimaryKey();
-	 	$qr_res = $o_db->query($vs_sql, $va_values);
-	 	
-	 	if ($qr_res->numRows() > 0) {
-	 		return true;
-	 	}
-	 
-	 	return false;
-	 }
+	 	WHERE ".join(' AND ', $va_wheres);
+		$va_values = array_values($pa_label_values);
+		if($pn_locale_id && $t_label->hasField('locale_id')) {
+			$va_values[] = (int)$pn_locale_id;
+		}
+		if ($this->getPrimaryKey()) {
+			$va_values[] = (int)$this->getPrimaryKey();
+		}
+		$qr_res = $o_db->query($vs_sql, $va_values);
+		if ($qr_res->numRows() > 0) {
+			return true;
+		}
+		return false;
+	}
 	# ------------------------------------------------------
 	/**
 	 *
@@ -1815,6 +1834,15 @@ class BundlableLabelableBaseModelWithAttributes extends LabelableBaseModelWithAt
 						
 						break;
 					# -------------------------------
+					// This bundle is only available for objects
+					case 'ca_object_circulation_status':		// circulation status for objects (part of the library module)
+						if ($vb_batch) { return null; } // not supported in batch mode
+						if (!$pa_options['request']->user->canDoAction('can_edit_ca_objects')) { break; }
+
+						$vs_element .= $this->getObjectCirculationStatusHTMLFormBundle($pa_options['request'], $pa_options['formName'], $ps_placement_code, $pa_bundle_settings, $pa_options);
+
+						break;
+					# -------------------------------
 					// This bundle is only available for items that can be used as authority references (object, entities, occurrences, list items, etc.)
 					case 'authority_references_list':
 						$vs_element .= $this->getAuthorityReferenceListHTMLFormBundle($pa_options['request'], $pa_options['formName'], $ps_placement_code, $pa_bundle_settings, $pa_options);
@@ -1860,7 +1888,7 @@ class BundlableLabelableBaseModelWithAttributes extends LabelableBaseModelWithAt
 			if(preg_match("!^[a-z]!",$vs_documentation_url) && !preg_match("!^http[s]?://!",$vs_documentation_url)) {
 				$vs_documentation_url = "http://".$vs_documentation_url;
 			}
-			$vs_documentation_link = "<a class='bundleDocumentationLink' href='$vs_documentation_url' target='_blank'>".caNavIcon(__CA_NAV_ICON_INFO__, 1)."</a>";
+			$vs_documentation_link = "<a class='bundleDocumentationLink' href='$vs_documentation_url' target='_blank' >".caNavIcon(__CA_NAV_ICON_INFO__, '15px')."</a>";
 		}
 		
 		
@@ -3544,7 +3572,9 @@ if (!$vb_batch) {		// hierarchy moves are not supported in batch mode
 			
 			if ($vb_is_insert) {
 			 	BaseModel::unsetChangeLogUnitID();
-			 	if ($vb_we_set_transaction) { $this->removeTransaction(false); }
+			 	if ($vb_we_set_transaction) {
+					$this->removeTransaction(false);
+				}
 				return false;	// bail on insert error
 			}
 		}
@@ -4516,6 +4546,12 @@ if (!$vb_batch) {
 						// NOOP (for now)
 					
 						break;
+					case 'ca_object_circulation_status':
+						if ($vb_batch) { return null; } // not supported in batch mode
+						if (!$po_request->user->canDoAction('can_edit_ca_objects')) { break; }
+						$this->set('circulation_status_id', $po_request->getParameter("{$vs_placement_code}{$vs_form_prefix}ca_object_circulation_status", pInteger));
+
+						break;
 					# -------------------------------
 					// This bundle is only available items for batch editing on representable models
 					case 'ca_object_representations_access_status':		
@@ -4759,8 +4795,8 @@ if (!$vb_batch) {
  	/**
  	 * Returns list of items in the specified table related to the currently loaded row or rows specified in options.
  	 * 
- 	 * @param $pm_rel_table_name_or_num - the table name or table number of the item type you want to get a list of (eg. if you are calling this on an ca_objects instance passing 'ca_entities' here will get you a list of entities related to the object)
- 	 * @param $pa_options - array of options. Supported options are:
+ 	 * @param mixed $pm_rel_table_name_or_num The table name or table number of the item type you want to get a list of (eg. if you are calling this on an ca_objects instance passing 'ca_entities' here will get you a list of entities related to the object)
+ 	 * @param array $pa_options Array of options. Supported options are:
  	 *
  	 *		[Options controlling rows for which data is returned]
  	 *			row_ids = Array of primary key values to use when fetching related items. If omitted or set to a null value the 'row_id' option will be used. [Default is null]
@@ -4813,9 +4849,11 @@ if (!$vb_batch) {
 	 *
 	 *					Default is "data" - returns a list of arrays with data about each related item
  	 *
+ 	 * @param int $pn_count Variable to return number of related items. The count reflects the absolute number of related items, independent of how the start and limit options are set, and may differ from the number of items actually returned.
+ 	 *
  	 * @return array List of related items
  	 */
-	public function getRelatedItems($pm_rel_table_name_or_num, $pa_options=null) {
+	public function getRelatedItems($pm_rel_table_name_or_num, $pa_options=null, &$pn_count=null) {
 		global $AUTH_CURRENT_USER_ID;
 		$vn_user_id = (isset($pa_options['user_id']) && $pa_options['user_id']) ? $pa_options['user_id'] : (int)$AUTH_CURRENT_USER_ID;
 		$vb_show_if_no_acl = (bool)($this->getAppConfig()->get('default_item_access_level') > __CA_ACL_NO_ACCESS__);
@@ -5184,6 +5222,8 @@ if (!$vb_batch) {
 					{$vs_order_by}";
 
 				$qr_res = $o_db->query($vs_sql);
+				
+				if (!is_null($pn_count)) { $pn_count = $qr_res->numRows(); }
 
 				if ($vb_uses_relationship_types) { $va_rel_types = $t_rel->getRelationshipInfo($va_path[1]); }
 				$vn_c = 0;
@@ -5321,6 +5361,8 @@ if (!$vb_batch) {
 
 				//print "<pre>$vs_sql</pre>\n";
 				$qr_res = $o_db->query($vs_sql);
+				
+				if (!is_null($pn_count)) { $pn_count = $qr_res->numRows(); }
 				
 				if ($vb_uses_relationship_types)  {
 					$va_rel_types = $t_rel->getRelationshipInfo($vs_item_rel_table_name);
@@ -5492,6 +5534,9 @@ if (!$vb_batch) {
 			";
 			
 			$qr_res = $o_db->query($vs_sql);
+			
+			if (!is_null($pn_count)) { $pn_count = $qr_res->numRows(); }
+			
 			if ($vb_uses_relationship_types)  {
 				$va_rel_types = $t_rel->getRelationshipInfo($t_tmp->tableName());
 				if(method_exists($t_tmp, 'getLeftTableName')) {
@@ -5767,7 +5812,7 @@ if (!$vb_batch) {
 			
 			
 			
-			if (($this->tableName() == 'ca_objects') && $this->getAppConfig()->get('ca_objects_x_collections_hierarchy_enabled') && $pa_options['request'] && ($vn_collection_id = $pa_options['request']->getParameter('collection_id', pInteger))) {
+			if (($this->tableName() == 'ca_objects') && $this->getAppConfig()->get('ca_objects_x_collections_hierarchy_enabled') && !$this->getAppConfig()->get('ca_objects_x_collections_hierarchy_disable_object_collection_idno_inheritance') && $pa_options['request'] && ($vn_collection_id = $pa_options['request']->getParameter('collection_id', pInteger))) {
 				// Parent will be set to collection
 				$t_coll = new ca_collections($vn_collection_id);
 				if ($this->inTransaction()) { $t_coll->setTransaction($this->getTransaction()); }

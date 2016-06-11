@@ -41,12 +41,12 @@
 		var checkoutManager = caUI.initObjectCheckoutManager({
 			user_id: <?php print $pn_user_id; ?>,
 
-			searchURL: '<?php print caNavUrl($this->request, 'lookup', 'Object', 'Get', array('max' => 100, 'inlineCreate' => 0, 'quickadd' => 0, 'types' => join(";", $pa_types))); ?>',
+			searchURL: '<?php print caNavUrl($this->request, 'lookup', 'ObjectLibraryServices', 'Get', array('max' => 100, 'inlineCreate' => 0, 'quickadd' => 0, 'types' => join(";", $pa_types))); ?>',
 			getInfoURL : '<?php print caNavUrl($this->request, '*', '*', 'GetObjectInfo', array()); ?>',
 			saveTransactionURL: '<?php print caNavUrl($this->request, '*', '*', 'SaveTransaction', array()); ?>',
 			loadWidgetURL: '<?php print caNavUrl($this->request, '*', '*', 'Info', array()); ?>',
-			
-			removeButtonIcon: '<?php print caNavIcon(__CA_NAV_ICON_DELETE__, 1); ?>'
+
+			removeButtonIcon: '<?php print addslashes(caNavIcon(__CA_NAV_ICON_DELETE__, 1)); ?>'
 		});
 	});
 </script>

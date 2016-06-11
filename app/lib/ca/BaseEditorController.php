@@ -1659,7 +1659,7 @@ class BaseEditorController extends ActionController {
 				if (
 					(!$pt_subject->get('source_id'))
 					||
-					($pt_subject->get('source_id') && !in_array($pt_subject->get('source_id'), $va_restrict_to_sources))
+					($pt_subject->get('source_id') && in_array($pt_subject->get('source_id'), $va_restrict_to_sources))
 					||
 					((strlen($vn_source_id = $this->request->getParameter('source_id', pInteger))) && !in_array($vn_source_id, $va_restrict_to_sources))
 				) {
@@ -1762,8 +1762,13 @@ class BaseEditorController extends ActionController {
 		$ps_identifier = $this->request->getParameter('identifier', pString);
 		if (!($va_identifier = caParseMediaIdentifier($ps_identifier))) {
 			// error: invalid identifier
-			die("Invalid identifier");
+			die("Invalid identifier $ps_identifier");
 		}
+		
+		// TODO: check subject_id here
+		
+		$app = AppController::getInstance();
+		$app->removeAllPlugins();
 		
 		switch($va_identifier['type']) {
 			case 'representation':
@@ -1771,7 +1776,7 @@ class BaseEditorController extends ActionController {
 				
 				if (!($vs_viewer_name = MediaViewerManager::getViewerForMimetype("media_overlay", $vs_mimetype = $t_instance->getMediaInfo('media', 'original', 'MIMETYPE')))) {
 					// error: no viewer available
-					die("Invalid viewer $vs_mimetype xx");
+					die("Invalid viewer $vs_mimetype");
 				}
 				
 				$this->response->addContent($vs_viewer_name::getViewerData($this->request, $ps_identifier, ['request' => $this->request, 't_subject' => null, 't_instance' => $t_instance, 'display' => caGetMediaDisplayInfo('media_overlay', $vs_mimetype)]));

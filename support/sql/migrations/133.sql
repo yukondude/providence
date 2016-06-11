@@ -1,38 +1,14 @@
-	Date: 11 May 2016
+/*
+	Date: 18 May 2016
 	Migration: 133
-	Description: Add tables for did-you-mean statistics
+	Description: Add circulation status field
 */
 
 /*==========================================================================*/
-drop if exists table ca_search_phrase_statistics;
-create table ca_search_phrase_statistics
-(
-  phrase_id       int unsigned  not null AUTO_INCREMENT,
-  phrase         varchar(1024) not null,
-  stem           varchar(1024) not null,
-  word_count     tinyint unsigned not null default 0,
-  tf      		 int unsigned not null default 0,
-  idf            decimal(16,2) unsigned not null default 0,
-  tf_idf         decimal(16,2),
-  
 
-  primary key (phrase_id),
-  unique index u_phrase (phrase),
-  index i_stem (stem),
-  index i_tf (tf),
-  index i_idf (idf)
-) engine=innodb CHARACTER SET utf8 COLLATE utf8_general_ci;
-
-/*==========================================================================*/
-drop if exists table ca_search_phrase_ngrams;
-create table ca_search_phrase_ngrams (
-  phrase_id int unsigned not null,
-  ngram char(4) not null,
-  seq tinyint(3) unsigned not null,
-  
-  index i_ngram (ngram),
-  index i_phrase_id (phrase_id)
-) engine=innodb CHARACTER SET utf8 COLLATE utf8_general_ci;
+ALTER TABLE ca_objects ADD  `circulation_status_id` INT UNSIGNED NULL;
+ALTER TABLE ca_objects ADD FOREIGN KEY fk_ca_objects_circulation_status_id (circulation_status_id) REFERENCES ca_list_items (item_id) on delete restrict on update restrict;
+>>>>>>> develop
 
 /*==========================================================================*/
 
