@@ -6707,6 +6707,38 @@ create table ca_user_sort_items
   references ca_user_sorts (sort_id) on delete restrict on update restrict
 ) engine=innodb CHARACTER SET utf8 COLLATE utf8_general_ci;
 
+
+/*==========================================================================*/
+
+create table ca_search_phrase_statistics
+(
+  phrase_id       int unsigned  not null AUTO_INCREMENT,
+  phrase         varchar(1024) not null,
+  stem           varchar(1024) not null,
+  word_count     tinyint unsigned not null default 0,
+  tf      		 int unsigned not null default 0,
+  idf            decimal(16,2) unsigned not null default 0,
+  tf_idf         decimal(16,2),
+  
+  primary key (phrase_id),
+  unique index u_phrase (phrase),
+  index i_stem (stem),
+  index i_tf (tf),
+  index i_idf (idf)
+) engine=innodb CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+/*==========================================================================*/
+
+create table ca_search_phrase_ngrams (
+  phrase_id int unsigned not null,
+  ngram char(4) not null,
+  seq tinyint(3) unsigned not null,
+  
+  index i_ngram (ngram),
+  index i_phrase_id (phrase_id)
+) engine=innodb CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+
 /*==========================================================================*/
 /* Schema update tracking                                                   */
 /*==========================================================================*/
@@ -6718,5 +6750,5 @@ create table ca_schema_updates (
 ) engine=innodb CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 /* Indicate up to what migration this schema definition covers */
-/* CURRENT MIGRATION: 133 */
-INSERT IGNORE INTO ca_schema_updates (version_num, datetime) VALUES (133, unix_timestamp());
+/* CURRENT MIGRATION: 134 */
+INSERT IGNORE INTO ca_schema_updates (version_num, datetime) VALUES (134, unix_timestamp());
