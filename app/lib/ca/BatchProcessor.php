@@ -904,7 +904,7 @@
 							'status' => 'ERROR',
 						);
 						$o_log->logError($vs_msg);
-						$o_trans->rollback();
+						//$o_trans->rollback();
 						continue;
 					} else {
 						if ($vb_delete_media_on_import) {
@@ -967,7 +967,7 @@
 								'status' => 'ERROR',
 							);
 							$o_log->logError($vs_msg);
-							$o_trans->rollback();
+						//	$o_trans->rollback();
 							continue;
 						}
 
@@ -996,7 +996,7 @@
 								'status' => 'ERROR',
 							);
 							$o_log->logError($vs_msg);
-							$o_trans->rollback();
+							//$o_trans->rollback();
 							continue;
 						}
 
@@ -1022,7 +1022,7 @@
 								'status' => 'ERROR',
 							);
 							$o_log->logError($vs_msg);
-							$o_trans->rollback();
+							//$o_trans->rollback();
 							continue;
 						} else {
 							if ($vb_delete_media_on_import) {
@@ -1122,7 +1122,7 @@
 
 			if ($vb_we_set_transaction) {
 				if (sizeof($va_errors) > 0) {
-					$o_trans->rollback();
+					//$o_trans->rollback();
 				} else {
 					$o_trans->commit();
 				}
