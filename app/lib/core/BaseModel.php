@@ -1819,7 +1819,7 @@ class BaseModel extends BaseObject {
 	}
 	# --------------------------------------------------------------------------------
 	# --- Content methods (just your standard Create, Return, Update, Delete methods)
-	# --------------------------------------------------------------------------------
+	# --------------------------------------------------------------------------------	
 	/**
 	 * Generic method to load content properties of object with database fields.
 	 * After dealing with one row in the database using an extension of BaseModel
@@ -1949,6 +1949,21 @@ class BaseModel extends BaseObject {
 			}
 			return false;
 		}
+	}
+	
+	/**
+	 * Return all primary key values for the table
+	 *
+	 * @param $pa_options array Options include
+	 *		transaction = optional transaction to operate within. [Default is null]
+	 *
+	 * return array List of primary key values
+	 */
+	public function allPrimaryKeys($pa_options=null) {
+		$o_db = ($o_trans = caGetOption('transaction', $pa_options, null)) ? $o_trans->getDb() : new Db();
+		
+		$qr_res = $o_db->query("SELECT ".$this->primaryKey()." FROM ".$this->tableName().($this->hasField('deleted') ? " WHERE deleted = 0" : ""));
+		return $qr_res->getAllFieldValues($this->primaryKey());
 	}
 
 	/**
