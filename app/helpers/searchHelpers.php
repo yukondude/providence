@@ -1285,12 +1285,14 @@
 			}
 
 			if(caGetOption('distinguishNonUniqueNames', $pa_options, true)) {
+				$t_parent = new ca_metadata_elements();
+				$va_element_labels = $t_parent->getElementLabels();
+				
 				foreach(array_count_values($va_base_fields) as $vn_v => $vn_c) {
 					if($vn_c > 1) {
 						foreach(array_keys($va_base_fields, $vn_v) as $vs_k) {
 
 							$vs_code = explode('.', $vs_k)[1];
-
 
 							if(is_array($va_sortable_elements[$vs_code]['typeRestrictions'])) {
 								$va_restrictions = [];
@@ -1301,17 +1303,19 @@
 								}
 
 								$va_base_fields[$vs_k] .= ' (' . join('; ', $va_restrictions) . ')';
-							} elseif($vn_parent_id = $va_sortable_elements[$vs_code]['parent_id']) {
+							//} elseif($vn_parent_id = $va_sortable_elements[$vs_code]['parent_id']) {
+							} elseif($vn_root_id = $va_sortable_elements[$vs_code]['hier_element_id']) {
 
-								$t_parent = new ca_metadata_elements();
-								while($vn_parent_id) {
-									$t_parent->load($vn_parent_id);
-									$vn_parent_id = $t_parent->get('parent_id');
-								}
+								//$t_parent = new ca_metadata_elements();
+								//while($vn_parent_id) {
+								//	$t_parent->load($vn_parent_id);
+								//	$vn_parent_id = $t_parent->get('parent_id');
+								//}
 
-								if($t_parent->getPrimaryKey()) {
-									$va_base_fields[$vs_k] .= ' (' . $t_parent->getLabelForDisplay() . ')';
-								}
+								//if($t_parent->getPrimaryKey()) {
+									//$va_base_fields[$vs_k] .= ' (' . $t_parent->getLabelForDisplay() . ')';
+									$va_base_fields[$vs_k] .= ' (' . $va_element_labels[$vn_root_id] . ')';
+								//}
 							}
 
 
