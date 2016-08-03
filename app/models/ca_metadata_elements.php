@@ -241,6 +241,9 @@ class ca_metadata_elements extends LabelableBaseModelWithAttributes implements I
 	#    the record identified by the primary key value
 	#
 	# ------------------------------------------------------
+	/**
+	 *
+	 */
 	public function __construct($pn_id=null) {
 		parent::__construct($pn_id);	# call superclass constructor
 		$this->FIELDS['datatype']['BOUNDS_CHOICE_LIST'] = array_flip(ca_metadata_elements::getAttributeTypes());
@@ -248,36 +251,58 @@ class ca_metadata_elements extends LabelableBaseModelWithAttributes implements I
 		if($pn_id) { $this->opa_element_settings = $this->get('settings'); }
 	}
 	# ------------------------------------------------------
+	/**
+	 *
+	 */
 	public function load($pm_id=null, $pb_use_cache = true) {
 		if ($vn_rc = parent::load($pm_id, $pb_use_cache)) {
 			$this->opa_element_settings = $this->get('settings');
 		}
+		
 		return $vn_rc;
 	}
 	# ------------------------------------------------------
+	/**
+	 *
+	 */
 	public function insert($pa_options=null) {
 		$this->set('settings', $this->getSettings());
 		if ($vn_rc =  parent::insert($pa_options)) {
+			$this->flushElementInfoCache();
 			$this->flushCacheForElement();
 		}
 		return $vn_rc;
 	}
 	# ------------------------------------------------------
+	/**
+	 *
+	 */
 	public function update($pa_options=null) {
 		$this->set('settings', $this->getSettings());
-		$this->flushCacheForElement();
-		return parent::update($pa_options);
+		if($vn_rc = parent::update($pa_options)) {
+			$this->flushCacheForElement();
+		}
+		return $vn_rc;
 	}
 	# ------------------------------------------------------
+	/**
+	 *
+	 */
 	public function delete($pb_delete_related = false, $pa_options = NULL, $pa_fields = NULL, $pa_table_list = NULL) {
-		$this->flushCacheForElement();
-		return parent::delete($pb_delete_related, $pa_options, $pa_fields, $pa_table_list);
+		if($vn_rc = parent::delete($pb_delete_related, $pa_options, $pa_fields, $pa_table_list)) {
+			$this->flushElementInfoCache();
+			$this->flushCacheForElement();
+		}
+		return $vn_rc;
 	}
 	# ------------------------------------------------------
 	/**
 	 *
 	 */
 	public static function elementCodesToIDs($pa_element_codes, $pa_options=null) {
+		if(CompositeCache::contains('codesToIDs', 'ElementInfo')) {
+			return CompositeCache::fetch('codesToIDs', 'ElementInfo');
+		}
 		$o_db = caGetOption('db', $pa_options, new Db());
 
 		$qr_res = $o_db->query("
@@ -291,7 +316,37 @@ class ca_metadata_elements extends LabelableBaseModelWithAttributes implements I
 		while($qr_res->nextRow()) {
 			$va_element_ids[$qr_res->get('element_code')] = $qr_res->get('element_id');
 		}
+		CompositeCache::save('codesToIDs', $va_element_ids, 'ElementInfo');
 		return $va_element_ids;
+	}
+	# ------------------------------------------------------
+	/**
+	 * Return labels for all elements
+	 */
+	public static function getElementLabels($pa_options=null) {
+		$o_db = caGetOption('db', $pa_options, new Db());
+		if(!CompositeCache::contains('labels', 'ElementInfo')) {
+			$t_element = new ca_metadata_elements();
+			CompositeCache::save('labels', $t_element->getPreferredDisplayLabelsForIDs($t_element->allPrimaryKeys()), 'ElementInfo');
+		}
+		
+		return CompositeCache::fetch('labels', 'ElementInfo');
+	}
+	# ------------------------------------------------------
+	/**
+	 * 
+	 */
+	private static function flushElementInfoCache() {
+		foreach(['labels', 'codesToIds'] as $vs_key) {
+			CompositeCache::flush($vs_key, 'ElementInfo');
+		}
+	}
+	# ------------------------------------------------------
+	/**
+	 * 
+	 */
+	protected function processLabelsAfterChange() {
+		ca_metadata_elements::flushElementInfoCache();
 	}
 	# ------------------------------------------------------
 	/**
@@ -308,6 +363,11 @@ class ca_metadata_elements extends LabelableBaseModelWithAttributes implements I
 			CompositeCache::delete($vn_hier_element_id, 'ElementSets');
 		}
 
+		CompositeCache::delete($this->getPrimaryKey(), 'ElementSets');
+		CompositeCache::delete($this->getPrimaryKey(), 'ElementTypeRestrictions');
+		CompositeCache::delete($this->get('element_code'), 'ElementTypeRestrictions');
+		
+		
 		CompositeCache::delete($this->getPrimaryKey(), 'ElementSets');
 
 		// flush getElementsAsList() cache too
@@ -343,7 +403,7 @@ class ca_metadata_elements extends LabelableBaseModelWithAttributes implements I
 
 		if($pb_use_cache && CompositeCache::contains($pn_element_id, 'ElementSets')) {
 			$va_set = CompositeCache::fetch($pn_element_id, 'ElementSets');
-			//return (caGetOption('idsOnly', $pa_options, false) ?  array_keys($va_set) : $va_set);
+			return (caGetOption('idsOnly', $pa_options, false) ?  array_keys($va_set) : $va_set);
 		}
 
 		$va_hier = $this->getHierarchyAsList($pn_element_id);
@@ -387,7 +447,7 @@ class ca_metadata_elements extends LabelableBaseModelWithAttributes implements I
 		foreach($pa_element_set[$pn_parent_id] as $vn_rank => $va_elements_by_id) {
 			foreach($va_elements_by_id as $vn_element_id => $va_element) {
 				$va_tmp[$vn_element_id] = $va_element;
-				//$va_tmp = array_merge($va_tmp, $this->_getSortedElementsForParent($pa_element_set, $vn_element_id));	// merge keeps keys in the correct order
+				
 				foreach($this->_getSortedElementsForParent($pa_element_set, $vn_element_id) as $k => $v) {
 					if (isset($va_tmp[$k])) { unset($va_tmp[$k]); }
 					$va_tmp[$k] = $v;
@@ -822,12 +882,15 @@ class ca_metadata_elements extends LabelableBaseModelWithAttributes implements I
 		$va_sortable_elements = array();
 
 		$vs_key = caGetOption('indexByElementCode', $pa_options, false) ? 'element_code' : 'element_id';
+		
+		$va_type_restrictions = self::getTypeRestrictionsAsList();
+		
 		foreach($va_elements as $vn_id => $va_element) {
 
 			if ((int)$va_element['datatype'] === 0) { continue; }
 			if (!isset($va_element['settings']['canBeUsedInSort'])) { $va_element['settings']['canBeUsedInSort'] = true; }
 			if ($va_element['settings']['canBeUsedInSort']) {
-				$va_element['typeRestrictions'] = array_shift(self::getTypeRestrictionsAsList($va_element['element_code']));
+				$va_element['typeRestrictions'] = $va_type_restrictions[$va_element['element_code']];
 
 				$va_sortable_elements[$va_element[$vs_key]] = $va_element;
 			}
@@ -931,6 +994,9 @@ class ca_metadata_elements extends LabelableBaseModelWithAttributes implements I
 	 * @return array Array of counts. Keys are element_codes, values are arrays keyed on table DISPLAY name (eg. "set items", not "ca_set_items"). Values are the number of times the element is references in a user interface for the table.
 	 */
 	static public function getTypeRestrictionsAsList($pm_element_code_or_id=null) {
+		//if (isset(ca_metadata_elements::$s_cache[$pm_element_code_or_id])) { return ca_metadata_elements::$s_cache[$pm_element_code_or_id]; }
+		if (CompositeCache::contains($vs_cache_key = ($pm_element_code_or_id ? $pm_element_code_or_id : '*'), 'ElementTypeRestrictions')) { return CompositeCache::fetch($vs_cache_key, 'ElementTypeRestrictions'); }
+		
 		// Get UI usage counts
 		$vo_db = new Db();
 
@@ -972,7 +1038,10 @@ class ca_metadata_elements extends LabelableBaseModelWithAttributes implements I
 			$va_restrictions[$qr_restrictions->get('element_code')][$t_table->getProperty('NAME_PLURAL')][$vn_type_id] = $vs_type_name;
 		}
 
-		return $va_restrictions;
+		CompositeCache::save($vs_cache_key, $va_restrictions, 'ElementTypeRestrictions');
+		if ($vn_element_id) { CompositeCache::save($vn_element_id, $va_restrictions, 'ElementTypeRestrictions'); }
+		
+		return  $va_restrictions;
 	}
 	# ------------------------------------------------------
 	/**
@@ -1164,6 +1233,8 @@ class ca_metadata_elements extends LabelableBaseModelWithAttributes implements I
 		if ($this->get('parent_id')) { return null; }						// element must be root of hierarchy
 		if (!is_array($pa_settings)) { $pa_settings = array(); }
 
+		CompositeCache::flush();
+
 		$t_restriction = new ca_metadata_type_restrictions();
 		$t_restriction->setMode(ACCESS_WRITE);
 		$t_restriction->set('table_num', $pn_table_num);
@@ -1192,6 +1263,8 @@ class ca_metadata_elements extends LabelableBaseModelWithAttributes implements I
 		if (!($vn_element = $this->getPrimaryKey())) { return null; }		// element must be loaded
 		if ($this->get('parent_id')) { return null; }						// element must be root of hierarchy
 
+		CompositeCache::flush();
+		
 		$o_db = $this->getDb();
 
 		$vs_type_id_sql = ($pn_type_id) ? 'AND type_id = '.intval($pn_type_id) : 'AND type_id IS NULL ';
@@ -1217,6 +1290,8 @@ class ca_metadata_elements extends LabelableBaseModelWithAttributes implements I
 		if (!($vn_element = $this->getPrimaryKey())) { return null; }		// element must be loaded
 		if ($this->get('parent_id')) { return null; }						// element must be root of hierarchy
 
+		CompositeCache::flush();
+		
 		$o_db = $this->getDb();
 
 		$qr_res = $o_db->query("
