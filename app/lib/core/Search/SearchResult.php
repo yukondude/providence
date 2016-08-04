@@ -654,6 +654,7 @@ class SearchResult extends BaseObject {
 		
 		$vs_md5 = caMakeCacheKeyFromOptions($pa_options);
 		
+		
 		// get row_ids to fetch
 		if (isset($pa_options['row_ids']) && is_array($pa_options['row_ids'])) {
 			$va_row_ids = $pa_options['row_ids'];
@@ -661,6 +662,8 @@ class SearchResult extends BaseObject {
 			$va_row_ids = $this->getRowIDsToPrefetch($pn_start, $pn_num_rows);
 		}
 		if (sizeof($va_row_ids) == 0) { return false; }
+		
+		Debug::msg("PREFETCH: {$ps_tablename}/{$pn_start}/{$pn_num_rows} SIZE=".sizeof($va_row_ids)." MD5={$vs_md5} OPTS=". print_R($pa_options, true).print_R($va_row_ids, true));
 		
 		// do join
 		$va_joins = array();
@@ -794,19 +797,30 @@ class SearchResult extends BaseObject {
 	}
 	# ------------------------------------------------------------------
 	/**
-	 * 
+	 * Prefetch rows related to current search result set. Ex. for a ca_objects results set
+	 * $o_result->prefetchRelated('ca_entities', 0, 50) would pre-load related entities for the
+	 * first 50 objects in the result.
+	 *
+	 * @param $ps_tablename string Name of related table
+	 * @param $pn_start Index (zero-based) of row in result set to begin caching for.
+	 * @param $pn_num_rows int Maximum umber of rows in result set to fetch related record for.
+	 * @param $pa_options array Options include:
+	 *		checkAccess = access values to filter related rows on. [Default is null – don't check access values]
+	 *		limit = Maximum number of related rows to return per search result set row. [Default is 100000]
+	 *
+	 * @return array Primary keys of related record while have been cached.
 	 */
 	public function prefetchRelated($ps_tablename, $pn_start, $pn_num_rows, $pa_options) {
 		if (!is_array($pa_options)) { $pa_options = array(); }
 		if (!method_exists($this->opo_subject_instance, "getRelatedItems")) { return false; }
 		unset($pa_options['request']);
 		if (sizeof($va_row_ids = $this->getRowIDsToPrefetch($pn_start, $pn_num_rows)) == 0) { return false; }
-		
 		SearchResult::checkCacheSizeLimit($this->ops_table_name);
 		
 		$pa_check_access = caGetOption('checkAccess', $pa_options, null);
 		
 		$vs_md5 = caMakeCacheKeyFromOptions($pa_options);
+		Debug::msg("PREFETCH RELATED: {$ps_tablename}/{$pn_start}/{$pn_num_rows} SIZE=".sizeof($va_row_ids)." MD5={$vs_md5}");
 		
 		$va_criteria = is_array($this->opa_tables[$ps_tablename]) ? $this->opa_tables[$ps_tablename]['criteria'] : null;
 		
@@ -829,11 +843,13 @@ class SearchResult extends BaseObject {
 		}
 		
 		
+		$va_rel_ids = [];
+		$vs_rel_pk = SearchResult::$opo_datamodel->primaryKey($ps_tablename);
+		
 		foreach($va_rel_items as $vs_key => $va_rel_item) {
 			self::$s_rel_prefetch_cache[$this->ops_table_name][(int)$va_rel_item['row_id']][$ps_tablename][$vs_md5][$va_rel_item[$va_rel_item['_key']]] = $va_rel_item;
+			$va_rel_ids[] = $va_rel_item[$vs_rel_pk];
 		}
-		
-		//$this->prefetch($ps_tablename, $pn_start, $pn_num_rows);
 		
 		// Fill row_id values for which there is nothing to prefetch with an empty lists
 		// otherwise we'll try and prefetch these again later wasting time.
@@ -843,7 +859,7 @@ class SearchResult extends BaseObject {
 			}
 		}
 		
-		return true;
+		return $va_rel_ids;
 	}
 	# ------------------------------------------------------------------
 	/**
@@ -1402,13 +1418,17 @@ class SearchResult extends BaseObject {
 			if ($vb_return_cache_options) { return $va_get_opts; }
 			
 			if (!isset(self::$s_rel_prefetch_cache[$this->ops_table_name][$vn_row_id][$va_path_components['table_name']][$vs_opt_md5])) {
-				$this->prefetchRelated($va_path_components['table_name'], $this->opo_engine_result->currentRow(), $this->getOption('prefetch'), $va_get_opts);
+				$va_rel_ids = $this->prefetchRelated($va_path_components['table_name'], $this->opo_engine_result->currentRow(), $this->getOption('prefetch'), $va_get_opts);
+			
+				if ($qr_int = caMakeSearchResult($va_path_components['table_name'], $va_rel_ids)) {
+					$qr_int->prefetch($va_path_components['table_name'], 0, 50, $va_val_opts);
+				}
 			} 
 			
 			$va_related_items = self::$s_rel_prefetch_cache[$this->ops_table_name][$vn_row_id][$va_path_components['table_name']][$vs_opt_md5];
 
 			if (!is_array($va_related_items)) { return ($vb_return_with_structure || $vb_return_as_array) ? array() : null; }
-		
+			
 			$vm_val = $this->_getRelatedValue($va_related_items, $va_val_opts);
 			goto filter;
 		} else {
