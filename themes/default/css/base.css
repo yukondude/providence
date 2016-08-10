@@ -1302,10 +1302,18 @@ div.hint {
 	font-size: 11px;
 	display:inline;
 }
-#summary #printButton{
+#summary #printButton {
     float:right;
-    width:30px;
-    margin:0px 5px 5px 10px;
+    margin:0 5px 5px 10px;
+}
+#summary #toggleCollapsedButton {
+    float:right;
+    margin:0 5px 5px 0;
+}
+#summary #toggleCollapsedButton .form-button {
+    display: inline;
+    margin: 0;
+    padding: 0;
 }
 #summary .unit{
     margin-bottom:10px;
@@ -1317,20 +1325,21 @@ div.hint {
 #summary .heading{
 	font-family: 'DIN-Regular', Helvetica, sans-serif;
 	font-size: 13px;
-	color: #333333;
-	text-transform:uppercase;
+	text-transform: uppercase;
 	text-align: left;
-	width:30%;
-    overflow: hidden;
-	display:inline-block;
-	font-weight:bold;
+	width: 30%;
+	overflow: hidden;
+	display: inline-block;
+	font-weight: bold;
 	color: #666;
+	vertical-align: top;
 }
 #summary .summaryData{
 	width: 70%;
 	display: inline-block;
 	font-family: 'DIN-Regular', Helvetica, sans-serif;
-	color:#333;
+	color: #333;
+	vertical-align: top;
 }
 #summary .thumbnailsImageContainer{
     border:1px solid #DDDDDD;
@@ -1422,12 +1431,22 @@ div.button img{
     vertical-align: top;
 	margin-top: -1px;
 }
-a.button{
+a.button,
+.btn {
     color: #1ab3c8;
     text-decoration: none;
     font-size: 11px;
     font-weight:normal;
     font-family: "DIN-Regular";
+}
+button.btn {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+}
+.btn,
+.btn-group {
+    padding: 4px;
 }
 #leftNav a.button {
     color: #134959;
@@ -1438,6 +1457,39 @@ a.button{
 }
 a.button:hover{
     color: #1ab3c8;
+}
+
+.btn-group .btn {
+    color: #1ab3c8;
+    background-color: #eee;
+    text-decoration: none;
+    font-size: 11px;
+    font-weight:normal;
+    font-family: "DIN-Regular";
+    cursor: pointer;
+}
+.btn-group .btn.active {
+    color: #000;
+    background-color: #2ac3d8;
+}
+
+#main .query-builder dd.rules-group-body {
+    margin-left: 2em;
+}
+#main .query-builder .group-conditions label {
+    border-bottom: 2px solid #ccc;
+}
+#main .query-builder .rule-container .rule-filter-container select {
+    max-width: 250px;
+}
+#main .query-builder .rule-container .rule-value-container {
+    border-left: none;
+}
+#main .query-builder .rule-container .rule-value-container input {
+    padding: 4px;
+}
+#main .query-builder .rule-container .rule-value-container select {
+    padding: 0;
 }
 
 a.form-button, span.form-button, del.form-button{
@@ -3391,7 +3443,7 @@ input.externalMappingBase {
 }
 
 /*** FORM ELEMENTS ***/
-input[type="text"], input[type="textarea"], textarea,  input[type="password"] {
+input[type="text"], input[type="number"], input[type="textarea"], textarea,  input[type="password"] {
     font-size:12px;
     font-family: Verdana, Arial, Helvetica, sans-serif;
     border:1px solid #ddd;
@@ -7187,4 +7239,7 @@ div.caResultsComplexDataEditorErrorContainer {
   height: 100%;
   margin-top: 0;
   padding-top: 200px;
+}
+input.idno_accession_series {
+	width: 3em;
 }
