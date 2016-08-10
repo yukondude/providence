@@ -1,14 +1,49 @@
 /*
-	Date: 30 July 2016
-	Migration: 137
-	Description: SQL search indices to improve Pawtucket search performance
+	Date: 9 Aug 2016
+	Migration: 138
+	Description: Set defaults
 */
 
 /*==========================================================================*/
 
+ALTER TABLE ca_objects MODIFY COLUMN commenting_status tinyint unsigned not null default 0;
+ALTER TABLE ca_objects MODIFY COLUMN tagging_status tinyint unsigned not null default 0;
+ALTER TABLE ca_objects MODIFY COLUMN rating_status tinyint unsigned not null default 0;
+ALTER TABLE ca_objects MODIFY COLUMN is_template tinyint unsigned not null default 0;
 
-CREATE INDEX i_index_field_table_num_with_access ON ca_sql_search_word_index(word_id, table_num, field_table_num, access);
-CREATE INDEX i_index_field_num_with_access ON ca_sql_search_word_index(word_id, table_num, field_table_num, field_num, access);
+ALTER TABLE ca_object_lots MODIFY COLUMN commenting_status tinyint unsigned not null default 0;	
+ALTER TABLE ca_object_lots MODIFY COLUMN tagging_status tinyint unsigned not null default 0;
+ALTER TABLE ca_object_lots MODIFY COLUMN rating_status tinyint unsigned not null default 0;
+ALTER TABLE ca_object_lots MODIFY COLUMN is_template tinyint unsigned not null default 0;
+
+ALTER TABLE ca_entities MODIFY COLUMN commenting_status tinyint unsigned not null default 0;	
+ALTER TABLE ca_entities MODIFY COLUMN tagging_status tinyint unsigned not null default 0;
+ALTER TABLE ca_entities MODIFY COLUMN rating_status tinyint unsigned not null default 0;
+ALTER TABLE ca_entities MODIFY COLUMN is_template tinyint unsigned not null default 0;
+
+ALTER TABLE ca_places MODIFY COLUMN commenting_status tinyint unsigned not null default 0;	
+ALTER TABLE ca_places MODIFY COLUMN tagging_status tinyint unsigned not null default 0;
+ALTER TABLE ca_places MODIFY COLUMN rating_status tinyint unsigned not null default 0;
+ALTER TABLE ca_places MODIFY COLUMN is_template tinyint unsigned not null default 0;
+
+ALTER TABLE ca_occurrences MODIFY COLUMN commenting_status tinyint unsigned not null default 0;	
+ALTER TABLE ca_occurrences MODIFY COLUMN tagging_status tinyint unsigned not null default 0;
+ALTER TABLE ca_occurrences MODIFY COLUMN rating_status tinyint unsigned not null default 0;
+ALTER TABLE ca_occurrences MODIFY COLUMN is_template tinyint unsigned not null default 0;
+
+ALTER TABLE ca_collections MODIFY COLUMN commenting_status tinyint unsigned not null default 0;	
+ALTER TABLE ca_collections MODIFY COLUMN tagging_status tinyint unsigned not null default 0;
+ALTER TABLE ca_collections MODIFY COLUMN rating_status tinyint unsigned not null default 0;
+ALTER TABLE ca_collections MODIFY COLUMN is_template tinyint unsigned not null default 0;
+
+ALTER TABLE ca_object_representations MODIFY COLUMN commenting_status tinyint unsigned not null default 0;	
+ALTER TABLE ca_object_representations MODIFY COLUMN tagging_status tinyint unsigned not null default 0;
+ALTER TABLE ca_object_representations MODIFY COLUMN rating_status tinyint unsigned not null default 0;
+ALTER TABLE ca_object_representations MODIFY COLUMN is_template tinyint unsigned not null default 0;
+
+ALTER TABLE ca_sets MODIFY COLUMN commenting_status tinyint unsigned not null default 0;	
+ALTER TABLE ca_sets MODIFY COLUMN tagging_status tinyint unsigned not null default 0;
+ALTER TABLE ca_sets MODIFY COLUMN rating_status tinyint unsigned not null default 0;
 
 /*==========================================================================*/
 
