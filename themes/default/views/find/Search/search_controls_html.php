@@ -41,11 +41,12 @@
 	$vs_query_builder_toggle = '';
 	if ($vb_query_builder_enabled) {
 		require_once(__CA_MODELS_DIR__ . '/ca_search_forms.php');
-		$vs_query_builder_toggle = ' <a href="#" class="button" id="QueryBuilderToggle">'._t('Query Builder').'&nbsp;&#9662;</a>';
+		$vs_query_builder_toggle = ' <a href="#" class="button queryBuilderToggle">'._t('Query Builder').'&nbsp;&rsaquo;</a>';
 	}
 
 	if (!$this->request->isAjax()) {
 		print caFormTag($this->request, 'Index', 'BasicSearchForm', null, 'post', 'multipart/form-data', '_top', array('disableUnsavedChangesWarning' => true));
+		print "<div id='searchContainer'>";
 		if (!$this->getVar('uses_hierarchy_browser')) {
 			print caFormControlBox(
 				'<div class="simple-search-box">'._t('Search').': <input type="text" id="BasicSearchInput" name="search" value="'.htmlspecialchars($this->getVar('search'), ENT_QUOTES, 'UTF-8').'" size="40"/>'.$vs_type_id_form_element.$vs_query_builder_toggle.'</div>',
@@ -59,18 +60,28 @@
 				'<a href="#" id="browseToggle" class="form-button"></a>'
 			);
 		}
-		?>
-		</form>
-		<?php
+		print "</div>";
 		if ($vb_query_builder_enabled) {
- 		?>
-		<div id="QueryBuilderContainer">
-			<div id="QueryBuilder"></div>
-		</div>
-		<?php
+ ?>
+			<div id="QueryBuilderContainer">
+				<div class="startBrowsingBy">
+					<a href="#" class="button pull-right queryBuilderToggle"><?php print _t('Close'); ?>&nbsp;<i class='fa fa-arrow-circle-up'></i></a>
+					<?php print _t("Query Builder"); ?>
+				</div>
+				<div id="QueryBuilderSubContainer">
+					<div id="QueryBuilder"></div>
+					<div id="QueryBuilderSubmit">
+					<?php print caFormSubmitButton($this->request, __CA_NAV_ICON_SEARCH__, _t("Search"), 'BasicSearchForm'); ?>
+					</div>
+				</div>
+			</div>
+<?php
 		}
+?>
+		</form>
+<?php
 		if ($this->getVar('uses_hierarchy_browser')) {
-		?>
+?>
 			<div id="browse">
 				<div class='subTitle' style='background-color: #eeeeee; padding:5px 0px 5px 5px;'><?php print _t("Hierarchy"); ?></div>
 			<?php
@@ -209,17 +220,16 @@
 		$vo_query_builder_options = $vo_query_builder_config->get('query_builder_global_options') ?: array();
 		$vo_query_builder_options['filters'] = caGetQueryBuilderFilters($t_subject, $vo_query_builder_config);
 		$vo_query_builder_options['allow_empty'] = true;
+		$vo_query_builder_options['icons'] = $vo_query_builder_config->get('query_builder_icons') ?: array();
+		$vo_query_builder_options['plugins'] = $vo_query_builder_config->get('query_builder_plugins') ?: array();
 	?>
-	function caUpdateSearchQueryBuilderToggleText() {
-		jQuery('#QueryBuilderToggle').html('<?php print _t('Query Builder'); ?>&nbsp;' + (caSearchQueryBuilderIsVisible() ? '&#9652;' : '&#9662;'));
-	}
 
 	// Event handler for the query builder toggle
 	function caToggleSearchQueryBuilder() {
 		var $container = jQuery('#QueryBuilderContainer');
 		$container.slideToggle('medium');
+		$('#searchContainer').slideToggle('medium');
 		jQuery.cookieJar('caCookieJar').set('<?php print $vs_table; ?>QueryBuilderIsExpanded', !caSearchQueryBuilderIsVisible());
-		caUpdateSearchQueryBuilderToggleText();
 		caSetSearchQueryBuilderRulesFromSearchInput();
 		return false;
 	}
@@ -276,13 +286,15 @@
 
 	// Initialise query builder
 	jQuery(document).ready(function() {
+		if(caSearchQueryBuilderIsVisible()){
+			$('#searchContainer').hide();
+		}
 		jQuery('#QueryBuilderContainer').toggle(caSearchQueryBuilderIsVisible());
 		jQuery('#QueryBuilder')
 			.queryBuilder(<?php print json_encode($vo_query_builder_options, JSON_PRETTY_PRINT) ?>)
 			.on(caGetSearchQueryBuilderUpdateEvents(), caSetSearchInputQueryFromQueryBuilder);
-		jQuery('#QueryBuilderToggle').click(caToggleSearchQueryBuilder);
+		jQuery('.queryBuilderToggle').click(caToggleSearchQueryBuilder);
 		jQuery('#BasicSearchInput').change(caSetSearchQueryBuilderRulesFromSearchInput);
-		caUpdateSearchQueryBuilderToggleText();
 		caSetSearchQueryBuilderRulesFromSearchInput();
 	});
 	<?php
