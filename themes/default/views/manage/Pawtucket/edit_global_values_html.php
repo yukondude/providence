@@ -62,7 +62,7 @@
 			</div>
 <?php
 		}
-		print "<div style='text-align: center'>".caFormSubmitButton($this->request, __CA_NAV_ICON_SAVE__, _t("Save"), 'globalValuesForm', array())."</div>";	
+		print "<div style='text-align: center'>".caFormSubmitButton($this->request, __CA_NAV_BUTTON_SAVE__, _t("Save"), 'globalValuesForm', array())."</div>";	
 	}
 ?>
 </form>
