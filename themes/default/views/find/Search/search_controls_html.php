@@ -36,7 +36,7 @@
 		$vs_type_id_form_element = '<input type="hidden" name="type_id" value="'.$vn_type_id.'"/>';
 	}
 
-	$vo_query_builder_config = Configuration::load($this->request->config->get('search_query_builder_config'));
+	$vo_query_builder_config = Configuration::load(__CA_CONF_DIR__."/search_query_builder.conf");
 	$vb_query_builder_enabled = $vo_query_builder_config->getBoolean('query_builder_enabled') && $vo_query_builder_config->getBoolean('query_builder_enabled_' . $vs_table);
 	$vs_query_builder_toggle = '';
 	if ($vb_query_builder_enabled) {
