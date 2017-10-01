@@ -110,19 +110,6 @@
 		}
 		# ----------------------------------------
 		/**
-		 * Parse a delimited data file (text or XLSX) and return parser instance
-		 *
-		 * @param string $ps_filepath Path to parsable file. [Default is null]
-		 * @param array $pa_options Options include:
-		 *		delimiter = Delimiter for text files. [Default is tab (\t)]
-		 *		textMarker = Marker used to enclose text blocks in text files. [Default is double quote (")]
-		 * @return DelimitedDataParser
-		 */
-		static public function load($ps_filepath, $pa_options=null) {
-			return new DelimitedDataParser(caGetOption('delimiter', $pa_options, "\t"), caGetOption('textMarker', $pa_options, '"'), $ps_filepath);
-		}
-		# ----------------------------------------
-		/**
 		 *
 		 */
 		public function __destruct() {
