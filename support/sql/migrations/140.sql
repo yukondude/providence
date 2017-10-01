@@ -1,13 +1,25 @@
 /*
-	Date: 30 July 2016
+	Date: 16 September 2016
 	Migration: 140
-	Description: SQL search indices to improve Pawtucket search performance
+	Description: Add indexing to improve browse performance
 */
 
 /*==========================================================================*/
 
-CREATE INDEX i_index_field_table_num_with_access ON ca_sql_search_word_index(word_id, table_num, field_table_num, access);
-CREATE INDEX i_index_field_num_with_access ON ca_sql_search_word_index(word_id, table_num, field_table_num, field_num, access);
+create index i_row_table_num on ca_attributes(row_id, table_num);
+create index i_attr_element on ca_attribute_values(attribute_id, element_id);
+create index i_obj_filter on ca_objects(object_id, deleted, access); 
+create index i_entity_filter on ca_entities(entity_id, deleted, access); 
+create index i_place_filter on ca_places(place_id, deleted, access); 
+create index i_occ_filter on ca_occurrences(occurrence_id, deleted, access); 
+create index i_collection_filter on ca_collections(collection_id, deleted, access); 
+create index i_loan_filter on ca_loans(loan_id, deleted, access); 
+create index i_movement_filter on ca_movements(movement_id, deleted, access); 
+create index i_item_filter on ca_list_items(item_id, deleted, access); 
+create index i_loc_filter on ca_storage_locations(location_id, deleted, access); 
+create index i_lot_filter on ca_object_lots(lot_id, deleted, access); 
+create index i_rep_filter on ca_object_representations(representation_id, deleted, access); 
+create index i_set_filter on ca_sets(set_id, deleted, access); 
 
 /*==========================================================================*/
 

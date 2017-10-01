@@ -7,7 +7,7 @@
  * ----------------------------------------------------------------------
  *
  * Software by Whirl-i-Gig (http://www.whirl-i-gig.com)
- * Copyright 2016 Whirl-i-Gig
+ * Copyright 2016-2017 Whirl-i-Gig
  *
  * For more information visit http://www.CollectiveAccess.org
  *
@@ -70,7 +70,18 @@
 			// Controls
 			$vs_controls = '';
 			if ($t_subject) {
-				$vs_controls .= "<div class='objectInfo'>".caTruncateStringWithEllipsis($t_subject->get($t_subject->tableName().'.preferred_labels'), 80)." (".$t_subject->get($t_subject->tableName().'.'.$t_subject->getProperty('ID_NUMBERING_ID_FIELD')).")</div>";
+				$vs_media_overlay_titlebar_text = null;
+				if (($vs_media_overlay_titlebar_template = $po_request->config->get('media_overlay_titlebar_template')) && (is_a($t_instance, 'BundlableLabelableBaseModelWithAttributes'))) { 
+				    // for everything except ca_site_page_media when a template is defined
+				    $vs_media_overlay_titlebar_text = caProcessTemplateForIDs($vs_media_overlay_titlebar_template, $t_subject->tableName(), [$t_subject->getPrimaryKey()], $pa_options);
+				} elseif(is_a($t_instance, 'BundlableLabelableBaseModelWithAttributes')) {
+				    // for everything except ca_site_page_media
+				    $vs_media_overlay_titlebar_text = caTruncateStringWithEllipsis($t_subject->get($t_subject->tableName().'.preferred_labels'), 80)." (".$t_subject->get($t_subject->tableName().'.'.$t_subject->getProperty('ID_NUMBERING_ID_FIELD')).")";
+			    } else {
+			        // for ca_site_page_media 
+			        $vs_media_overlay_titlebar_text = caTruncateStringWithEllipsis($t_instance->get($t_instance->tableName().'.'.array_shift($t_instance->getProperty('LIST_FIELDS'))), 80)." (".$t_instance->get($t_instance->tableName().'.'.$t_instance->getProperty('ID_NUMBERING_ID_FIELD')).")";
+			    }
+				$vs_controls .= "<div class='objectInfo'>{$vs_media_overlay_titlebar_text}</div>";
 			}
 			if ($t_subject && $t_instance && is_a($t_instance, 'ca_object_representations')) {
 				if (($vn_num_media = $t_subject->getRepresentationCount()) > 1) {
@@ -79,14 +90,15 @@
 					$va_ids = array_keys($t_subject->getRepresentationIDs());
 					$vn_rep_index = array_search($t_instance->getPrimaryKey(), $va_ids);
 				
+					$vs_context = $po_request->getParameter('context', pString);
 					if ($vn_rep_index > 0) { 
-						$vs_controls .=  "<a href='#' onClick='jQuery(\"#caMediaPanelContentArea\").load(\"".caNavUrl($po_request, '*', '*', $po_request->getAction(), array('representation_id' => (int)$va_ids[$vn_rep_index - 1], $t_subject->primaryKey() => (int)$t_subject->getPrimaryKey()))."\");'>←</a>";
+						$vs_controls .=  "<a href='#' onClick='jQuery(\"#caMediaPanelContentArea\").load(\"".caNavUrl($po_request, '*', '*', $po_request->getAction(), array('representation_id' => (int)$va_ids[$vn_rep_index - 1], $t_subject->primaryKey() => (int)$t_subject->getPrimaryKey(), 'context' => $vs_context))."\");'>←</a>";
 					}
 				
 					$vs_controls .=  ' '._t("%1 of %2", ($vn_rep_index + 1), $vn_num_media).' ';
 				
 					if ($vn_rep_index < ($vn_num_media - 1)) {
-						$vs_controls .=  "<a href='#' onClick='jQuery(\"#caMediaPanelContentArea\").load(\"".caNavUrl($po_request, '*', '*', $po_request->getAction(), array('representation_id' => (int)$va_ids[$vn_rep_index + 1], $t_subject->primaryKey() => (int)$t_subject->getPrimaryKey()))."\");'>→</a>";
+						$vs_controls .=  "<a href='#' onClick='jQuery(\"#caMediaPanelContentArea\").load(\"".caNavUrl($po_request, '*', '*', $po_request->getAction(), array('representation_id' => (int)$va_ids[$vn_rep_index + 1], $t_subject->primaryKey() => (int)$t_subject->getPrimaryKey(), 'context' => $vs_context))."\");'>→</a>";
 					}
 					$vs_controls .= "</div>";	
 					
@@ -98,20 +110,41 @@
 						$vs_controls .= "<div class='download'>";
 						// -- provide user with a choice of versions to download
 						$vs_controls .= caFormTag($po_request, 'DownloadMedia', 'caMediaDownloadForm', $po_request->getModulePath().'/'.$po_request->getController(), 'post', 'multipart/form-data', '_top', array('disableUnsavedChangesWarning' => true, 'noTimestamp' => true));
-						$vs_controls .= caHTMLSelect('version', $va_versions, array('style' => 'font-size: 8px; height: 16px;'));
+						$vs_controls .= _t('Download as %1', caHTMLSelect('version', array_combine(array_map("_t", $va_versions), $va_versions), array('style' => 'font-size: 8px; height: 16px;')));
 						$vs_controls .= caFormSubmitLink($po_request, caNavIcon(__CA_NAV_ICON_DOWNLOAD__, 1, [], ['color' => 'white']), '', 'caMediaDownloadForm', 'caMediaDownloadFormButton');
 						$vs_controls .= caHTMLHiddenInput($t_subject->primaryKey(), array('value' => $t_subject->getPrimaryKey()));
 						if (is_a($t_instance, 'ca_object_representations')) { $vs_controls .= caHTMLHiddenInput("representation_id", array('value' => $t_instance->getPrimaryKey())); }
+						if (is_a($t_instance, 'ca_site_page_media')) { $vs_controls .= caHTMLHiddenInput("media_id", array('value' => $t_instance->getPrimaryKey())); }
 						if (is_a($t_instance, 'ca_attribute_values')) { $vs_controls .= caHTMLHiddenInput("value_id", array('value' => $t_instance->getPrimaryKey())); }
 						$vs_controls .= caHTMLHiddenInput("download", array('value' => 1));
-						$vs_controls .= "</form>\n</div>\n";
+						$vs_controls .= "</form>\n";
+						
+						if (sizeof($va_ids) > 1) {
+							$vs_controls .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".caNavLink($po_request, _t('Download all')." ".caNavIcon(__CA_NAV_ICON_DOWNLOAD__, 1, [], ['color' => 'white']), 'xxx', '*', '*', 'DownloadMedia', [$t_subject->primaryKey() => $t_subject->getPrimaryKey()]);
+						}
+						
+						$vs_controls .= "</div>\n";
 					}
 
 			}
-			
+			$o_view->setVar('hideOverlayControls', caGetOption('hideOverlayControls', $pa_options, false));
 			$o_view->setVar('controls', $vs_controls);
 		
 			return $o_view->render(caGetOption('viewerWrapper', $pa_options, 'viewerWrapper').'.php');
+		}
+		# -------------------------------------------------------
+		/**
+		 *
+		 */
+		public static function searchViewerData($po_request, $ps_identifier, $pa_data=null, $pa_options=null) {
+		    throw new ApplicationException(_t('Media search is not available'));
+		}
+		# -------------------------------------------------------
+		/**
+		 *
+		 */
+		public static function autocomplete($po_request, $ps_identifier, $pa_data=null, $pa_options=null) {
+		    throw new ApplicationException(_t('Media search autocomplete is not available'));
 		}
 		# -------------------------------------------------------
 	}

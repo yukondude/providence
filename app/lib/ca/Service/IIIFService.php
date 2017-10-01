@@ -7,7 +7,7 @@
  * ----------------------------------------------------------------------
  *
  * Software by Whirl-i-Gig (http://www.whirl-i-gig.com)
- * Copyright 2016 Whirl-i-Gig
+ * Copyright 2016-2017 Whirl-i-Gig
  *
  * For more information visit http://www.CollectiveAccess.org
  *
@@ -46,6 +46,13 @@ class IIIFService {
 	 */
 	public static function dispatch($ps_identifier, $po_request, $po_response) {
 		$va_path = array_slice(explode("/", $po_request->getPathInfo()), 3);
+		$vs_key = join("/", $va_path);
+		
+		if ($vs_tile = CompositeCache::fetch($vs_key, 'IIIFTiles')) {
+		    header("Content-type: ".CompositeCache::fetch($vs_key, 'IIIFTileTypes'));
+		    $po_response->addContent($vs_tile);
+		    return true;
+		}
 		
 		// BASEURL:		{scheme}://{server}{/prefix}/{identifier}
 		// INFO: 		{scheme}://{server}{/prefix}/{identifier}/info.json
@@ -187,7 +194,7 @@ class IIIFService {
 			
 			// region
 			$va_region = IIIFService::calculateRegion($vn_width, $vn_height, $ps_region);
-			if (($va_region['w'] != $vn_width) && ($va_region['h'] != $vn_height)) {
+			if (($va_region['width'] != $vn_width) && ($va_region['height'] != $vn_height)) {
 				$va_operations[] = ['CROP' => $va_region];
 			}
 			
@@ -242,7 +249,11 @@ class IIIFService {
 				$vn_tile_num = $vn_tile_offset + $vn_tile;
 				
 				header("Content-type: ".$va_tilepic_info['PROPERTIES']['tile_mimetype']);
-				$po_response->addContent(TilepicParser::getTileQuickly($va_media_paths['tilepic'], $vn_tile_num, true));
+				
+				$vs_tile = TilepicParser::getTileQuickly($va_media_paths['tilepic'], $vn_tile_num, true);
+				CompositeCache::save($vs_key, $vs_tile, 'IIIFTiles');
+				CompositeCache::save($vs_key, $va_tilepic_info['PROPERTIES']['tile_mimetype'], 'IIIFTileTypes');
+				$po_response->addContent($vs_tile);
 				return true;
 			}
 			
@@ -506,7 +517,7 @@ class IIIFService {
 		
 		$va_possible_formats = ['jpg', 'tif', 'tiff', 'png', 'gif'];
 		$o_media  = new Media();
-		if (!$o_media->read($pt_media->getMediaPath($ps_fldname, 'original'))) { 
+		if (!$o_media->read($pt_media->getMediaPath($ps_fldname, 'original')) && !$o_media->read($pt_media->getMediaPath($ps_fldname, 'large'))) { 
 			throw new Exception("Cannot open file");
 		}
 		
@@ -521,8 +532,8 @@ class IIIFService {
 			'@context' => 'http://iiif.io/api/image/2/context.json',
 			'@id' => $vs_base_url,
 			'protocol' => 'http://iiif.io/api/image',
-			'width' => $vn_width = $pt_media->getMediaInfo($ps_fldname, 'original', 'WIDTH'),
-			'height' => $pt_media->getMediaInfo($ps_fldname, 'original', 'HEIGHT'),
+			'width' => $vn_width = (int)$pt_media->getMediaInfo($ps_fldname, 'original', 'WIDTH'),
+			'height' => (int)$pt_media->getMediaInfo($ps_fldname, 'original', 'HEIGHT'),
 			'sizes' => $va_sizes,
 			'tiles' => [$va_tiles],
 			'profile' => [
@@ -537,7 +548,7 @@ class IIIFService {
 					]
 				]
 			],
-			"maxWidth" => $vn_width
+			"maxWidth" => (int)$vn_width
 		];
 		
 		return $va_resp;
@@ -550,7 +561,7 @@ class IIIFService {
 		$va_sizes = [];
 		foreach($pt_media->getMediaVersions($ps_fldname) as $vs_version) {
 			if ($vs_version == 'tilepic') { continue; }
-			$va_sizes[$vs_version] = ['width' => $pt_media->getMediaInfo($ps_fldname, $vs_version, 'WIDTH'), 'height' => $pt_media->getMediaInfo($ps_fldname, $vs_version, 'HEIGHT')];
+			$va_sizes[$vs_version] = ['width' => (int)$pt_media->getMediaInfo($ps_fldname, $vs_version, 'WIDTH'), 'height' => (int)$pt_media->getMediaInfo($ps_fldname, $vs_version, 'HEIGHT')];
 		}
 		return caGetOption('indexByVersion', $pa_options, false) ? $va_sizes : array_values($va_sizes);
 	}

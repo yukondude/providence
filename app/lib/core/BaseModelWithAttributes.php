@@ -90,6 +90,16 @@
 		# ------------------------------------------------------------------
 		/**
 		 * create an attribute linked to the current row using values in $pa_values
+		 *
+		 * @param array $pa_values
+		 * @param mixed $pm_element_code_or_id
+		 * @param string $ps_error_source
+		 * @param array $pa_options Options include:
+		 *      skipExistingValues = Don't add values that already exist on this record. [Default is false]
+		 *      showRepeatCountErrors = Emit visible errors when minimum/maximum repeat counts are exceeded. [Default is false]
+		 *      dontCheckMinMax = Don't do minimum/maximum repeat count checks. [Default is false]
+		 *      
+		 * @return bool True on success, false on error or null if attribute was skipped.
 		 */
 		public function addAttribute($pa_values, $pm_element_code_or_id, $ps_error_source=null, $pa_options=null) {
 			require_once(__CA_APP_DIR__.'/models/ca_metadata_elements.php');
@@ -131,6 +141,27 @@
 					}
 					return null; 
 				}	// # attributes is at upper limit
+			}
+			
+			if (caGetOption('skipExistingValues', $pa_options, false)) {
+			    // filter out any values that already exist on this row
+			    if(is_array($va_attrs = $this->getAttributesByElement($pm_element_code_or_id))) {
+			        $vb_already_exists = false;
+			        foreach($va_attrs as $o_attr) {
+			            foreach($o_attr->getValues() as $o_value) {
+			                $vn_element_id = $o_value->getElementID();
+			                $vs_element_code = ca_metadata_elements::getElementCodeForId($vn_element_id);
+			                if ($pa_values[$vs_element_code] && ($pa_values[$vs_element_code] != $o_value->getDisplayValue())) {
+			                    continue(2);
+			                }
+			            }
+			            $vb_already_exists = true;
+			            break;
+			        }
+			        if ($vb_already_exists) {
+			            return null;
+			        }
+			    }
 			}
 			
 			$this->opa_attributes_to_add[] = array(
@@ -273,14 +304,19 @@
 					}
 				}
 			}
+			if (!($t_element = ca_metadata_elements::getInstance($t_attr->get('element_id')))) { return false; }
 			
+			if ($vb_require_value = (bool)$t_element->getSetting('requireValue')) {
+				$pa_options['dontCheckMinMax'] = false;
+			}
 			
 			// check restriction min/max settings
 			if (!caGetOption('dontCheckMinMax', $pa_options, false)) {
-				if (!($t_element = ca_metadata_elements::getInstance($t_attr->get('element_id')))) { return false; }
 				$t_restriction = $t_element->getTypeRestrictionInstanceForElement($this->tableNum(), $this->getTypeID());
 				if (!$t_restriction) { return null; }		// attribute not bound to this type
-				$vn_min = $t_restriction->getSetting('minAttributesPerRow');
+				if ((($vn_min = $t_restriction->getSetting('minAttributesPerRow')) == 0) && $vb_require_value) {
+					$vn_min = 1;
+				}
 				$vn_max = $t_restriction->getSetting('maxAttributesPerRow');
 				
 				$vn_del_cnt = 0;
@@ -291,7 +327,7 @@
 				}
 				
 				$vn_count = $this->getAttributeCountByElement($t_element->getPrimaryKey(), ['includeBlanks' => true])  + $vn_add_cnt - $vn_del_cnt;
-				if ($vn_count < $vn_min) { 
+				if ($vn_count <= $vn_min) { 
 					if (caGetOption('showRepeatCountErrors', $pa_options, false)) {
 						$this->postError(1967, ($vn_min == 1) ? _t('Cannot remove value; at least %1 value is required', $vn_min) : _t('Cannot remove value; at least %1 values are required', $vn_min), 'BaseModelWithAttributes->removeAttribute()', $ps_error_source);
 					}
@@ -1008,7 +1044,7 @@
 			
 			// Bail and return list default
 			$t_list = new ca_lists();
-			return $t_list->getDefaultItemID($this->getSourceListCode());
+			return $t_list->getDefaultItemID($this->getSourceListCode(), ['useFirstElementAsDefaultDefault' => true]);
 		}
 		# ------------------------------------------------------------------
 		/**
@@ -1174,7 +1210,7 @@
 		 */
 		public function getDefaultTypeID() {
 			$t_list = new ca_lists();
-			return $t_list->getDefaultItemID($this->getTypeListCode(), array('omitRoot' => true));
+			return $t_list->getDefaultItemID($this->getTypeListCode(), ['omitRoot' => true, 'useFirstElementAsDefaultDefault' => true]);
 		}
 		# ------------------------------------------------------------------
 		/**
@@ -1256,12 +1292,13 @@
 				}
 			}
 			
-			if (isset($pa_options['restrictToTypes']) && is_array($pa_options['restrictToTypes'])) {
-				$pa_options['restrictToTypes'] = caMakeTypeIDList($this->tableName(), $pa_options['restrictToTypes'], $pa_options);
+			$va_restrict_to_types = caGetOption(['restrictToTypes', 'restrict_to_types'], $pa_options, null);
+			if (isset($va_restrict_to_types) && is_array($va_restrict_to_types)) {
+				$pa_options['restrictToTypes'] = caMakeTypeIDList($this->tableName(), $va_restrict_to_types, $pa_options);
 				if (!$pa_options['limitToItemsWithID'] || !is_array($pa_options['limitToItemsWithID'])) {
-					$pa_options['limitToItemsWithID'] = $pa_options['restrictToTypes'];
+					$pa_options['limitToItemsWithID'] = $va_restrict_to_types;
 				} else {
-					$pa_options['limitToItemsWithID'] = array_intersect($pa_options['limitToItemsWithID'], $pa_options['restrictToTypes']);
+					$pa_options['limitToItemsWithID'] = array_intersect($pa_options['limitToItemsWithID'], $va_restrict_to_types);
 				}
 			}
 			
@@ -1321,13 +1358,29 @@
 			if ($ps_render = caGetOption('render', $pa_options, null)) {
 				switch($ps_render) {
 					case 'is_set':
-						return caHTMLCheckboxInput($ps_field.$vs_rel_types, array('value' => '[SET]'));
+						return caHTMLCheckboxInput($ps_field.$vs_rel_types, array('value' => '['._t('SET').']'));
+						break;
+					case 'is':
+						return caHTMLCheckboxInput($ps_field.$vs_rel_types, array('value' => caGetOption('value', $pa_options, null)));
 						break;
 				}
 			}
 											
 			if (in_array($va_tmp[1], array('preferred_labels', 'nonpreferred_labels'))) {
-				return caHTMLTextInput($ps_field.$vs_rel_types.($vb_as_array_element ? "[]" : ""), array('value' => $pa_options['values'][$ps_field], 'class' => $pa_options['class'], 'id' => str_replace('.', '_', $ps_field)), $pa_options);
+				$vs_autocomplete = caGetOption('autocomplete', $pa_options, false) ? "_autocomplete" : "";
+				if ($va_tmp[0] == $this->tableName() && $vs_autocomplete) {
+					
+					if (!caGetOption('nojs', $pa_options, false)) {	
+						return caGetAdvancedSearchFormAutocompleteJS($po_request, $ps_field, $this, $pa_options);
+					} else {
+						$ps_field_proc = preg_replace("![\.]+!", "_", $ps_field);
+						if ($vs_rel_types = join(";", caGetOption('restrictToRelationshipTypes', $pa_options, []))) { $vs_rel_types_proc = "_{$vs_rel_types}"; $vs_rel_types = "/{$vs_rel_types}";  }
+					
+						return $vs_buf.caHTMLTextInput(caGetOption('name', $pa_options, $ps_field).$vs_rel_types.$vs_autocomplete.($vb_as_array_element ? "[]" : ""), array('value' => $pa_options['values'][$ps_field], 'class' => $pa_options['class'], 'id' => caGetOption('id', $pa_options, str_replace('.', '_', caGetOption('name', $pa_options, $ps_field))).$vs_autocomplete), $pa_options);
+					}
+				} else {
+					return caHTMLTextInput(caGetOption('name', $pa_options, $ps_field).$vs_rel_types.$vs_autocomplete.($vb_as_array_element ? "[]" : ""), array('value' => $pa_options['values'][$ps_field], 'class' => $pa_options['class'], 'id' => caGetOption('id', $pa_options, str_replace('.', '_', caGetOption('name', $pa_options, $ps_field)))), $pa_options);
+				}
 			}
 			
 			if (!in_array($va_tmp[0], array('created', 'modified'))) {		// let change log searches filter down to BaseModel
@@ -1510,9 +1563,9 @@
 			}
 			
 			foreach($va_element_set as $va_element) {
-				if ($va_element['datatype'] == 0) { continue; }
-
 				$va_element_info[$va_element['element_id']] = $va_element;
+				if (($va_element['datatype'] == 0) && ($va_element['parent_id'] > 0)) { continue; }
+
 				
 				$va_label = $this->getAttributeLabelAndDescription($va_element['element_id']);
 
@@ -1536,13 +1589,14 @@
 				if(!is_array($va_label)) { 
 					$va_label = array('name' => '???', 'description' => '');
 				}
-				$va_elements_by_container[$va_element['parent_id']][] = $vs_br.ca_attributes::attributeHtmlFormElement($va_element, array_merge($pa_bundle_settings, array_merge($pa_options, array(
+				$va_elements_by_container[$va_element['parent_id']][] = ($va_element['datatype'] == 0) ? '' : $vs_br.ca_attributes::attributeHtmlFormElement($va_element, array_merge($pa_bundle_settings, array_merge($pa_options, array(
 					'label' => (sizeof($va_element_set) > 1) ? $va_label['name'] : '',
 					'description' => $va_label['description'],
 					't_subject' => $this,
 					'request' => $po_request,
 					'form_name' => $ps_form_name,
-					'format' => ''
+					'format' => '',
+					'dontDoRefSubstitution' => true
 				))));
 				
 				//if the elements datatype returns true from renderDataType, then force render the element
@@ -1581,7 +1635,11 @@
 			if ($t_restriction = $this->getTypeRestrictionInstance($t_element->get('element_id'))) {
 				// If batch mode force minimums to zero
 				$o_view->setVar('max_num_repeats', $vb_batch  ? 9999 : $t_restriction->getSetting('maxAttributesPerRow'));
-				$o_view->setVar('min_num_repeats', $vb_batch ? 0 : $t_restriction->getSetting('minAttributesPerRow'));
+				
+				$vn_min_repeats = $t_restriction->getSetting('minAttributesPerRow');
+				if (($vn_min_repeats < 1) && (isset($va_element['settings']['requireValue'])) && ((bool)$va_element['settings']['requireValue'])) { $vn_min_repeats = 1; }
+				
+				$o_view->setVar('min_num_repeats', $vb_batch ? 0 : $vn_min_repeats);
 				$o_view->setVar('min_num_to_display', $vb_batch ? 1 : $t_restriction->getSetting('minimumAttributeBundlesToDisplay'));
 			}
 			
@@ -1743,16 +1801,30 @@
 		 *
 		 */
 		public function htmlFormElement($ps_field, $ps_format=null, $pa_options=null) {
-			if ($vs_source_id_fld_name = $this->getSourceFieldName()) {
+		    $vs_source_id_fld_name = $this->getSourceFieldName();
+		    $vs_type_id_fld_name = $this->getTypeFieldName();
+			if ($vs_source_id_fld_name || $vs_type_id_fld_name) {
+			    $va_field_info = $this->getFieldInfo($ps_field);
+			    $vs_field_label = caGetOption('label', $pa_options, $va_field_info["LABEL"]);
+			    $vs_field_desc = caGetOption('description', $pa_options, $va_field_info["DESCRIPTION"]);
+			    
+			    $vs_element = null;
 				switch($ps_field) {
 					case $vs_source_id_fld_name:
 						if ((bool)$this->getAppConfig()->get('perform_source_access_checking')) {
 							$pa_options['value'] = $this->get($ps_field);
 							$pa_options['disableItemsWithID'] = caGetSourceRestrictionsForUser($this->tableName(), array('access' => __CA_BUNDLE_ACCESS_READONLY__, 'exactAccess' => true));
-							
-							return $this->getSourceListAsHTMLFormElement($ps_field, array(), $pa_options);
+							$vs_element = $this->getSourceListAsHTMLFormElement($pa_options['name'], array(), $pa_options);
 						}
 						break;
+					case $vs_type_id_fld_name:
+						$pa_options['value'] = $this->get($ps_field);
+						$vs_element =  $this->getTypeListAsHTMLFormElement($pa_options['name'], array(), $pa_options);
+						break;
+				}
+				
+				if ($vs_element) {
+				    return str_replace("^DESCRIPTION", $vs_field_desc, str_replace("^LABEL", $vs_field_label, str_replace("^EXTRA", '', str_replace("^ELEMENT", $vs_element, $this->_CONFIG->get('form_element_display_format')))));
 				}
 			}
 			
@@ -2797,6 +2869,64 @@
 			if (is_null($pn_type_id)) { $pn_type_id = $this->getTypeID(); }
 			$va_codes = $this->getApplicableElementCodes($pn_type_id, $pb_include_sub_element_codes, caGetOption('dontCache', $pa_options, false));
 			return (in_array($ps_element_code, $va_codes));
+		}
+		# ------------------------------------------------------------------
+		/**
+		 * Check is a value already is set for a metadata element
+		 *
+		 * @param mixed $pm_element_code_or_id The element code or id
+		 * @param string $ps_value The value
+		 * @param array $pa_options Options include:
+		 *		transaction = A database transaction to execute the search within. [Default is null]
+		 *		value_id = An optional value id to exclude when looking for existing values. [Default is null]
+		 * @return bool True if a value exists
+		 */
+		static public function valueExistsForElement($pm_element_code_or_id, $ps_value, $pa_options=null) {
+			if (!($vn_element_id = ca_metadata_elements::getElementID($pm_element_code_or_id))) { return false; }
+			
+			$o_db = ($o_trans = caGetOption('transaction', $pa_options, null)) ? $o_trans->getDb() : new Db();
+			
+			$va_sql_params = [$vn_element_id, $ps_value];
+			$vs_value_sql = '';
+			if($pn_value_id = caGetOption('value_id', $pa_options, null, ['castTo' => 'int'])) {
+				$va_sql_params[] = $pn_value_id;
+				$vs_value_sql = " AND cav.value_id <> ?";
+			}
+			
+			$qr_values = $o_db->query("
+				SELECT cav.value_id, ca.attribute_id, ca.table_num, ca.row_id
+				FROM ca_attribute_values cav
+				INNER JOIN ca_attributes AS ca ON ca.attribute_id = cav.attribute_id
+				WHERE 
+					cav.element_id = ? AND cav.value_longtext1 = ? {$vs_value_sql}", $va_sql_params);
+
+			// filter deleted
+			$va_ids_by_table = [];
+			while($qr_values->nextRow()) {
+				$va_ids_by_table[$qr_values->get('table_num')][] = $qr_values->get('row_id');
+			}
+			
+			$o_dm = Datamodel::load();
+			foreach($va_ids_by_table as $vn_table_num => $va_row_ids) {
+				if (!($t_instance = $o_dm->getInstanceByTableNum($vn_table_num, true))) {
+					continue;
+				}
+				if (!$t_instance->hasField('deleted')) { continue; }
+				$vs_table_name = $o_dm->getTableName($vn_table_num);
+				$vs_table_pk = $o_dm->primaryKey($vn_table_num);
+				
+				$qr_existant = $o_db->query("
+					SELECT {$vs_table_pk}
+					FROM {$vs_table_name}
+					WHERE 
+						deleted = 0 AND {$vs_table_pk} IN (?)
+					
+				", [$va_row_ids]);
+				if($qr_existant->numRows()>0) {
+					return true;
+				}
+			}
+			return false;
 		}
 		# ------------------------------------------------------------------
 		/**

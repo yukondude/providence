@@ -7,7 +7,7 @@
  * ----------------------------------------------------------------------
  *
  * Software by Whirl-i-Gig (http://www.whirl-i-gig.com)
- * Copyright 2009-2016 Whirl-i-Gig
+ * Copyright 2009-2017 Whirl-i-Gig
  *
  * For more information visit http://www.CollectiveAccess.org
  *
@@ -295,7 +295,7 @@ require_once(__CA_LIB_DIR__."/core/Db.php");
 			$t_item = $o_datamodel->getInstanceByTableNum($pn_table_num, true);
 			
 			$vs_label_table_name = $vn_label_table_num = $vs_label_display_name = null;
-			if (method_exists($t_item, 'getLabelTableName')) {
+			if (method_exists($t_item, 'getLabelTableName') && $t_item->getLabelTableInstance()) {
 				$t_item_label = $t_item->getLabelTableInstance();
 				$vs_label_table_name = $t_item->getLabelTableName();
 				$vn_label_table_num = $t_item_label->tableNum();
@@ -314,6 +314,7 @@ require_once(__CA_LIB_DIR__."/core/Db.php");
 			// Process units
 			//
 			$va_attributes = array();
+			$vn_pseudo_unit_counter = 1;
 			foreach($va_grouped_data as $vn_unit_id => $va_log_entries_by_table) {
 				foreach($va_log_entries_by_table as $vs_table_key => $va_log_entries) {
 					foreach($va_log_entries as $va_log_entry) {
@@ -559,7 +560,14 @@ require_once(__CA_LIB_DIR__."/core/Db.php");
 			
 						// record log line
 						if (sizeof($va_changes)) {
-							$va_log_output[$vn_unit_id][] = array(
+						    if ($vn_unit_id == '') {
+						        $vs_unit_identifier = "U{$vn_pseudo_unit_counter}";
+						        $vn_pseudo_unit_counter++;
+						    } else {
+						        $vs_unit_identifier = $vn_unit_id;
+						    }
+						
+							$va_log_output[$vs_unit_identifier][] = array(
 								'datetime' => $vs_datetime,
 								'timestamp' => $va_log_entry['log_datetime'],
 								'user_id' => $va_log_entry['user_id'],
