@@ -901,6 +901,8 @@ class ca_search_forms extends BundlableLabelableBaseModelWithAttributes {
 				// related table
 				if ($this->getAppConfig()->get($vs_table.'_disable')) { continue; }
 				$t_table = $this->_DATAMODEL->getInstanceByTableName($vs_table, true);
+				
+				$vs_subject_table = null;
 				if ((method_exists($t_table, "getSubjectTableName") && $vs_subject_table = $t_table->getSubjectTableName())) {
 					if ($this->getAppConfig()->get($vs_subject_table.'_disable')) { continue; }
 				}
@@ -909,10 +911,37 @@ class ca_search_forms extends BundlableLabelableBaseModelWithAttributes {
 				foreach($va_fields['fields'] as $vs_field => $va_field_indexing_info) {
 					if (in_array('DONT_INCLUDE_IN_SEARCH_FORM', $va_field_indexing_info)) { continue; }
 
-					if (($va_field_info = $t_table->getFieldInfo($vs_field))) {
+					if ($vs_field === '_count') {
+						if($t_table->isRelationship()) {
+							// Counts on relationship as a whole
+							$t_opp = $t_table->getInstanceOpposite($vs_primary_table);
+							$va_available_bundles[$vs_label = _t('Number of related %1', $t_opp->getProperty('NAME_PLURAL'))][$vs_bundle = "{$vs_table}.count"] = array(
+								'bundle' => $vs_bundle,
+								'label' => $vs_label,
+								'display' => $vs_label,
+								'description' => $vs_description = _t('Count of %1 related to %2', $t_opp->getProperty('NAME_PLURAL'), $t_instance->getProperty('NAME_PLURAL')),
+								'settingsForm' => null,
+								'settings' => []
+							);
+							// Counts on relationship per type
+							foreach($t_table->getRelationshipTypes() as $vn_type_id => $va_type) {
+								$va_available_bundles[$vs_label = _t('Number of related %1 as %2', $t_opp->getProperty('NAME_PLURAL'), $va_type['typename'])][$vs_bundle = "{$vs_table}.count/{$va_type['type_code']}"] = array(
+									'bundle' => $vs_bundle,
+									'label' => $vs_label,
+									'display' => $vs_label,
+									'description' => $vs_description = _t('Count of %1 related to %2 as %3', $t_opp->getProperty('NAME_PLURAL'), $t_instance->getProperty('NAME_PLURAL'), $va_type['typename']),
+									'settingsForm' => null,
+									'settings' => []
+								);
+							}
+						}
+
+						TooltipManager::add(
+							"#searchFormEditor_{$vs_table}_{$vs_field}",
+							"<h2>{$vs_label}</h2>{$vs_description}"
+						);
+					} elseif (($va_field_info = $t_table->getFieldInfo($vs_field))) {
 						if (isset($va_field_info['DONT_USE_AS_BUNDLE']) && $va_field_info['DONT_USE_AS_BUNDLE']) { continue; }
-
-
 
 						$vs_bundle = $vs_table.'.'.$vs_field;
 

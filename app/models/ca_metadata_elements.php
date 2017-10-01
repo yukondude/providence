@@ -385,9 +385,9 @@ class ca_metadata_elements extends LabelableBaseModelWithAttributes implements I
 	 * @param array $pa_options Options include:
 	 * 		noCache = don't use cached values. Default is false (ie. use cached values)
 	 */
-	static public function getElementsForSet($pn_element_id, $pa_options=null) {
+	static public function getElementsForSet($pm_element_code_or_id, $pa_options=null) {
 		$t_element = new ca_metadata_elements();
-		return $t_element->getElementsInSet($pn_element_id, !caGetOption('noCache', $pa_options, false), $pa_options);
+		return $t_element->getElementsInSet($pm_element_code_or_id, !caGetOption('noCache', $pa_options, false), $pa_options);
 	}
 	/**
 	 * Returns array of elements in set of currently loaded row
@@ -397,8 +397,12 @@ class ca_metadata_elements extends LabelableBaseModelWithAttributes implements I
 	 * @param null|array $pa_options
 	 * @return array|null
 	 */
-	public function getElementsInSet($pn_element_id=null, $pb_use_cache=true, $pa_options=null) {
-		if (!$pn_element_id) { $pn_element_id = $this->getPrimaryKey(); }
+	public function getElementsInSet($pm_element_code_or_id=null, $pb_use_cache=true, $pa_options=null) {
+		if (!$pm_element_code_or_id) { 
+			$pn_element_id = $this->getPrimaryKey(); 
+		} else {
+			$pn_element_id = is_numeric($pm_element_code_or_id) ? (int)$pm_element_code_or_id : ca_metadata_elements::getElementID($pm_element_code_or_id); 
+		}
 		if (!$pn_element_id) { return null; }
 
 		if($pb_use_cache && CompositeCache::contains($pn_element_id, 'ElementSets')) {
@@ -899,6 +903,9 @@ class ca_metadata_elements extends LabelableBaseModelWithAttributes implements I
 		return $va_sortable_elements;
 	}
 	# ------------------------------------------------------
+	/**
+	 * TODO: remove
+	 */
 	public static function getDataTypeForElementCode($ps_element_code) {
 		$t_element = new ca_metadata_elements();
 		if($t_element->load(array('element_code' => $ps_element_code))) {
@@ -1154,7 +1161,7 @@ class ca_metadata_elements extends LabelableBaseModelWithAttributes implements I
 		if(is_numeric($pm_element_code_or_id)) { $pm_element_code_or_id = (int) $pm_element_code_or_id; }
 
 		$vm_return = null;
-		$t_element = self::getInstance($pm_element_code_or_id);
+		if (!($t_element = self::getInstance($pm_element_code_or_id))) { return null; }
 
 		if($t_element->getPrimaryKey()) {
 			$vm_return = (int) $t_element->get('list_id');

@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------
  *
  * Software by Whirl-i-Gig (http://www.whirl-i-gig.com)
- * Copyright 2014 Whirl-i-Gig
+ * Copyright 2016 Whirl-i-Gig
  *
  * For more information visit http://www.CollectiveAccess.org
  *
@@ -195,7 +195,7 @@ var caUI = caUI || {};
 				}
 			} else {
 				// In plain word mode, the next non-word, non-dot character ends the token.
-				if (/[\w.]/.test(character)) {
+				if (/[\w\/.]/.test(character)) {
 					token.value += character;
 					queryArray.shift();
 				} else {

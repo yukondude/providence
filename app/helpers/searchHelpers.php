@@ -1349,31 +1349,49 @@
 		return $va_return;
 	}
 	# ---------------------------------------
-	
+	/**
+	 *
+	 */
 	function caGetBundleNameForSearchQueryBuilder($ps_name) {
 		return preg_replace('/^.*\./', '', $ps_name);
 	}
 	# ---------------------------------------
+	/**
+	 *
+	 */
 	function caFlattenContainers(ca_search_forms $t_search_form, $ps_table) {
 		$va_bundles = $t_search_form->getAvailableBundles($ps_table);
 		foreach ($va_bundles as $vs_id => $vo_bundle) {
-			$t_element = ca_metadata_elements::getInstance(caGetBundleNameForSearchQueryBuilder($vo_bundle['bundle']));
-			// Non-strict comparison because `get()` returns a string but the constant is an int.
-			if ($t_element && $t_element->get('datatype') == __CA_ATTRIBUTE_VALUE_CONTAINER__) {
-				foreach ($t_element->getHierarchyChildren() as $vo_child) {
-					$vs_element_code = $vo_child['element_code'];
-					$va_bundles[$vs_element_code] = array(
-						'id' => $vs_element_code,
-						'bundle' => $vo_bundle['bundle'] . '.' . $vs_element_code,
-						'label' => $vo_bundle['label'] . ' - ' . $t_search_form->getAttributeLabel($vs_element_code)
-					);
+			$vs_element_code = caGetBundleNameForSearchQueryBuilder($vo_bundle['bundle']);
+			
+			if (ca_metadata_elements::getElementDatatype($vs_element_code) === __CA_ATTRIBUTE_VALUE_CONTAINER__) {
+				if(is_array($va_sub_elements = ca_metadata_elements::getElementsForSet($vs_element_code))) {
+			
+					foreach($va_sub_elements as $va_sub_element) {
+						if (((int)$va_sub_element['datatype'] === __CA_ATTRIBUTE_VALUE_CONTAINER__) && ($va_sub_element['parent_id'] > 0)) { continue; }	// skip sub-containers
+						$vs_element_code = $va_sub_element['element_code'];
+						
+						if (($va_sub_element['parent_id'] != $va_sub_element['hier_element_id']) && ($t_element = ca_metadata_elements::getInstance($vs_element_code))) {
+							$vs_element_label = $t_element->get('ca_metadata_elements.hierarchy.preferred_labels.name', ['delimiter' => ' - ']);
+						} else {
+							$vs_element_label = $vo_bundle['label'] . ' - ' . $va_sub_element['display_label'];
+						}
+						$va_bundles[$vs_element_code] = array(
+							'id' => $vs_element_code,
+							'bundle' => $vo_bundle['bundle'] . '.' . $vs_element_code,
+							'label' => $vs_element_label
+						);
+					}
+					unset($va_bundles[$vs_id]);
 				}
-				unset($va_bundles[$vs_id]);
 			}
 		}
 		return $va_bundles;
 	}
 	# ---------------------------------------
+	/**
+	 *
+	 */
 	function caGetQueryBuilderFilters(BaseModel $t_subject, Configuration $po_query_builder_config) {
 		$vs_table = $t_subject->tableName();
 		$t_search_form = new ca_search_forms();
@@ -1388,6 +1406,7 @@
 			return array_search($vo_filter['id'], $va_exclude) === false;
 		});
 		$va_priority = $po_query_builder_config->get('query_builder_priority_' . $vs_table);
+	
 		usort($va_filters, function ($pa_a, $pa_b) use ($va_priority, $vs_table) {
 			$vs_a_id = $pa_a['id'];
 			$vs_b_id = $pa_b['id'];
@@ -1417,18 +1436,39 @@
 					return strcasecmp($pa_a['label'], $pa_b['label']);
 				} elseif (!$vb_a_is_main_table && !$vb_b_is_main_table) {
 					// Both (a, b) are in other tables, so sort alphabetically by table.
-					return strcasecmp($vs_a_table, $vs_b_table);
+					//	return strcasecmp($vs_a_table, $vs_b_table);
+					
+					// ACTUALLY... why not make it alphabetical so it doesn't look so messy?
+					return strcasecmp($pa_a['label'], $pa_b['label']);
 				} else {
 					// One of (a, b) is in the main table and the other isn't, so put the one in the main table first.
 					return $vb_a_is_main_table ? -1 : 1;
 				}
 			}
 		});
+		
+		// rewrite nested containers as indented items
+		$va_seen = [];
+		foreach($va_filters as $vn_i => $va_filter) {
+			if (strpos($va_filter['label'], ' - ')) {
+				$va_tmp = explode(' - ', $va_filter['label']);
+				if (isset($va_seen[$va_tmp[0]])) {
+					$va_filters[$vn_i]['label'] = str_repeat("&nbsp;", sizeof($va_tmp) * 3).array_pop($va_tmp);
+				}
+			} else {
+				$va_seen[$va_filter['label']] = true;
+			}
+		}
+		
 		return $va_filters;
 	}
 	# ---------------------------------------
+	/**
+	 *
+	 */
 	function caMapBundleToQueryBuilderFilterDefinition(BaseModel $t_subject, $pa_bundle, Configuration $vo_query_builder_config) {
 		$vs_name = $pa_bundle['bundle'];
+		$va_name = explode('.', $vs_name);
 		$vs_name_no_table = caGetBundleNameForSearchQueryBuilder($vs_name);
 		$vs_table = $t_subject->tableName();
 		$va_priority = $vo_query_builder_config->get('query_builder_priority_' . $vs_table);
@@ -1470,14 +1510,11 @@
 					$va_result['type'] = 'datetime';
 					break;
 			}
-		} else {
-			$t_element = ca_metadata_elements::getInstance($vs_name_no_table);
-			if ($t_element) {
-				// Get the list code and display type for further processing below.
-				$vs_list_code = $t_element->get('list_id');
+		} elseif(ca_metadata_elements::getElementID($vs_name_no_table)) {
+				$vs_list_code = ca_metadata_elements::getElementListID($vs_name_no_table);
 				$vn_display_type = $vs_list_code ? DT_SELECT : DT_FIELD;
 				// Convert CA attribute datatype to query builder type and operators.
-				switch ($t_element->get('datatype')) {
+				switch (ca_metadata_elements::getElementDatatype($vs_name_no_table)) { 
 					case __CA_ATTRIBUTE_VALUE_CURRENCY__:
 					case __CA_ATTRIBUTE_VALUE_LENGTH__:
 					case __CA_ATTRIBUTE_VALUE_NUMERIC__:
@@ -1494,8 +1531,11 @@
 						$va_result['type'] = 'time';
 						break;
 				}
-			}
+		} elseif(preg_match("!^count[/\.]{1}!", $va_name[1]))  {
+			// counts are always ints
+			$va_result['type'] = 'integer';
 		}
+		
 		// Use the relevant input field type and operators based on type.
 		$va_result['operators'] = $va_operators_by_type[$va_result['type']];
 		// Process list types and use a text field for non-list types.
@@ -1503,11 +1543,11 @@
 			if (!$va_select_options) {
 				$va_select_options = array();
 				$t_list = new ca_lists();
-				$va_items = $t_list->getItemsForList($vs_list_code);
+				$va_items = $t_list->getItemsForList($vs_list_code, ['returnHierarchyLevels' => true]);
 				if (is_array($va_items)) {
 					foreach ($va_items as $va_item) {
 						foreach ($va_item as $va_item_details) {
-							$va_select_options[$va_item_details['idno']] = $va_item_details['name_singular'];
+							$va_select_options[$va_item_details['idno']] = str_repeat("&nbsp;", (int)$va_item_details['LEVEL'] * 3).$va_item_details['name_singular'];
 						}
 					}
 				}
