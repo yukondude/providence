@@ -39,4 +39,5 @@ CKEDITOR.editorConfig = function( config ) {
 	config.baseFloatZIndex = 99999;
 	
 	startupFocus : false;
+	config.disableNativeSpellChecker = false;
 };
