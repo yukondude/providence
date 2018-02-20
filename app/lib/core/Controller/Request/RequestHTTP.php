@@ -7,7 +7,7 @@
  * ----------------------------------------------------------------------
  *
  * Software by Whirl-i-Gig (http://www.whirl-i-gig.com)
- * Copyright 2007-2014 Whirl-i-Gig
+ * Copyright 2007-2017 Whirl-i-Gig
  *
  * For more information visit http://www.CollectiveAccess.org
  *
@@ -744,7 +744,9 @@ class RequestHTTP extends Request {
 			$this->user->setVar('last_login', time(), array('volatile' => true));
 			$this->user->setLastLogout($this->user->getLastPing(), array('volatile' => true));
 			
-			//$this->user->close(); ** will be called externally **
+			$this->user->setMode(ACCESS_WRITE);
+			$this->user->update();
+			
 			$AUTH_CURRENT_USER_ID = $vn_user_id;
 
 			if ($pa_options['redirect']) {
