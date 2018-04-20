@@ -2225,65 +2225,6 @@ class BaseEditorController extends ActionController {
 		$this->render('object_representation_process_media_json.php');
 	}
 	# -------------------------------------------------------
-	/**
-	 * Undo changes made in representation editor to representation media
-	 *
-	 */
-	public function RevertMedia() {
-		list($vn_object_id, $t_object) = $this->_initView();
-		$pn_representation_id 	= $this->request->getParameter('representation_id', pInteger);
-		if(!$vn_object_id) { $vn_object_id = 0; }
-		$t_rep = new ca_object_representations($pn_representation_id);
-		if ($t_rep->removeMediaTransformations('media')) {
-			$va_response = array(
-				'action' => 'revert', 'status' => 0
-			);
-		} else {
-			$va_response = array(
-				'action' => 'revert', 'status' => 10
-			);
-		}
-		$this->view->setVar('response', $va_response);
-		$this->render('object_representation_process_media_json.php');
-	}
-	# -------------------------------------------------------
-	/**
-	 *
-	 */
-	public function StartMediaReplication() {
-		$pn_representation_id = $this->request->getParameter('representation_id', pInteger);
-		$ps_target = $this->request->getParameter('target', pString);
-		$t_rep = new ca_object_representations($pn_representation_id);
-
-		$this->view->setVar('target_list', $t_rep->getAvailableMediaReplicationTargetsAsHTMLFormElement('target', 'media'));
-		$this->view->setVar('representation_id', $pn_representation_id);
-		$this->view->setVar('t_representation', $t_rep);
-		$this->view->setVar('selected_target', $ps_target);
-
-		$t_rep->replicateMedia('media', $ps_target);
-
-		$this->MediaReplicationControls($t_rep);
-	}
-	# -------------------------------------------------------
-	/**
-	 *
-	 */
-	public function RemoveMediaReplication() {
-		$pn_representation_id = $this->request->getParameter('representation_id', pInteger);
-		$ps_target = $this->request->getParameter('target', pString);
-		$ps_key = urldecode($this->request->getParameter('key', pString));
-		$t_rep = new ca_object_representations($pn_representation_id);
-
-		$this->view->setVar('target_list', $t_rep->getAvailableMediaReplicationTargetsAsHTMLFormElement('target', 'media'));
-		$this->view->setVar('representation_id', $pn_representation_id);
-		$this->view->setVar('t_representation', $t_rep);
-		$this->view->setVar('selected_target', $ps_target);
-
-		$t_rep->removeMediaReplication('media', $ps_target, $ps_key);
-
-		$this->MediaReplicationControls($t_rep);
-	}
-	# -------------------------------------------------------
 	# File download
 	# -------------------------------------------------------
 	/**
