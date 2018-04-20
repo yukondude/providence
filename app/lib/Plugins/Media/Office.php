@@ -43,7 +43,6 @@ require_once(__CA_LIB_DIR__."/Plugins/IWLPlugMedia.php");
 require_once(__CA_LIB_DIR__."/Configuration.php");
 require_once(__CA_LIB_DIR__."/Media.php");
 require_once(__CA_APP_DIR__."/helpers/mediaPluginHelpers.php");
-require_once(__CA_LIB_DIR__."/Parsers/UnZipFile.php");
 
 class WLPlugMediaOffice Extends BaseMediaPlugin Implements IWLPlugMedia {
 	var $errors = array();
