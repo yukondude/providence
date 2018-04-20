@@ -37,6 +37,7 @@
 require_once(__CA_LIB_DIR__.'/Attributes/Attribute.php');
 require_once(__CA_MODELS_DIR__.'/ca_attribute_value_multifiles.php');
 require_once(__CA_LIB_DIR__."/SyncableBaseModel.php");
+require_once(__CA_LIB_DIR__."/MediaModelTrait.php");
 
 
 BaseModel::$s_ca_models_definitions['ca_attribute_values'] = array(
@@ -127,7 +128,10 @@ BaseModel::$s_ca_models_definitions['ca_attribute_values'] = array(
 
 class ca_attribute_values extends BaseModel {
 	# ---------------------------------
-	use SyncableBaseModel;
+	
+	use SyncableBaseModel;	
+	use MediaModelTrait;
+
 	# ---------------------------------
 	# --- Object attribute properties
 	# ---------------------------------

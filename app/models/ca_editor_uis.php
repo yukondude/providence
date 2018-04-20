@@ -36,6 +36,7 @@
 require_once(__CA_LIB_DIR__.'/BundlableLabelableBaseModelWithAttributes.php');
 require_once(__CA_MODELS_DIR__.'/ca_editor_ui_screens.php');
 require_once(__CA_MODELS_DIR__.'/ca_editor_ui_type_restrictions.php');
+require_once(__CA_LIB_DIR__."/MediaModelTrait.php");
 
 
 BaseModel::$s_ca_models_definitions['ca_editor_uis'] = array(
@@ -126,6 +127,9 @@ BaseModel::$s_ca_models_definitions['ca_editor_uis'] = array(
 );
 
 class ca_editor_uis extends BundlableLabelableBaseModelWithAttributes {
+	
+	use MediaModelTrait;
+
 	# ---------------------------------
 	# --- Object attribute properties
 	# ---------------------------------

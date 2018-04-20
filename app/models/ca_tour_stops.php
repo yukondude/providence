@@ -39,6 +39,7 @@ require_once(__CA_LIB_DIR__.'/IHierarchy.php');
 require_once(__CA_MODELS_DIR__.'/ca_tours.php');
 require_once(__CA_MODELS_DIR__.'/ca_locales.php');
 require_once(__CA_APP_DIR__.'/helpers/tourHelpers.php');
+require_once(__CA_LIB_DIR__."/MediaModelTrait.php");
 
 
 BaseModel::$s_ca_models_definitions['ca_tour_stops'] = array(
@@ -180,6 +181,9 @@ BaseModel::$s_ca_models_definitions['ca_tour_stops'] = array(
 );
 
 class ca_tour_stops extends BundlableLabelableBaseModelWithAttributes {
+	
+	use MediaModelTrait;
+
 	# ---------------------------------
 	# --- Object attribute properties
 	# ---------------------------------

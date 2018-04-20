@@ -38,6 +38,7 @@ require_once(__CA_LIB_DIR__."/IBundleProvider.php");
 require_once(__CA_LIB_DIR__."/RepresentableBaseModel.php");
 require_once(__CA_LIB_DIR__.'/IHierarchy.php');
 require_once(__CA_MODELS_DIR__."/ca_lists.php");
+require_once(__CA_LIB_DIR__."/MediaModelTrait.php");
 
 
 BaseModel::$s_ca_models_definitions['ca_places'] = array(
@@ -200,6 +201,9 @@ BaseModel::$s_ca_models_definitions['ca_places'] = array(
 );
 
 class ca_places extends RepresentableBaseModel implements IBundleProvider, IHierarchy {
+	
+	use MediaModelTrait;
+
 	# ------------------------------------------------------
 	# --- Object attribute properties
 	# ------------------------------------------------------

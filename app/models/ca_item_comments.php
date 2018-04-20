@@ -36,6 +36,7 @@
 
 require_once(__CA_LIB_DIR__.'/BaseModel.php');
 require_once(__CA_LIB_DIR__.'/Parsers/TimeExpressionParser.php');
+require_once(__CA_LIB_DIR__."/MediaModelTrait.php");
 
 
 BaseModel::$s_ca_models_definitions['ca_item_comments'] = array(
@@ -212,6 +213,9 @@ BaseModel::$s_ca_models_definitions['ca_item_comments'] = array(
 );
 
 class ca_item_comments extends BaseModel {
+	
+	use MediaModelTrait;
+
 	# ---------------------------------
 	# --- Object attribute properties
 	# ---------------------------------

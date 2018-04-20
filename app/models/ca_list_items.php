@@ -39,6 +39,7 @@ require_once(__CA_LIB_DIR__.'/RepresentableBaseModel.php');
 require_once(__CA_LIB_DIR__.'/IHierarchy.php');
 require_once(__CA_MODELS_DIR__.'/ca_lists.php');
 require_once(__CA_MODELS_DIR__.'/ca_locales.php');
+require_once(__CA_LIB_DIR__."/MediaModelTrait.php");
 
 
 BaseModel::$s_ca_models_definitions['ca_list_items'] = array(
@@ -389,6 +390,9 @@ $_ca_list_items_settings = array(
 );
 
 class ca_list_items extends RepresentableBaseModel implements IHierarchy {
+	
+	use MediaModelTrait;
+
 	# ------------------------------------------------------
 	# --- Object attribute properties
 	# ------------------------------------------------------

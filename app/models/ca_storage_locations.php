@@ -38,6 +38,7 @@ require_once(__CA_LIB_DIR__."/IBundleProvider.php");
 require_once(__CA_LIB_DIR__."/RepresentableBaseModel.php");
 require_once(__CA_LIB_DIR__.'/IHierarchy.php');
 require_once(__CA_LIB_DIR__."/BaseObjectLocationModel.php");
+require_once(__CA_LIB_DIR__."/MediaModelTrait.php");
 
 
 BaseModel::$s_ca_models_definitions['ca_storage_locations'] = array(
@@ -191,6 +192,9 @@ BaseModel::$s_ca_models_definitions['ca_storage_locations'] = array(
 );
 
 class ca_storage_locations extends BaseObjectLocationModel implements IBundleProvider, IHierarchy {
+	
+	use MediaModelTrait;
+
 	# ------------------------------------------------------
 	# --- Object attribute properties
 	# ------------------------------------------------------

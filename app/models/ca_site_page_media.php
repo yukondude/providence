@@ -35,6 +35,7 @@
    */
  
 require_once(__CA_LIB_DIR__.'/BaseModel.php');
+require_once(__CA_LIB_DIR__."/MediaModelTrait.php");
 
 
 BaseModel::$s_ca_models_definitions['ca_site_page_media'] = array(
@@ -183,6 +184,9 @@ BaseModel::$s_ca_models_definitions['ca_site_page_media'] = array(
 );
 
 class ca_site_page_media extends BundlableLabelableBaseModelWithAttributes {
+	
+	use MediaModelTrait;
+
 	# ---------------------------------
 	# --- Object attribute properties
 	# ---------------------------------

@@ -254,13 +254,6 @@
 	
 				<br class="clear"/>
 			</div>
-			<script type="text/javascript">
-				jQuery(document).ready(function() {
-					if (caMediaReplicationMimeTypes.indexOf('{mimetype}') !== -1) {	// is replication configured for this media?
-						jQuery("#{fieldNamePrefix}media_replication_container_{n}").css("display", "block");
-					}
-				});
-			</script>
 <?php
 			print TooltipManager::getLoadHTML('bundle_ca_object_representations');
 ?>
@@ -443,8 +436,6 @@
 			jQuery('#<?php print $vs_id_prefix; ?>_is_primary_indicator_' + id).show();
 		}
 	}
-	
-	var caMediaReplicationMimeTypes = <?php print json_encode(MediaReplicator::getMediaReplicationMimeTypes()); ?>;
 	
 	var caAnnoEditor<?php print $vs_id_prefix; ?>;
 	var caImageCenterEditor<?php print $vs_id_prefix; ?>;

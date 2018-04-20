@@ -43,6 +43,7 @@ require_once(__CA_MODELS_DIR__."/ca_user_representation_annotation_labels.php");
 require_once(__CA_MODELS_DIR__."/ca_object_representation_multifiles.php");
 require_once(__CA_MODELS_DIR__."/ca_object_representation_captions.php");
 require_once(__CA_APP_DIR__."/helpers/mediaPluginHelpers.php");
+require_once(__CA_LIB_DIR__."/MediaModelTrait.php");
 
 
 BaseModel::$s_ca_models_definitions['ca_object_representations'] = array(
@@ -228,6 +229,9 @@ BaseModel::$s_ca_models_definitions['ca_object_representations'] = array(
 );
 
 class ca_object_representations extends BundlableLabelableBaseModelWithAttributes implements IBundleProvider {
+	
+	use MediaModelTrait;
+
 	# ---------------------------------
 	# --- Object attribute properties
 	# ---------------------------------

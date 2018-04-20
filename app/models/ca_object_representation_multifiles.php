@@ -35,6 +35,7 @@
    */
 
 require_once(__CA_LIB_DIR__."/BaseModel.php");
+require_once(__CA_LIB_DIR__."/MediaModelTrait.php");
 
 
 BaseModel::$s_ca_models_definitions['ca_object_representation_multifiles'] = array(
@@ -97,6 +98,9 @@ BaseModel::$s_ca_models_definitions['ca_object_representation_multifiles'] = arr
 );
 
 class ca_object_representation_multifiles extends BaseModel {
+	
+	use MediaModelTrait;
+
 	# ---------------------------------
 	# --- Object attribute properties
 	# ---------------------------------

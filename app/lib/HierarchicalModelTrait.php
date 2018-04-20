@@ -1256,5 +1256,109 @@ trait HierarchicalModelTrait {
 			}
 		}
 	}
+	
+	/**
+	 *
+	 */
+	 private function _calcHierarchicalIndexing($pa_parent_info) {
+	 	$vs_hier_left_fld = $this->getProperty('HIERARCHY_LEFT_INDEX_FLD');
+	 	$vs_hier_right_fld = $this->getProperty('HIERARCHY_RIGHT_INDEX_FLD');
+	 	$vs_hier_id_fld = $this->getProperty('HIERARCHY_ID_FLD');
+	 	$vs_parent_fld = $this->getProperty('HIERARCHY_PARENT_ID_FLD');
+	 	
+	 	$o_db = $this->getDb();
+	 	
+	 	$qr_up = $o_db->query("
+			SELECT MAX({$vs_hier_right_fld}) maxChildRight
+			FROM ".$this->tableName()."
+			WHERE
+				({$vs_hier_left_fld} > ?) AND
+				({$vs_hier_right_fld} < ?) AND (".$this->primaryKey()." <> ?)".
+				($vs_hier_id_fld ? " AND ({$vs_hier_id_fld} = ".intval($pa_parent_info[$vs_hier_id_fld]).")" : '')."
+		", $pa_parent_info[$vs_hier_left_fld], $pa_parent_info[$vs_hier_right_fld], $pa_parent_info[$this->primaryKey()]);
+	 
+	 	if ($qr_up->nextRow()) {
+	 		if (!($vn_gap_start = $qr_up->get('maxChildRight'))) {
+	 			$vn_gap_start = $pa_parent_info[$vs_hier_left_fld];
+	 		}
+	 	
+			$vn_gap_end = $pa_parent_info[$vs_hier_right_fld];
+			$vn_gap_size = ($vn_gap_end - $vn_gap_start);
+			
+			if ($vn_gap_size < 0.00001) {
+				// rebuild hierarchical index if the current gap is not large enough to fit current record
+				$this->rebuildHierarchicalIndex($this->get($vs_hier_id_fld));
+				$pa_parent_info = $this->_getHierarchyParent($pa_parent_info[$this->primaryKey()]);
+				return $this->_calcHierarchicalIndexing($pa_parent_info);
+			}
+
+			if (($vn_scale = strlen(floor($vn_gap_size/10000))) < 1) { $vn_scale = 1; } 
+
+			$vn_interval_start = $vn_gap_start + ($vn_gap_size/(pow(10, $vn_scale)));
+			$vn_interval_end = $vn_interval_start + ($vn_gap_size/(pow(10, $vn_scale)));
+			
+			//print "--------------------------\n";
+			//print "GAP START={$vn_gap_start} END={$vn_gap_end} SIZE={$vn_gap_size} SCALE={$vn_scale} INC=".($vn_gap_size/(pow(10, $vn_scale)))."\n";
+			//print "INT START={$vn_interval_start} INT END={$vn_interval_end}\n";
+			//print "--------------------------\n";
+			return array('left' => $vn_interval_start, 'right' => $vn_interval_end);
+	 	}
+	 	return null;
+	 }
+	 
+	 /**
+	  *
+	  */
+	 private function _getHierarchyParent($pn_parent_id) {
+	 	$o_db = $this->getDb();
+	 	$qr_get_parent = $o_db->query("
+			SELECT *
+			FROM ".$this->tableName()."
+			WHERE 
+				".$this->primaryKey()." = ?
+		", intval($pn_parent_id));
+		
+		if($qr_get_parent->nextRow()) {
+			return $qr_get_parent->getRow();
+		}
+		return null;
+	 }
+	 
+	 /**
+	  * Internal-use-only function for getting child record ids in a hierarchy. Unlike the public getHierarchyChildren() method
+	  * which uses nested set hierarchical indexing to fetch all children in a single pass (and also can return more than just the id's 
+	  * of the children), _getHierarchyChildren() recursively traverses the hierarchy using parent_id field values. This makes it useful for
+	  * getting children in situations when the hierarchical indexing may not be valid, such as when moving items between hierarchies.
+	  *
+	  * @access private
+	  * @param array $pa_ids List of ids to get children for
+	  * @return array ids of all children of specified ids. List includes the original specified ids.
+	  */
+	 private function _getHierarchyChildren($pa_ids) {
+		if(!is_array($pa_ids)) { return null; }
+		if (!sizeof($pa_ids)) { return null; }
+	 	if (!($vs_parent_id_fld = $this->getProperty('HIERARCHY_PARENT_ID_FLD'))) { return null; }
+	 	
+	 	foreach($pa_ids as $vn_i => $vn_v) {
+	 		$pa_ids[$vn_i] = (int)$vn_v;
+	 	}
+	 	
+	 	$o_db = $this->getDb();
+	 	$qr_get_children = $o_db->query("
+			SELECT ".$this->primaryKey()."
+			FROM ".$this->tableName()."
+			WHERE 
+				{$vs_parent_id_fld} IN (?)
+		", array($pa_ids));
+		
+		$va_child_ids = $qr_get_children->getAllFieldValues($this->primaryKey());
+		if (($va_child_ids && is_array($va_child_ids) && sizeof($va_child_ids) > 0)) { 
+			$va_child_ids = array_merge($va_child_ids, $this->_getHierarchyChildren($va_child_ids));
+		}
+		if (!is_array($va_child_ids)) { $va_child_ids = array(); }
+		
+		$va_child_ids = array_merge($pa_ids, $va_child_ids);
+		return array_unique($va_child_ids, SORT_STRING);
+	 }
 	# --------------------------------------------------------------------------------------------
 }
