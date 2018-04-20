@@ -50,8 +50,5 @@
 		<style type="text/css">
 			@page { margin: {{{marginTop}}} {{{marginRight}}} {{{marginBottom}}} {{{marginLeft}}}; }
 		</style>
-		<script type="text/javascript">
-			var PhantomJSPrinting = {};
-		</script>
 	</head>
 	<body>

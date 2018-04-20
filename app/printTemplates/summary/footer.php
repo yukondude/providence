@@ -57,20 +57,6 @@
 </div>
 <?php
 				break;
-			
-			case 'PhantomJS':
-?>
-			<script type="text/javascript">
-				// For PhantomJS
-				PhantomJSPrinting['footer'] = {
-					height: "50mm",
-					contents: function(pageNum, numPages) { 
-						return '<div style="position: relative;width: 100%; height: 100px; text-align: center;"><?php print addslashes($vs_footer); ?></div>';	
-					}
-				};
-			</script>
-<?php
-				break;
 			case 'wkhtmltopdf':
 ?>
 <!--BEGIN FOOTER-->
