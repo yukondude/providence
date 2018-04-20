@@ -577,4 +577,3 @@ function analyze() // Parse headers to retrieve identification and comments info
 	return($this->creturn(true));	
 	}
 }
-?>
