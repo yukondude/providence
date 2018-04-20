@@ -178,7 +178,7 @@ require_once(__CA_LIB_DIR__.'/Configuration.php');
  			
  			$va_types = Attribute::getAttributeTypes();
  			if (isset($va_types[$pn_datatype])) {
- 				// we look for a class in lib/ca/Attributes/Values with the datatype name + 'AttributeValue'
+ 				// we look for a class in lib/Attributes/Values with the datatype name + 'AttributeValue'
  				$vs_classname = $va_types[$pn_datatype].'AttributeValue';
  				
  				if(!class_exists($vs_classname)) {

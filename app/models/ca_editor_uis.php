@@ -844,7 +844,7 @@ class ca_editor_uis extends BundlableLabelableBaseModelWithAttributes {
 	# ----------------------------------------
 	/**
 	 *	Return navigation configuration fragment suitable for insertion into the navigation.conf structure.
-	 *	Can be used by lib/core/AppNavigation to dynamically insert navigation for screens into navigation tree
+	 *	Can be used by lib/AppNavigation to dynamically insert navigation for screens into navigation tree
 	 *
 	 * @param RequestHTTP $po_request
 	 * @param int $pn_type_id
