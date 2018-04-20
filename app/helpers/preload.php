@@ -76,7 +76,7 @@ require_once(__CA_LIB_DIR__.'/Cache/ExternalCache.php');
 require_once(__CA_LIB_DIR__.'/Cache/CompositeCache.php');
 require_once(__CA_LIB_DIR__.'/Cache/MemoryCache.php');
 
-require_once(__CA_LIB_DIR__.'/GarbageCollection.php');
+require_once(__CA_LIB_DIR__.'/Cache/GarbageCollection.php');
 require_once(__CA_APP_DIR__.'/helpers/guidHelpers.php');
 
 require_once(__CA_LIB_DIR__."/Datamodel.php");

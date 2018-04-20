@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/GarbageCollection.php : configuration check singleton class
+ * app/lib/Cache/GarbageCollection.php : configuration check singleton class
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
