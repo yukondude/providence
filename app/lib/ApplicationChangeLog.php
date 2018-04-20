@@ -34,9 +34,9 @@
   *
   */
   
-require_once(__CA_LIB_DIR__."/core/Configuration.php");
-require_once(__CA_LIB_DIR__."/core/Datamodel.php");
-require_once(__CA_LIB_DIR__."/core/Db.php");
+require_once(__CA_LIB_DIR__."/Configuration.php");
+require_once(__CA_LIB_DIR__."/Datamodel.php");
+require_once(__CA_LIB_DIR__."/Db.php");
  
  class ApplicationChangeLog {
  	# ----------------------------------------------------------------------
@@ -395,7 +395,7 @@ require_once(__CA_LIB_DIR__."/core/Db.php");
 										$va_rel = Datamodel::getManyToOneRelations($t_obj->tableName(), $vs_field);
 										$va_rel_values = array();
 											
-										if ($t_rel_obj = Datamodel::getTableInstance($va_rel['one_table'], true)) {
+										if ($t_rel_obj = Datamodel::getInstanceByTableName($va_rel['one_table'], true)) {
 											$t_rel_obj->load($vs_value);
 											
 											foreach($va_disp_fields as $vs_display_field) {
@@ -414,7 +414,7 @@ require_once(__CA_LIB_DIR__."/core/Db.php");
 										
 										if ($t_user && !$t_user->getBundleAccessLevel($t_item->tableName(), $va_keys['one_table'])) { continue; }	// does user have access to this bundle?
 								
-										if ($t_rel_obj = Datamodel::getTableInstance($va_keys['one_table'], true)) {
+										if ($t_rel_obj = Datamodel::getInstanceByTableName($va_keys['one_table'], true)) {
 											if ($t_rel_obj->load($vs_value)) {
 												if (method_exists($t_rel_obj, 'getLabelForDisplay')) {
 													$vs_proc_val = $t_rel_obj->getLabelForDisplay(false);
@@ -798,7 +798,7 @@ require_once(__CA_LIB_DIR__."/core/Db.php");
  	public function getDeletions($pm_table_name_or_num, $pa_options=null) {
  		 		$vn_table_num = Datamodel::getTableNum($pm_table_name_or_num);
  		$vs_table_name = Datamodel::getTableName($pm_table_name_or_num);
- 		$t_subject = Datamodel::getInstanceByTableNun($vn_table_num, true);
+ 		$t_subject = Datamodel::getInstanceByTableNum($vn_table_num, true);
  		
 		$pa_datetime_range = (isset($pa_options['range']) && is_array($pa_options['range'])) ? $pa_options['range'] : null;
 		$pn_max_num_entries_returned = (isset($pa_options['limit']) && (int)$pa_options['limit']) ? (int)$pa_options['limit'] : 0;

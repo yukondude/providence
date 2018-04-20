@@ -182,7 +182,7 @@
 	function caSearchUrl($po_request, $ps_table, $ps_search=null, $pb_return_url_as_pieces=false, $pa_additional_parameters=null, $pa_options=null) {
 				
 		if (is_numeric($ps_table)) {
-			if (!($t_table = Datamodel::getInstanceByTableNun($ps_table, true))) { return null; }
+			if (!($t_table = Datamodel::getInstanceByTableNum($ps_table, true))) { return null; }
 		} else {
 			if (!($t_table = Datamodel::getInstanceByTableName($ps_table, true))) { return null; }
 		}
@@ -1059,7 +1059,7 @@
 		$pm_table_name_or_num = Datamodel::getTableNum($pm_table_name_or_num);
 		if (!$pm_table_name_or_num) { return null; }
 		
-		$t_instance = Datamodel::getInstanceByTableNun($pm_table_name_or_num, true);
+		$t_instance = Datamodel::getInstanceByTableNum($pm_table_name_or_num, true);
 		$va_search_settings = $o_indexing_config->getAssoc(Datamodel::getTableName($pm_table_name_or_num));
 		
 		$vs_primary_table = $t_instance->tableName();

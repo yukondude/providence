@@ -604,10 +604,10 @@ class ca_data_exporters extends BundlableLabelableBaseModelWithAttributes {
 	 * Get instance for exporter target table
 	 * @return BaseModel|null
 	 */
-	public function getTargetTableInstance() {
+	public function getTargetInstanceByTableName() {
 		if(!$this->getPrimaryKey()) { return null; }
 
-				return Datamodel::getTableInstance($this->get('table_num'));
+				return Datamodel::getInstanceByTableName($this->get('table_num'));
 	}
 	# ------------------------------------------------------
 	/**
@@ -2159,7 +2159,7 @@ class ca_data_exporters extends BundlableLabelableBaseModelWithAttributes {
 		if(isset(ca_data_exporters::$s_instance_cache[$pn_table_num."/".$pn_record_id])) {
 			return ca_data_exporters::$s_instance_cache[$pn_table_num."/".$pn_record_id];
 		} else {
-						$t_instance = Datamodel::getInstanceByTableNun($pn_table_num);
+						$t_instance = Datamodel::getInstanceByTableNum($pn_table_num);
 			if(!$t_instance->load($pn_record_id)) {
 				return false;
 			}

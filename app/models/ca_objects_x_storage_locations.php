@@ -34,7 +34,7 @@
    *
    */
 require_once(__CA_LIB_DIR__.'/ObjectRelationshipBaseModel.php');
-require_once(__CA_LIB_DIR__."/ca/CurrentLocationCriterionTrait.php");
+require_once(__CA_LIB_DIR__."/CurrentLocationCriterionTrait.php");
 
 
 BaseModel::$s_ca_models_definitions['ca_objects_x_storage_locations'] = array(

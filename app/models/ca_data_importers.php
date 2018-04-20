@@ -46,7 +46,7 @@ require_once(__CA_MODELS_DIR__."/ca_locales.php");
 require_once(__CA_MODELS_DIR__."/ca_sets.php");
 require_once(__CA_LIB_DIR__.'/Logging/KLogger/KLogger.php');
 require_once(__CA_LIB_DIR__.'/Parsers/ExpressionParser.php');
-require_once(__CA_LIB_DIR__."/ca/ApplicationPluginManager.php");
+require_once(__CA_LIB_DIR__."/ApplicationPluginManager.php");
 require_once(__CA_LIB_DIR__.'/Db/Transaction.php');
 
 
@@ -1374,7 +1374,7 @@ class ca_data_importers extends BundlableLabelableBaseModelWithAttributes {
 		
 		// What are we importing?
 		$vn_table_num = $t_mapping->get('table_num');
-		if (!($t_subject = Datamodel::getInstanceByTableNun($vn_table_num))) {
+		if (!($t_subject = Datamodel::getInstanceByTableNum($vn_table_num))) {
 			// invalid table
 			$o_log->logError(_t('Mapping uses invalid table %1 as target', $vn_table_num));
 			if ($o_trans) { $o_trans->rollback(); }
@@ -1682,7 +1682,7 @@ class ca_data_importers extends BundlableLabelableBaseModelWithAttributes {
 			}
 			
 			foreach($va_idnos_for_row as $vs_idno) {
-				$t_subject = Datamodel::getInstanceByTableNun($vn_table_num);
+				$t_subject = Datamodel::getInstanceByTableNum($vn_table_num);
 				if ($o_trans) { $t_subject->setTransaction($o_trans); }
 				$t_subject->setMode(ACCESS_WRITE);
 			

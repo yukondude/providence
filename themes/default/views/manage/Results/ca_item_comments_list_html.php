@@ -72,7 +72,7 @@
 
 <?php	
 		while(($vn_item_count < $vn_items_per_page) && $vo_result->nextHit()) {
-			if (!($t_table = Datamodel::getInstanceByTableNun($vo_result->get('ca_item_comments.table_num'), true))) {
+			if (!($t_table = Datamodel::getInstanceByTableNum($vo_result->get('ca_item_comments.table_num'), true))) {
 				continue;
 			}
 ?>

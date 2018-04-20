@@ -93,7 +93,7 @@
 			<tr <?php print ($i ==1) ? "class='odd'" : ""; ?>>
 				<td>
 <?php
-						if ($t_rel = Datamodel::getInstanceByTableNun($vo_result->get('table_num'), true)) {
+						if ($t_rel = Datamodel::getInstanceByTableNum($vo_result->get('table_num'), true)) {
 							print ' (<i>'.$t_rel->getProperty('NAME_SINGULAR').'</i>)';
 						}
 ?>

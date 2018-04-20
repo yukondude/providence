@@ -33,7 +33,7 @@
  /**
   *
   */
-	require_once(__CA_LIB_DIR__."/ca/BaseFindController.php");
+	require_once(__CA_LIB_DIR__."/BaseFindController.php");
 	
 	class BaseRefineableSearchController extends BaseFindController {
 		# -------------------------------------------------------
@@ -107,7 +107,7 @@
  			
  			// generate type menu and type value list for related authority table facet
  			if ($va_facet_info['type'] === 'authority') {
-				$t_model = Datamodel::getTableInstance($va_facet_info['table']);
+				$t_model = Datamodel::getInstanceByTableName($va_facet_info['table']);
 				if (method_exists($t_model, "getTypeList")) {
 					$this->view->setVar('type_list', $t_model->getTypeList());
 				}

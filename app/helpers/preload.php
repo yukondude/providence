@@ -36,14 +36,16 @@
 require_once(__CA_APP_DIR__."/helpers/errorHelpers.php");
 require_once(__CA_BASE_DIR__.'/vendor/autoload.php');	// composer
 
-require_once(__CA_LIB_DIR__."/core/Zend/Translate.php");
-require_once(__CA_LIB_DIR__."/core/Zend/Cache.php");
-require_once(__CA_LIB_DIR__."/core/Cache/MemoryCache.php"); // is used in utilityHelpers
-require_once(__CA_LIB_DIR__."/core/Cache/ExternalCache.php"); // is used in utilityHelpers
-require_once(__CA_LIB_DIR__."/core/Cache/CompositeCache.php"); // is used in utilityHelpers
-require_once(__CA_LIB_DIR__."/core/Zend/Registry.php");
 
-require_once(__CA_LIB_DIR__."/core/Utils/Debug.php");
+require_once(__CA_LIB_DIR__."/Zend/Translate.php");
+require_once(__CA_LIB_DIR__."/Zend/Cache.php");
+require_once(__CA_LIB_DIR__."/Cache/MemoryCache.php"); // is used in utilityHelpers
+require_once(__CA_LIB_DIR__."/Cache/ExternalCache.php"); // is used in utilityHelpers
+require_once(__CA_LIB_DIR__."/Cache/CompositeCache.php"); // is used in utilityHelpers
+
+require_once(__CA_LIB_DIR__."/Zend/Registry.php");
+
+require_once(__CA_LIB_DIR__."/Utils/Debug.php");
 require_once(__CA_APP_DIR__."/helpers/utilityHelpers.php");
 require_once(__CA_APP_DIR__."/helpers/initializeLocale.php");
 
@@ -74,8 +76,11 @@ require_once(__CA_LIB_DIR__.'/Cache/ExternalCache.php');
 require_once(__CA_LIB_DIR__.'/Cache/CompositeCache.php');
 require_once(__CA_LIB_DIR__.'/Cache/MemoryCache.php');
 
-require_once(__CA_APP_DIR__.'/lib/ca/GarbageCollection.php');
+require_once(__CA_LIB_DIR__.'/GarbageCollection.php');
 require_once(__CA_APP_DIR__.'/helpers/guidHelpers.php');
+
+require_once(__CA_LIB_DIR__."/Datamodel.php");
+Datamodel::load();
 
 // initialize Tooltip manager
 TooltipManager::init();

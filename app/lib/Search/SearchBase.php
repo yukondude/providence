@@ -34,10 +34,10 @@
   *
   */
 
-require_once(__CA_LIB_DIR__."/core/BaseFindEngine.php");
+require_once(__CA_LIB_DIR__."/BaseFindEngine.php");
 require_once(__CA_LIB_DIR__.'/Configuration.php');
-require_once(__CA_LIB_DIR__."/core/Datamodel.php");
-require_once(__CA_LIB_DIR__."/core/Db.php");
+require_once(__CA_LIB_DIR__."/Datamodel.php");
+require_once(__CA_LIB_DIR__."/Db.php");
 	
 	class SearchBase extends BaseFindEngine {
 		# ------------------------------------------------
@@ -330,7 +330,7 @@ require_once(__CA_LIB_DIR__."/core/Db.php");
 		 * @param mixed $pm_table_name_or_num A valid table name or number
 		 * @return BaseModel A model instance or null if the table is invalid
 		 */
-		public function getTableInstance($pm_table_name_or_num) {
+		public function getInstanceByTableName($pm_table_name_or_num) {
 			return Datamodel::getInstance($pm_table_name_or_num, true);
 		}
 		# ------------------------------------------------------------------

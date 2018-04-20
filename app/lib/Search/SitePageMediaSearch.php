@@ -34,8 +34,8 @@
   *
   */
 
-include_once(__CA_LIB_DIR__."/ca/Search/BaseSearch.php");
-include_once(__CA_LIB_DIR__."/ca/Search/SitePageMediaSearchResult.php");
+include_once(__CA_LIB_DIR__."/Search/BaseSearch.php");
+include_once(__CA_LIB_DIR__."/Search/SitePageMediaSearchResult.php");
 
 class SitePageMediaSearch extends BaseSearch {
 	# ----------------------------------------------------------------------

@@ -34,7 +34,7 @@
   *
   */
   
-include_once(__CA_LIB_DIR__."/ca/Browse/BrowseEngine.php");
+include_once(__CA_LIB_DIR__."/Browse/BrowseEngine.php");
   
 	class BaseBrowse extends BrowseEngine {
 		# -------------------------------------------------------

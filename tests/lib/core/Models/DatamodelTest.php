@@ -43,8 +43,8 @@ class DatamodelTest extends PHPUnit_Framework_TestCase {
 
 			$vn_table_num = Datamodel::getTableNum($vs_table);
 
-			$this->assertInstanceOf($vs_table, Datamodel::getInstanceByTableNun($vn_table_num));
-			$this->assertInstanceOf($vs_table, Datamodel::getInstanceByTableNun($vn_table_num, true));
+			$this->assertInstanceOf($vs_table, Datamodel::getInstanceByTableNum($vn_table_num));
+			$this->assertInstanceOf($vs_table, Datamodel::getInstanceByTableNum($vn_table_num, true));
 
 			$this->assertInstanceOf($vs_table, Datamodel::getInstance($vs_table));
 			$this->assertInstanceOf($vs_table, Datamodel::getInstance($vs_table, true));

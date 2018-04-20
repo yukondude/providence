@@ -36,7 +36,7 @@
  
  	require_once(__CA_LIB_DIR__.'/Controller/AppController/AppControllerPlugin.php');
  	require_once(__CA_LIB_DIR__.'/View.php');
- 	require_once(__CA_LIB_DIR__."/core/Controller/Request/NotificationManager.php");
+ 	require_once(__CA_LIB_DIR__."/Controller/Request/NotificationManager.php");
  	require_once(__CA_LIB_DIR__.'/AppNavigation.php');
  
 	class PageFormat extends AppControllerPlugin {

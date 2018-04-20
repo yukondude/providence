@@ -34,10 +34,10 @@
   *
   */
   
-require_once(__CA_LIB_DIR__."/ca/Service/BaseService.php");
-require_once(__CA_LIB_DIR__."/ca/LabelableBaseModelWithAttributes.php");
-require_once(__CA_LIB_DIR__."/core/Datamodel.php");
-require_once(__CA_LIB_DIR__."/core/Db.php");
+require_once(__CA_LIB_DIR__."/Service/BaseService.php");
+require_once(__CA_LIB_DIR__."/LabelableBaseModelWithAttributes.php");
+require_once(__CA_LIB_DIR__."/Datamodel.php");
+require_once(__CA_LIB_DIR__."/Db.php");
 require_once(__CA_MODELS_DIR__."/ca_relationship_types.php");
 require_once(__CA_MODELS_DIR__."/ca_locales.php");
 require_once(__CA_MODELS_DIR__."/ca_sets.php");
@@ -85,7 +85,7 @@ class ItemInfoService extends BaseService {
 	 * @return array associative array of bundle contents
 	 */
 	public function get($type,$item_ids,$bundles,$options){
-		if(!($t_subject_instance = $this->getTableInstance($type,null,true))){
+		if(!($t_subject_instance = $this->getInstanceByTableName($type,null,true))){
 			throw new SoapFault("Server", "Invalid type");
 		}
 		$va_return = array();
@@ -133,7 +133,7 @@ class ItemInfoService extends BaseService {
 	 * @throws SoapFault
 	 */
 	public function getItem($type, $item_id){
-		if(!($t_subject_instance = $this->getTableInstance($type,$item_id))){
+		if(!($t_subject_instance = $this->getInstanceByTableName($type,$item_id))){
 			throw new SoapFault("Server", "Invalid type $type or item_id $item_id");
 		}
 		return $t_subject_instance->getValuesForExport();
@@ -148,7 +148,7 @@ class ItemInfoService extends BaseService {
 	 * @throws SoapFault
 	 */
 	public function getApplicableElementCodes($type, $type_id, $include_sub_element_codes){
-		if(!($t_subject_instance = $this->getTableInstance($type,null,true))){
+		if(!($t_subject_instance = $this->getInstanceByTableName($type,null,true))){
 			throw new SoapFault("Server", "Invalid type or item_id");
 		}
 		return $t_subject_instance->getApplicableElementCodes($type_id,$include_sub_element_codes);
@@ -162,7 +162,7 @@ class ItemInfoService extends BaseService {
 	 * @throws SoapFault
 	 */
 	public function getAttributes($type, $item_id){
-		if(!($t_subject_instance = $this->getTableInstance($type,$item_id,true))){
+		if(!($t_subject_instance = $this->getInstanceByTableName($type,$item_id,true))){
 			throw new SoapFault("Server", "Invalid type or item_id");
 		}
 		$va_attrs = $t_subject_instance->getAttributes();
@@ -196,7 +196,7 @@ class ItemInfoService extends BaseService {
 	 * @throws SoapFault
 	 */
 	public function getAttributesByElement($type, $item_id, $attribute_code_or_id){
-		if(!($t_subject_instance = $this->getTableInstance($type,$item_id,true))){
+		if(!($t_subject_instance = $this->getInstanceByTableName($type,$item_id,true))){
 			throw new SoapFault("Server", "Invalid type or item_id");
 		}
 		$t_locale = new ca_locales();
@@ -236,7 +236,7 @@ class ItemInfoService extends BaseService {
 	 * @return string
 	 */
 	public function getAttributesForDisplay($type, $item_id, $attribute_code_or_id, $template=null, $options=null){
-		if(!($t_subject_instance = $this->getTableInstance($type,$item_id,true))){
+		if(!($t_subject_instance = $this->getInstanceByTableName($type,$item_id,true))){
 			throw new SoapFault("Server", "Invalid type or item_id");
 		}
 		return $t_subject_instance->getAttributesForDisplay($attribute_code_or_id, $ps_template=null, $pa_options=null);
@@ -252,7 +252,7 @@ class ItemInfoService extends BaseService {
 	 * @throws SoapFault
 	 */
 	public function getLabels($type, $item_id, $mode){
-		if(!($t_subject_instance = $this->getTableInstance($type,$item_id))){
+		if(!($t_subject_instance = $this->getInstanceByTableName($type,$item_id))){
 			throw new SoapFault("Server", "Invalid type or item_id");
 		}
 		if($t_subject_instance instanceof LabelableBaseModelWithAttributes){
@@ -274,7 +274,7 @@ class ItemInfoService extends BaseService {
 	 * @throws SoapFault
 	 */
 	public function getLabelForDisplay($type, $item_id){
-		if(!($t_subject_instance = $this->getTableInstance($type,$item_id))){
+		if(!($t_subject_instance = $this->getInstanceByTableName($type,$item_id))){
 			throw new SoapFault("Server", "Invalid type or item_id");
 		}
 		if($t_subject_instance instanceof LabelableBaseModelWithAttributes){
@@ -293,7 +293,7 @@ class ItemInfoService extends BaseService {
 	 * @throws SoapFault
 	 */
 	public function getObjectRepresentations($object_id,$versions){
-		if(!($t_subject_instance = $this->getTableInstance("ca_objects",$object_id))){
+		if(!($t_subject_instance = $this->getInstanceByTableName("ca_objects",$object_id))){
 			throw new SoapFault("Server", "Invalid object_id");
 		}
 		$va_reps = $t_subject_instance->getRepresentations($versions);
@@ -317,7 +317,7 @@ class ItemInfoService extends BaseService {
 		}
 		$va_return = array();
 		foreach($representation_ids as $vn_rep_id){
-			if(!($t_subject_instance = $this->getTableInstance("ca_object_representations",$vn_rep_id))){
+			if(!($t_subject_instance = $this->getInstanceByTableName("ca_object_representations",$vn_rep_id))){
 				throw new SoapFault("Server", "Invalid representation_id");
 			}
 			$va_return[$vn_rep_id] = $t_subject_instance->getMediaVersions("media");
@@ -337,7 +337,7 @@ class ItemInfoService extends BaseService {
 	public function getObjectRepresentationURLByMD5($md5,$versions){
 		if(!$versions) { return array(); }
 		if (!is_array($versions)) { $versions = array($versions); }
-		if(!($t_subject_instance = $this->getTableInstance("ca_object_representations", null))){
+		if(!($t_subject_instance = $this->getInstanceByTableName("ca_object_representations", null))){
 			throw new SoapFault("Server", "Couldn't create instance");
 		}
 		if (!$t_subject_instance->load(array('md5' => $md5, 'deleted' => 0))) {
@@ -362,7 +362,7 @@ class ItemInfoService extends BaseService {
 	 * @throws SoapFault
 	 */
 	public function getPrimaryObjectRepresentation($object_id,$versions){
-		if(!($t_subject_instance = $this->getTableInstance("ca_objects",$object_id))){
+		if(!($t_subject_instance = $this->getInstanceByTableName("ca_objects",$object_id))){
 			throw new SoapFault("Server", "Invalid object_id");
 		}
 		$va_rep = $t_subject_instance->getPrimaryRepresentation($versions);
@@ -409,7 +409,7 @@ class ItemInfoService extends BaseService {
 	 * @throws SoapFault
 	 */
 	public function getRelationships($type, $item_id, $related_type, $options = array()){
-		if(!($t_subject_instance = $this->getTableInstance($type,$item_id))){
+		if(!($t_subject_instance = $this->getInstanceByTableName($type,$item_id))){
 			throw new SoapFault("Server", "Invalid type or item_id");
 		}
 		if(method_exists($t_subject_instance,"getRelatedItems")){
@@ -417,7 +417,7 @@ class ItemInfoService extends BaseService {
 			
 			
 			if(is_array($options["bundles"])){
-				$t_related_instance = $this->getTableInstance($related_type);
+				$t_related_instance = $this->getInstanceByTableName($related_type);
 				$vs_rel_pk = $t_related_instance->primaryKey();
 				
 				$va_item_ids = $va_item_id_to_index = array();
@@ -455,10 +455,10 @@ class ItemInfoService extends BaseService {
 	 * @throws SoapFault
 	 */
 	public function getRelationshipTypes($type, $sub_type_id, $related_type, $related_sub_type_id){
-		if(!($this->getTableInstance($type))){
+		if(!($this->getInstanceByTableName($type))){
 			throw new SoapFault("Server", "Invalid type");
 		}
-		if(!($this->getTableInstance($related_type))){
+		if(!($this->getInstanceByTableName($related_type))){
 			throw new SoapFault("Server", "Invalid related type");
 		}
 		$vs_rel_table = $this->getRelTableName($type, $related_type);
@@ -562,7 +562,7 @@ class ItemInfoService extends BaseService {
 	 * @return array
 	 */
 	public function getSetsForItem($type, $item_id){
-		if(!($this->getTableInstance($type,$item_id))){
+		if(!($this->getInstanceByTableName($type,$item_id))){
 			throw new SoapFault("Server", "Invalid type or ID");
 		}
 		$t_set = new ca_sets();
@@ -598,7 +598,7 @@ class ItemInfoService extends BaseService {
 	 * @return array item_id => timestamp map for last changes
 	 */
 	public function getLastChangedItems($type, $timestamp){
-		$t_subject = $this->getTableInstance($type);
+		$t_subject = $this->getInstanceByTableName($type);
 		$vo_db = new Db();
 
 		$qr_subject_results = $vo_db->query("
@@ -653,7 +653,7 @@ class ItemInfoService extends BaseService {
 	# -------------------------------------------------------
 	# Utilities
 	# -------------------------------------------------------
-	private function getTableInstance($ps_type, $pn_type_id_to_load=null,$pb_check_bm_with_attributes=false){
+	private function getInstanceByTableName($ps_type, $pn_type_id_to_load=null,$pb_check_bm_with_attributes=false){
 		if(!in_array($ps_type, array("ca_objects", "ca_object_lots", "ca_entities", "ca_places", "ca_occurrences", "ca_collections", "ca_list_items", "ca_object_representations", "ca_storage_locations", "ca_movements", "ca_loans", "ca_tours", "ca_tour_stops"))){
 			throw new SoapFault("Server", "Invalid type or item_id");
 		} else {

@@ -310,7 +310,7 @@ class ca_relationship_types extends BundlableLabelableBaseModelWithAttributes {
 			$va_relationship_tables = $this->getRelationshipsUsingTypes();
 			if (!isset($va_relationship_tables[$vn_table_num])) { return null; }
 			
-			$t_rel_instance = Datamodel::getInstanceByTableNun($vn_table_num, true);
+			$t_rel_instance = Datamodel::getInstanceByTableNum($vn_table_num, true);
 			$t_instance = Datamodel::getInstanceByTableName($t_rel_instance->getLeftTableName(), true);
 			
 			

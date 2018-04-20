@@ -34,13 +34,13 @@
     *
     */ 
     
-include_once(__CA_LIB_DIR__."/core/Parsers/getid3/getid3.php");
+include_once(__CA_LIB_DIR__."/Parsers/getid3/getid3.php");
 include_once(__CA_APP_DIR__."/helpers/utilityHelpers.php");
-include_once(__CA_LIB_DIR__."/core/Plugins/IWLPlugMediaReplication.php");
-include_once(__CA_LIB_DIR__."/core/Plugins/MediaReplication/BaseMediaReplicationPlugin.php");
-include_once(__CA_LIB_DIR__."/core/Zend/Gdata.php");
-include_once(__CA_LIB_DIR__."/core/Zend/Gdata/ClientLogin.php");
-include_once(__CA_LIB_DIR__."/core/Zend/Gdata/YouTube.php");
+include_once(__CA_LIB_DIR__."/Plugins/IWLPlugMediaReplication.php");
+include_once(__CA_LIB_DIR__."/Plugins/MediaReplication/BaseMediaReplicationPlugin.php");
+include_once(__CA_LIB_DIR__."/Zend/Gdata.php");
+include_once(__CA_LIB_DIR__."/Zend/Gdata/ClientLogin.php");
+include_once(__CA_LIB_DIR__."/Zend/Gdata/YouTube.php");
 
 class WLPlugMediaReplicationYouTube Extends BaseMediaReplicationPlugin {
 	# ------------------------------------------------

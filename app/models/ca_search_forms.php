@@ -31,7 +31,7 @@
  */
 
 require_once(__CA_LIB_DIR__.'/ModelSettings.php');
-require_once(__CA_LIB_DIR__."/ca/BundlableLabelableBaseModelWithAttributes.php");
+require_once(__CA_LIB_DIR__."/BundlableLabelableBaseModelWithAttributes.php");
 require_once(__CA_LIB_DIR__.'/SetUniqueIdnoTrait.php'); 
 require_once(__CA_MODELS_DIR__.'/ca_locales.php');
 require_once(__CA_MODELS_DIR__.'/ca_search_form_placements.php');
@@ -692,7 +692,7 @@ class ca_search_forms extends BundlableLabelableBaseModelWithAttributes {
 		
 		$va_names = [];
 		while($qr_res->nextRow()) {
-			$t_instance = Datamodel::getInstanceByTableNun($qr_res->get('table_num'), true);
+			$t_instance = Datamodel::getInstanceByTableNum($qr_res->get('table_num'), true);
 			$va_restriction_names = array_map(function($v) { return caUcFirstUTF8Safe(caGetListItemByIDForDisplay($v['type_id'], !$vb_use_singular)); }, $t_form->getTypeRestrictions(null, ['form_id' => $qr_res->get('form_id')]));
 			
 			switch($t_instance->tableName()) {

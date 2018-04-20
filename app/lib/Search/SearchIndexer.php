@@ -34,7 +34,7 @@
  *
  */
 
-require_once(__CA_LIB_DIR__."/core/Search/SearchBase.php");
+require_once(__CA_LIB_DIR__."/Search/SearchBase.php");
 require_once(__CA_LIB_DIR__.'/Utils/Graph.php');
 require_once(__CA_LIB_DIR__.'/Utils/Timer.php');
 require_once(__CA_LIB_DIR__.'/Utils/CLIProgressBar.php');
@@ -835,7 +835,7 @@ class SearchIndexer extends SearchBase {
 					$va_queries = [];
 
 					$vn_related_table_num = Datamodel::getTableNum($vs_related_table);
-					$vs_related_pk = Datamodel::getTablePrimaryKeyName($vn_related_table_num);
+					$vs_related_pk = Datamodel::primaryKey($vn_related_table_num);
 
 					$t_rel = Datamodel::getInstanceByTableNum($vn_related_table_num, true);
 					$t_rel->setDb($this->getDb());
@@ -1922,7 +1922,7 @@ class SearchIndexer extends SearchBase {
 				foreach($va_rel_tables_to_index_list as $vs_rel_table) {
 					$va_indexing_info = $this->getTableIndexingInfo($vn_dep_table_num, $vs_rel_table);
 					$vn_rel_table_num = Datamodel::getTableNum(preg_replace("/\.related$/", "", $vs_rel_table));
-					$vn_rel_pk = Datamodel::getTablePrimaryKeyName($vn_rel_table_num);
+					$vn_rel_pk = Datamodel::primaryKey($vn_rel_table_num);
 					$t_rel = Datamodel::getInstanceByTableNum($vn_rel_table_num, true);
 					$t_rel->setDb($this->getDb());
 
@@ -2013,7 +2013,7 @@ class SearchIndexer extends SearchBase {
 
 											$va_element_fields_to_index = $this->getFieldsToIndex($vn_element_table_num, $vn_element_table_num);
 											$vs_element_table_name = Datamodel::getTableName($vn_element_table_num);
-											$vs_element_table_pk = Datamodel::getTablePrimaryKeyName($vn_element_table_num);
+											$vs_element_table_pk = Datamodel::primaryKey($vn_element_table_num);
 
 											$qr_field_data = $this->opo_db->query("
 												SELECT *
@@ -2155,8 +2155,8 @@ class SearchIndexer extends SearchBase {
 						}
 						$vs_join .= ')';
 					}
-					$vs_left = Datamodel::getTablePrimaryKeyName($vs_left_table);
-					$vs_right = Datamodel::getTablePrimaryKeyName($vs_right_table);
+					$vs_left = Datamodel::primaryKey($vs_left_table);
+					$vs_right = Datamodel::primaryKey($vs_right_table);
 					
 					if (isset($va_field_names[$vs_left])) { unset($va_flds[$va_field_names[$vs_left]]); }
 					$va_flds[$va_field_names[$vs_left] = "{$vs_prev_alias}.{$vs_left}"] = true;
@@ -2169,7 +2169,7 @@ class SearchIndexer extends SearchBase {
 				} elseif ($va_rel = Datamodel::getOneToManyRelations($vs_left_table, $vs_right_table)) {
 					$vs_t = $va_rel['many_table'];
 					
-					$vs_many = Datamodel::getTablePrimaryKeyName($va_rel['many_table']);
+					$vs_many = Datamodel::primaryKey($va_rel['many_table']);
 					if (isset($va_field_names[$vs_many] )) { unset($va_flds[$va_field_names[$vs_many]]); }
 					$va_flds[$va_field_names[$vs_many] = "{$vs_alias}.{$vs_many}"] = true;
 					
@@ -2188,7 +2188,7 @@ class SearchIndexer extends SearchBase {
 				} elseif ($va_rel = Datamodel::getOneToManyRelations($vs_right_table, $vs_left_table)) {
 					$vs_t = $va_rel['one_table'];
 					
-					$vs_one = Datamodel::getTablePrimaryKeyName($va_rel['one_table']);
+					$vs_one = Datamodel::primaryKey($va_rel['one_table']);
 					
 					if (isset($va_field_names[$vs_one])) { unset($va_flds[$va_field_names[$vs_one]]); }
 					$va_flds[$va_field_names[$vs_one] = "{$vs_alias}.{$vs_one}"] = true;

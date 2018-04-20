@@ -34,7 +34,7 @@
   *
   */
  
-include_once(__CA_LIB_DIR__."/core/Logging/BaseLogger.php");
+include_once(__CA_LIB_DIR__."/Logging/BaseLogger.php");
 
 class Searchlog extends BaseLogger {
 	# ----------------------------------------
@@ -89,7 +89,7 @@ class Searchlog extends BaseLogger {
 				while($qr_log->nextRow()) {
 					$va_row = $qr_log->getRow();
 					
-					$t_table = Datamodel::getInstanceByTableNun($va_row['table_num'], true);
+					$t_table = Datamodel::getInstanceByTableNum($va_row['table_num'], true);
 					$va_row['table_name'] = $t_table->getProperty('NAME_PLURAL');
 					$va_row['user_name'] = $va_row['fname'].' '.$va_row['lname'];
 					$va_rows[$va_row['search_id']] = $va_row;

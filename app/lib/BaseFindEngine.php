@@ -203,7 +203,7 @@
 			if (!sizeof($pa_hits)) { return $pa_hits; }
 			if (!(int)$pn_user_id) { $pn_user_id = 0; }
 						$o_conf = Configuration::load();
-			if (!($t_table = Datamodel::getInstanceByTableNun($pn_table_num, true))) { return $pa_hits; }
+			if (!($t_table = Datamodel::getInstanceByTableNum($pn_table_num, true))) { return $pa_hits; }
 
 			$t_user = new ca_users($pn_user_id);
 			if ($t_user->canDoAction('is_administrator')) { return $pa_hits; }

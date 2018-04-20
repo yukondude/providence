@@ -34,8 +34,8 @@
     *
     */ 
     
-include_once(__CA_LIB_DIR__."/core/Plugins/IWLPlugGeographicMap.php");
-include_once(__CA_LIB_DIR__."/core/Plugins/GeographicMap/BaseGeographicMapPlugin.php");
+include_once(__CA_LIB_DIR__."/Plugins/IWLPlugGeographicMap.php");
+include_once(__CA_LIB_DIR__."/Plugins/GeographicMap/BaseGeographicMapPlugin.php");
 
 class WLPlugGeographicMapOpenLayers Extends BaseGeographicMapPlugIn Implements IWLPlugGeographicMap {
 	

@@ -34,7 +34,7 @@
  *
  */
 
-require_once(__CA_LIB_DIR__."/ca/Service/BaseJSONService.php");
+require_once(__CA_LIB_DIR__."/Service/BaseJSONService.php");
 
 class SearchJSONService extends BaseJSONService {
 	# -------------------------------------------------------
@@ -102,7 +102,7 @@ class SearchJSONService extends BaseJSONService {
 		
 		$o_service_config = Configuration::load(__CA_APP_DIR__."/conf/services.conf");
 		
-		$t_instance = $this->_getTableInstance($vs_table_name = $this->getTableName());
+		$t_instance = $this->_getInstanceByTableName($vs_table_name = $this->getTableName());
 
 		$vo_result = $vo_search->search($this->ops_query, array(
 			'deletedOnly' => $this->opb_deleted_only,

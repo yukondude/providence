@@ -37,7 +37,7 @@
 require_once(__CA_LIB_DIR__.'/ITakesSettings.php');
 require_once(__CA_LIB_DIR__.'/LabelableBaseModelWithAttributes.php');
 require_once(__CA_MODELS_DIR__.'/ca_metadata_type_restrictions.php');
-require_once(__CA_LIB_DIR__."/ca/SyncableBaseModel.php");
+require_once(__CA_LIB_DIR__."/SyncableBaseModel.php");
 
 
 BaseModel::$s_ca_models_definitions['ca_metadata_elements'] = array(
@@ -1041,7 +1041,7 @@ class ca_metadata_elements extends LabelableBaseModelWithAttributes implements I
 		$va_counts_by_attribute = array();
 				while($qr_use_counts->nextRow()) {
 			if (preg_match('!^ca_attribute_([A-Za-z0-9_\-]+)$!', $qr_use_counts->get('bundle_name'), $va_matches)) {
-				if (!($t_table = Datamodel::getInstanceByTableNun($qr_use_counts->get('editor_type'), true))) { continue; }
+				if (!($t_table = Datamodel::getInstanceByTableNum($qr_use_counts->get('editor_type'), true))) { continue; }
 				$va_counts_by_attribute[$va_matches[1]][$t_table->getProperty('NAME_PLURAL')] = $qr_use_counts->get('c');
 			}
 		}
@@ -1086,7 +1086,7 @@ class ca_metadata_elements extends LabelableBaseModelWithAttributes implements I
 		$va_restrictions = array();
 				$t_list = new ca_lists();
 		while($qr_restrictions->nextRow()) {
-			if (!($t_table = Datamodel::getInstanceByTableNun($qr_restrictions->get('table_num'), true))) { continue; }
+			if (!($t_table = Datamodel::getInstanceByTableNum($qr_restrictions->get('table_num'), true))) { continue; }
 
 			if ($vn_type_id = $qr_restrictions->get('type_id')) {
 				$vs_type_name = $t_list->getItemForDisplayByItemID($vn_type_id);

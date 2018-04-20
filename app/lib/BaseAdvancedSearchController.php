@@ -31,9 +31,9 @@
  */
 
 require_once(__CA_APP_DIR__.'/helpers/accessHelpers.php');
-require_once(__CA_LIB_DIR__."/ca/BaseRefineableSearchController.php");
-require_once(__CA_LIB_DIR__."/ca/Browse/ObjectBrowse.php");
-require_once(__CA_LIB_DIR__."/core/Datamodel.php");
+require_once(__CA_LIB_DIR__."/BaseRefineableSearchController.php");
+require_once(__CA_LIB_DIR__."/Browse/ObjectBrowse.php");
+require_once(__CA_LIB_DIR__."/Datamodel.php");
 require_once(__CA_MODELS_DIR__."/ca_search_forms.php");
 require_once(__CA_MODELS_DIR__.'/ca_bundle_displays.php');
 
@@ -185,7 +185,7 @@ class BaseAdvancedSearchController extends BaseRefineableSearchController {
 		//
 		// Set up view for display of results
 		//
-		$t_model = Datamodel::getTableInstance($this->ops_tablename);
+		$t_model = Datamodel::getInstanceByTableName($this->ops_tablename);
 
 		$this->view->setVar('views', $this->opa_views);	// pass view list to view for rendering
 		$this->view->setVar('current_view', $vs_view);
@@ -320,7 +320,7 @@ class BaseAdvancedSearchController extends BaseRefineableSearchController {
 		$va_form_data = $this->opo_result_context->getParameter('form_data');
 
 		$va_buf = array();
-		if (!($t_model = Datamodel::getTableInstance($this->ops_tablename, true))) { return '?'; }
+		if (!($t_model = Datamodel::getInstanceByTableName($this->ops_tablename, true))) { return '?'; }
 		foreach($va_form_data as $vs_bundle => $vs_value) {
 			if (!$vs_value || (!is_array($vs_value) && !trim($vs_value))) { continue; }
 			$va_buf[] = $t_model->getDisplayLabel($vs_bundle).": ".$vs_value;

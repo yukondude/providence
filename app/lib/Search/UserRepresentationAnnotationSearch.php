@@ -34,8 +34,8 @@
   *
   */
 
-include_once(__CA_LIB_DIR__."/ca/Search/BaseSearch.php");
-include_once(__CA_LIB_DIR__."/ca/Search/UserRepresentationAnnotationSearchResult.php");
+include_once(__CA_LIB_DIR__."/Search/BaseSearch.php");
+include_once(__CA_LIB_DIR__."/Search/UserRepresentationAnnotationSearchResult.php");
 include_once(__CA_MODELS_DIR__."/ca_lists.php");
 
 class UserRepresentationAnnotationSearch extends BaseSearch {

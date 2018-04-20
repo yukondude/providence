@@ -34,8 +34,8 @@
    *
    */
 
-require_once(__CA_LIB_DIR__."/ca/IBundleProvider.php");
-require_once(__CA_LIB_DIR__."/ca/BundlableLabelableBaseModelWithAttributes.php");
+require_once(__CA_LIB_DIR__."/IBundleProvider.php");
+require_once(__CA_LIB_DIR__."/BundlableLabelableBaseModelWithAttributes.php");
 require_once(__CA_LIB_DIR__.'/SetUniqueIdnoTrait.php'); 
 require_once(__CA_APP_DIR__.'/models/ca_set_items.php');
 require_once(__CA_APP_DIR__.'/models/ca_set_item_labels.php');
@@ -701,7 +701,7 @@ class ca_sets extends BundlableLabelableBaseModelWithAttributes implements IBund
 			
 			$va_item_counts = array();
 			while($qr_table_nums->nextRow()) {
-				$t_instance = Datamodel::getInstanceByTableNun($vn_table_num = (int)$qr_table_nums->get('table_num'), true);
+				$t_instance = Datamodel::getInstanceByTableNum($vn_table_num = (int)$qr_table_nums->get('table_num'), true);
 				if (!$t_instance) { continue; }
 				
 				$va_item_sql_params = $va_sql_params;
@@ -1644,7 +1644,7 @@ class ca_sets extends BundlableLabelableBaseModelWithAttributes implements IBund
 		$o_db = $this->getDb();
 		
 		$t_rel_label_table = null;
-		if (!($t_rel_table = Datamodel::getInstanceByTableNun($this->get('table_num'), true))) { return null; }
+		if (!($t_rel_table = Datamodel::getInstanceByTableNum($this->get('table_num'), true))) { return null; }
 		if (method_exists($t_rel_table, 'getLabelTableName')) {
 			if ($vs_label_table_name = $t_rel_table->getLabelTableName()) {
 				$t_rel_label_table = Datamodel::getInstanceByTableName($vs_label_table_name, true);
@@ -1884,7 +1884,7 @@ LEFT JOIN ca_object_representations AS cor ON coxor.representation_id = cor.repr
 		if ($vn_user_id && !$this->haveAccessToSet($vn_user_id, __CA_SET_READ_ACCESS__)) { return 0; }
 		
 		$o_db = $this->getDb();
-				if (!($t_rel_table = Datamodel::getInstanceByTableNun($this->get('table_num'), true))) { return null; }
+				if (!($t_rel_table = Datamodel::getInstanceByTableNum($this->get('table_num'), true))) { return null; }
 		$vs_rel_table_name = $t_rel_table->tableName();
 		$vs_rel_table_pk = $t_rel_table->primaryKey();
 		
@@ -1927,7 +1927,7 @@ LEFT JOIN ca_object_representations AS cor ON coxor.representation_id = cor.repr
 		
 		$o_db = $this->getDb();
 		
-		if (!($t_rel_table = Datamodel::getInstanceByTableNun($this->get('table_num'), true))) { return null; }
+		if (!($t_rel_table = Datamodel::getInstanceByTableNum($this->get('table_num'), true))) { return null; }
 		if (!($vs_type_id_fld = $t_rel_table->getTypeFieldName())) { return array(); }
 		
 		// get set items
@@ -2087,7 +2087,7 @@ LEFT JOIN ca_object_representations AS cor ON coxor.representation_id = cor.repr
 	public function getItemTypeInstance() {
 		if (!$this->getPrimaryKey()) { return null; }
 		
-		return Datamodel::getInstanceByTableNun($this->get('table_num'), true);
+		return Datamodel::getInstanceByTableNum($this->get('table_num'), true);
 	}
 	# ------------------------------------------------------
 	/**
@@ -2217,7 +2217,7 @@ LEFT JOIN ca_object_representations AS cor ON coxor.representation_id = cor.repr
 		if (!$pm_table_name_or_num && !($pm_table_name_or_num = $this->get('table_num'))) { return null; }
 	 	if (!($vn_table_num = Datamodel::getTableNum($pm_table_name_or_num))) { return null; }
 		
-		$t_instance = Datamodel::getInstanceByTableNun($vn_table_num, true);
+		$t_instance = Datamodel::getInstanceByTableNum($vn_table_num, true);
 		return (isset($pa_options['number']) && ($pa_options['number'] == 'plural')) ? $t_instance->getProperty('NAME_PLURAL') : $t_instance->getProperty('NAME_SINGULAR');
 	}
 	# ------------------------------------------------------
@@ -2311,7 +2311,7 @@ LEFT JOIN ca_object_representations AS cor ON coxor.representation_id = cor.repr
 			$vn_table_num = $pm_table_name_or_num;
 		}
 		
-		if (!Datamodel::getInstanceByTableNun($vn_table_num, true)) {
+		if (!Datamodel::getInstanceByTableNum($vn_table_num, true)) {
 			// table name or number is not valid
 			return null;
 		}

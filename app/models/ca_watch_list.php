@@ -228,7 +228,7 @@ class ca_watch_list extends BaseModel {
 			ORDER BY watch_id DESC", $pn_user_id);
 		if($q_watched_items->numRows() > 0){
 			while($q_watched_items->nextRow()){
-				$t_item_table = Datamodel::getInstanceByTableNun($q_watched_items->get("table_num"), true);
+				$t_item_table = Datamodel::getInstanceByTableNum($q_watched_items->get("table_num"), true);
 				if ($t_item_table->hasField('deleted') && ($t_item_table->get('deleted') == 1)) { continue; }
 				
 				$t_item_table->load($q_watched_items->get("row_id"));

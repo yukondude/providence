@@ -1090,7 +1090,7 @@
 										$va_exclude_relationship_types = $this->_getRelationshipTypeIDs($va_exclude_relationship_types, $va_facet_info['relationship_table']);
 
 										$vn_table_num = Datamodel::getTableNum($vs_rel_table_name);
-										$vs_rel_table_pk = Datamodel::getTablePrimaryKeyName($vn_table_num);
+										$vs_rel_table_pk = Datamodel::primaryKey($vn_table_num);
 
 											switch(sizeof($va_path = array_keys(Datamodel::getPath($vs_target_browse_table_name, $vs_rel_table_name)))) {
 												case 3:
@@ -1674,7 +1674,7 @@
 									$va_exclude_relationship_types = $this->_getRelationshipTypeIDs($va_exclude_relationship_types, $va_facet_info['relationship_table']);
 					
 									$vn_table_num = Datamodel::getTableNum($vs_rel_table_name);
-									$vs_rel_table_pk = Datamodel::getTablePrimaryKeyName($vn_table_num);
+									$vs_rel_table_pk = Datamodel::primaryKey($vn_table_num);
 
 									if ($va_facet_info['relative_to']) {
 										if ($va_relative_execute_sql_data = $this->_getRelativeExecuteSQLData($va_facet_info['relative_to'], $pa_options)) {
@@ -2388,7 +2388,7 @@
 			$t_rel_types = new ca_relationship_types();
 			$va_relationship_types = $t_rel_types->getRelationshipInfo($va_facet_info['relationship_table']);
 
-			$t_model = Datamodel::getTableInstance($va_facet_info['table']);
+			$t_model = Datamodel::getInstanceByTableName($va_facet_info['table']);
 			if (method_exists($t_model, "getTypeList")) {
 				$va_types = $t_model->getTypeList();
 			}
@@ -2768,7 +2768,7 @@
 						$va_exclude_relationship_types = $this->_getRelationshipTypeIDs($va_exclude_relationship_types, $va_facet_info['relationship_table']);
 
 						$vn_table_num = Datamodel::getTableNum($vs_rel_table_name);
-						$vs_rel_table_pk = Datamodel::getTablePrimaryKeyName($vn_table_num);
+						$vs_rel_table_pk = Datamodel::primaryKey($vn_table_num);
 
 						switch(sizeof($va_path = array_keys(Datamodel::getPath($vs_browse_table_name, $vs_rel_table_name)))) {
 							case 3:
@@ -3607,7 +3607,7 @@
 										}
 										if (!$vn_max_browse_depth) { $vn_max_browse_depth = null; } else { $vn_max_browse_depth++; }	// add one to account for invisible root
 										
-										$vs_hier_pk = Datamodel::getTablePrimaryKeyName($vs_hier_table_name, true);
+										$vs_hier_pk = Datamodel::primaryKey($vs_hier_table_name, true);
 									
 										$va_hier_ids = [];
 										while($qr_res->nextHit()) {

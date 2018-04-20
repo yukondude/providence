@@ -38,7 +38,7 @@
  * Base media processing plugin
  */
 
-include_once(__CA_LIB_DIR__."/core/Db.php");
+include_once(__CA_LIB_DIR__."/Db.php");
 
 class MediaContentLocationIndexer  {
 	# ------------------------------------------------
@@ -163,7 +163,7 @@ class MediaContentLocationIndexer  {
 			'query' => $ps_query
 		);
 		
-		if (!($t_instance = is_numeric($pm_table) ? Datamodel::getInstanceByTableNun($pm_table) : Datamodel::getInstanceByTableName($pm_table))) {
+		if (!($t_instance = is_numeric($pm_table) ? Datamodel::getInstanceByTableNum($pm_table) : Datamodel::getInstanceByTableName($pm_table))) {
 			throw new Exception(_t("Invalid table %1", $pm_table));
 		}
 		if (!$t_instance->load($pn_row_id)) {

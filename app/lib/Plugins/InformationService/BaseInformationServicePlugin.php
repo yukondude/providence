@@ -34,9 +34,9 @@
     *
     */ 
     
-include_once(__CA_LIB_DIR__."/core/Plugins/WLPlug.php");
-include_once(__CA_LIB_DIR__."/core/Plugins/IWLPlugInformationService.php");
-include_once(__CA_LIB_DIR__."/core/Configuration.php");
+include_once(__CA_LIB_DIR__."/Plugins/WLPlug.php");
+include_once(__CA_LIB_DIR__."/Plugins/IWLPlugInformationService.php");
+include_once(__CA_LIB_DIR__."/Configuration.php");
 
 abstract class BaseInformationServicePlugin Extends WLPlug {
 	// properties for this plugin instance

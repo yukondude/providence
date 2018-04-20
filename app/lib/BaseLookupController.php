@@ -53,7 +53,7 @@
  		protected $opa_filters = array(); 
  		# -------------------------------------------------------
  		public function __construct(&$po_request, &$po_response, $pa_view_paths=null) {
-			if ($this->ops_search_class) { require_once(__CA_LIB_DIR__."/ca/Search/".$this->ops_search_class.".php"); }
+			if ($this->ops_search_class) { require_once(__CA_LIB_DIR__."/Search/".$this->ops_search_class.".php"); }
 			require_once(__CA_MODELS_DIR__."/".$this->ops_table_name.".php");
  			parent::__construct($po_request, $po_response, $pa_view_paths);
  			$this->opo_item_instance = new $this->ops_table_name();

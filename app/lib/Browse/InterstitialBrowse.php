@@ -50,7 +50,7 @@
 						$this->ops_tablename = $ps_table;
 			$this->opn_tablenum = Datamodel::getTableNum($ps_table);
 		
-			$this->ops_primary_key = Datamodel::getTablePrimaryKeyName($ps_table);
+			$this->ops_primary_key = Datamodel::primaryKey($ps_table);
 			parent::__construct($this->ops_tablename, $pn_browse_id, $ps_context);
 		}
 		# ------------------------------------------------------

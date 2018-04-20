@@ -280,14 +280,14 @@ class ca_guids extends BaseModel {
         if (in_array(Datamodel::getTableName($va_info['table_num']), ['ca_object_lots', 'ca_object_lot_labels', 'ca_lists', 'ca_list_items', 'ca_list_labels', 'ca_list_item_labels'])) {   //TODO: make tables for which we should ignore access configurable
             return true;
         } elseif (Datamodel::isLabel($va_info['table_num'])) {
-            if ($t_label = Datamodel::getInstanceByTableNun($va_info['table_num'], true) && $t_label->load($va_info['row_id'])) {
+            if ($t_label = Datamodel::getInstanceByTableNum($va_info['table_num'], true) && $t_label->load($va_info['row_id'])) {
                 if (($t_subject = $t_label->getSubjectTableInstance()) && $t_subject->hasField('access')) {
                     $return = in_array($t_subject->get('access'), $pa_access);
                 }
                 return true;
             }
         } elseif (Datamodel::isRelationship($va_info['table_num'])) {
-            if ($t_rel = Datamodel::getInstanceByTableNun($va_info['table_num'], true)) {
+            if ($t_rel = Datamodel::getInstanceByTableNum($va_info['table_num'], true)) {
                 $t_left = $t_rel->getLeftTableInstance();
                 $t_right = $t_rel->getRightTableInstance();
                 

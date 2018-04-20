@@ -623,7 +623,7 @@ class ca_change_log extends BaseModel {
 	static public function logEntryHasAccess($pa_log_entry, $pa_access) {
 		$o_db = new Db();
 				
-		if (!($t_instance = Datamodel::getInstanceByTableNun($pa_log_entry['logged_table_num'], true))) { return false; }
+		if (!($t_instance = Datamodel::getInstanceByTableNum($pa_log_entry['logged_table_num'], true))) { return false; }
 		if ($t_instance->hasField('access')) { 
 			$qr_res = $o_db->query("SELECT access FROM ".$t_instance->tableName()." WHERE ".$t_instance->primaryKey()." = ?", [(int)$pa_log_entry['logged_row_id']]);
 			if ($qr_res->nextRow()) {
@@ -633,7 +633,7 @@ class ca_change_log extends BaseModel {
 		
 		if (is_array($pa_log_entry['subjects'])) {
 			foreach($pa_log_entry['subjects'] as $va_subject) {
-				if (!($t_instance = Datamodel::getInstanceByTableNun($va_subject['subject_table_num'], true))) { continue; }
+				if (!($t_instance = Datamodel::getInstanceByTableNum($va_subject['subject_table_num'], true))) { continue; }
 				if ($t_instance->hasField('access')) { 
 					$qr_res = $o_db->query("SELECT access FROM ".$t_instance->tableName()." WHERE ".$t_instance->primaryKey()." = ?", [(int)$va_subject['subject_row_id']]);
 					if ($qr_res->nextRow()) {
@@ -651,7 +651,7 @@ class ca_change_log extends BaseModel {
 	static public function rowHasAccess($pn_table_num, $pn_row_id, $pa_access) {
 		$o_db = new Db();
 				
-		if (!($t_instance = Datamodel::getInstanceByTableNun($pn_table_num, true))) { return false; }
+		if (!($t_instance = Datamodel::getInstanceByTableNum($pn_table_num, true))) { return false; }
 		if ($t_instance->hasField('access')) { 
 			$qr_res = $o_db->query("SELECT access FROM ".$t_instance->tableName()." WHERE ".$t_instance->primaryKey()." = ?", [(int)$pn_row_id]);
 			if ($qr_res->nextRow()) {

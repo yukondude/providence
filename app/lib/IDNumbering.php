@@ -34,7 +34,7 @@
   *
   */
   
-	require_once(__CA_LIB_DIR__."/core/Configuration.php");
+	require_once(__CA_LIB_DIR__."/Configuration.php");
 	
 	class IDNumbering {
 		# -------------------------------------------------------
@@ -54,9 +54,9 @@
 		static public function newIDNumberer($ps_format, $pm_type='__default__', $ps_value=null, $po_db=null, $po_config=null) {
 			$o_config = $po_config ? $po_config : Configuration::load();
 			$vs_classname = $o_config->get("{$ps_format}_id_numbering_plugin");
-			if (!file_exists(__CA_LIB_DIR__."/ca/IDNumbering/{$vs_classname}.php")) { return null; }
+			if (!file_exists(__CA_LIB_DIR__."/IDNumbering/{$vs_classname}.php")) { return null; }
 			
-			require_once(__CA_LIB_DIR__."/ca/IDNumbering/{$vs_classname}.php");
+			require_once(__CA_LIB_DIR__."/IDNumbering/{$vs_classname}.php");
 			
 			if (!is_array($pm_type)) { $pm_type = array($pm_type); }
 			return new $vs_classname($ps_format, $pm_type, $ps_value, $po_db);

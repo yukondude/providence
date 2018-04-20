@@ -522,7 +522,7 @@ class ca_bundle_displays extends BundlableLabelableBaseModelWithAttributes {
 		
 		if ($qr_res->numRows() > 0) {
 			$vs_subject_table = Datamodel::getTableName($this->get('table_num'));
-			$t_subject = Datamodel::getInstanceByTableNun($this->get('table_num'), true);
+			$t_subject = Datamodel::getInstanceByTableNum($this->get('table_num'), true);
 			$t_placement = new ca_bundle_display_placements();
 			if ($this->inTransaction()) { $t_placement->setTransaction($this->getTransaction()); }
 			
@@ -867,7 +867,7 @@ if (!$pb_omit_editing_info) {
 		if (!$pm_table_name_or_num && !($pm_table_name_or_num = $this->get('table_num'))) { return null; }
 	 	if (!($vn_table_num = Datamodel::getTableNum($pm_table_name_or_num))) { return null; }
 		
-		$t_instance = Datamodel::getInstanceByTableNun($vn_table_num, true);
+		$t_instance = Datamodel::getInstanceByTableNum($vn_table_num, true);
 		if (!$t_instance) { return null; }
 		return (isset($pa_options['number']) && ($pa_options['number'] == 'plural')) ? $t_instance->getProperty('NAME_PLURAL') : $t_instance->getProperty('NAME_SINGULAR');
 

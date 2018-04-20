@@ -39,11 +39,11 @@
  	require_once(__CA_APP_DIR__."/helpers/configurationHelpers.php");
  	require_once(__CA_MODELS_DIR__."/ca_sets.php");
  	require_once(__CA_MODELS_DIR__."/ca_editor_uis.php");
- 	require_once(__CA_LIB_DIR__."/core/Datamodel.php");
- 	require_once(__CA_LIB_DIR__."/ca/ApplicationPluginManager.php");
- 	require_once(__CA_LIB_DIR__."/ca/ResultContext.php");
- 	require_once(__CA_LIB_DIR__."/ca/BatchProcessor.php");
- 	require_once(__CA_LIB_DIR__."/ca/BatchEditorProgress.php");
+ 	require_once(__CA_LIB_DIR__."/Datamodel.php");
+ 	require_once(__CA_LIB_DIR__."/ApplicationPluginManager.php");
+ 	require_once(__CA_LIB_DIR__."/ResultContext.php");
+ 	require_once(__CA_LIB_DIR__."/BatchProcessor.php");
+ 	require_once(__CA_LIB_DIR__."/BatchEditorProgress.php");
  
  	class EditorController extends ActionController {
  		# -------------------------------------------------------
@@ -364,7 +364,7 @@
  				die("You don't have access to the set");
  			}
  			
- 			$t_item 			= Datamodel::getInstanceByTableNun($t_set->get('table_num'), true);
+ 			$t_item 			= Datamodel::getInstanceByTableNum($t_set->get('table_num'), true);
  			
  		
  			$this->view->setVar('t_set', $t_set);

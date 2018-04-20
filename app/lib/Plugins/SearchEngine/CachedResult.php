@@ -51,7 +51,7 @@ class WLPlugSearchEngineCachedResult extends WLPlug implements IWLPlugSearchEngi
 				
 		$this->opn_subject_tablenum = $pn_table_num;
 		
-		$this->ops_subject_pk = Datamodel::getTablePrimaryKeyName($pn_table_num);
+		$this->ops_subject_pk = Datamodel::primaryKey($pn_table_num);
 		$this->setHits(array_values($pa_hits));
 	}
 	# -------------------------------------------------------

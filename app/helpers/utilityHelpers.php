@@ -2443,7 +2443,7 @@ function caFileIsIncludable($ps_file) {
 	 * @return string Converted value with currency specifier, unless numericValue option is set. Returns null if value could not be converted.
 	 */
 	function caConvertCurrencyValue($ps_value, $ps_to, $pa_options=null) {
-		require_once(__CA_LIB_DIR__."/core/Plugins/CurrencyConversion/EuroBank.php");
+		require_once(__CA_LIB_DIR__."/Plugins/CurrencyConversion/EuroBank.php");
 		if ((!$ps_value) || is_numeric($ps_value)) return null;
 		try {
 			return WLPlugCurrencyConversionEuroBank::convert($ps_value, $ps_to, $pa_options);
@@ -2458,7 +2458,7 @@ function caFileIsIncludable($ps_file) {
 	 * @return array List of three character currency codes, or null if conversion is not available.
 	 */
 	function caAvailableCurrenciesForConversion() {
-		require_once(__CA_LIB_DIR__."/core/Plugins/CurrencyConversion/EuroBank.php");
+		require_once(__CA_LIB_DIR__."/Plugins/CurrencyConversion/EuroBank.php");
 
 		try {
 			$va_currency_list = WLPlugCurrencyConversionEuroBank::getCurrencyList();

@@ -38,7 +38,7 @@ require_once(__CA_LIB_DIR__.'/Datamodel.php');
 require_once(__CA_LIB_DIR__.'/Configuration.php');
 require_once(__CA_LIB_DIR__.'/Parsers/TimeExpressionParser.php');
 require_once(__CA_LIB_DIR__.'/Parsers/ExpressionParser.php');
-require_once(__CA_LIB_DIR__."/ca/ApplicationPluginManager.php");
+require_once(__CA_LIB_DIR__."/ApplicationPluginManager.php");
 require_once(__CA_LIB_DIR__.'/Parsers/DisplayTemplateParser.php');
 require_once(__CA_LIB_DIR__.'/Media/MediaInfoCoder.php');
 
@@ -1255,7 +1255,7 @@ require_once(__CA_LIB_DIR__.'/Media/MediaInfoCoder.php');
 				$vn_rel_type_id = $po_view->request->getParameter('rel_type_id', pString);
 				$vn_rel_id = $po_view->request->getParameter('rel_id', pInteger);
 				if($vs_rel_table && Datamodel::tableExists($vs_rel_table) && $vn_rel_type_id && $vn_rel_id) {
-					$t_rel = Datamodel::getTableInstance($vs_rel_table);
+					$t_rel = Datamodel::getInstanceByTableName($vs_rel_table);
 					if($t_rel && $t_rel->load($vn_rel_id)){
 						$vs_buf .= '<strong>'._t("Will be related to %1", $t_rel->getTypeName()).'</strong>: '.$t_rel->getLabelForDisplay();
 					}
@@ -1397,7 +1397,7 @@ require_once(__CA_LIB_DIR__.'/Media/MediaInfoCoder.php');
 						}
 						foreach($va_objects as $vn_rel_id => $va_rel_info) {
 							if ($vs_label = array_shift($va_rel_info['labels'])) {
-								$vs_buf .= caEditorLink($po_view->request, '&larr; '.$vs_label.' ('.$va_rel_info['idno'].')', '', $vs_rel_table, $va_rel_info[Datamodel::getTablePrimaryKeyName($vs_rel_table)], array(), array(), array('action' => 'Edit'.($vs_screen ? "/{$vs_screen}" : "")))."<br/>\n";
+								$vs_buf .= caEditorLink($po_view->request, '&larr; '.$vs_label.' ('.$va_rel_info['idno'].')', '', $vs_rel_table, $va_rel_info[Datamodel::primaryKey($vs_rel_table)], array(), array(), array('action' => 'Edit'.($vs_screen ? "/{$vs_screen}" : "")))."<br/>\n";
 							}
 						}
 						$vs_buf .= "</div>\n";
@@ -2002,7 +2002,7 @@ require_once(__CA_LIB_DIR__.'/Media/MediaInfoCoder.php');
 	  *
 	  */
 	function caTableIsActive($pm_table) {
-				$t_instance = is_numeric($pm_table) ? Datamodel::getInstanceByTableNun($pm_table, true) : Datamodel::getInstanceByTableName($pm_table, true);
+				$t_instance = is_numeric($pm_table) ? Datamodel::getInstanceByTableNum($pm_table, true) : Datamodel::getInstanceByTableName($pm_table, true);
 		if (!$t_instance) { return null; }
 		
 		$vs_table_name = $t_instance->tableName();
@@ -2410,7 +2410,7 @@ require_once(__CA_LIB_DIR__.'/Media/MediaInfoCoder.php');
 		$vs_attr_str = _caHTMLMakeAttributeString(is_array($pa_attributes) ? $pa_attributes : []);
 		$vs_display = "{".caGetOption('display', $pa_options, '_display')."}";
 		if (caGetOption('makeLink', $pa_options, false)) {
-			$vs_display = "<a href='".urldecode(caEditorUrl($po_request, $ps_table, '{'.Datamodel::getTablePrimaryKeyName($ps_table).'}', false, array('rel' => true)))."' {$vs_attr_str}>{$vs_display}</a>";
+			$vs_display = "<a href='".urldecode(caEditorUrl($po_request, $ps_table, '{'.Datamodel::primaryKey($ps_table).'}', false, array('rel' => true)))."' {$vs_attr_str}>{$vs_display}</a>";
 		}
 		
 		$vs_reltype_disp = caGetOption('editableRelationshipType', $pa_options, (bool)$o_config->get("{$ps_table}_lookup_relationship_type_editable")) ? "<select name='{$ps_prefix}_type_id{n}' id='{$ps_prefix}_type_id{n}' class='listRelRelationshipTypeEdit'></select>" : "({{relationship_typename}}) <input type='hidden' name='{$ps_prefix}_type_id{n}' id='{$ps_prefix}_type_id{n}' value='{type_id}'/>";
@@ -3894,7 +3894,7 @@ require_once(__CA_LIB_DIR__.'/Media/MediaInfoCoder.php');
 				$t_attr = new ca_attributes($t_instance->get('attribute_id'));
 				
 								
-				$pt_subject = Datamodel::getInstanceByTableNun($t_attr->get('table_num'), true);
+				$pt_subject = Datamodel::getInstanceByTableNum($t_attr->get('table_num'), true);
 				$pt_subject->load($t_attr->get('row_id'));
 
                 
@@ -3975,7 +3975,7 @@ require_once(__CA_LIB_DIR__.'/Media/MediaInfoCoder.php');
 				$t_instance = new ca_attribute_values($va_identifier['id']);
 				$t_instance->useBlobAsMediaField(true);
 				$t_attr = new ca_attributes($t_instance->get('attribute_id'));
-								$pt_subject = Datamodel::getInstanceByTableNun($t_attr->get('table_num'), true);
+								$pt_subject = Datamodel::getInstanceByTableNum($t_attr->get('table_num'), true);
 				$pt_subject->load($t_attr->get('row_id'));
 			
 				if (!($vs_viewer_name = MediaViewerManager::getViewerForMimetype($ps_display_type, $vs_mimetype = $t_instance->getMediaInfo('value_blob', 'original', 'MIMETYPE')))) {
@@ -4024,7 +4024,7 @@ require_once(__CA_LIB_DIR__.'/Media/MediaInfoCoder.php');
 				$t_instance = new ca_attribute_values($va_identifier['id']);
 				$t_instance->useBlobAsMediaField(true);
 				$t_attr = new ca_attributes($t_instance->get('attribute_id'));
-								$pt_subject = Datamodel::getInstanceByTableNun($t_attr->get('table_num'), true);
+								$pt_subject = Datamodel::getInstanceByTableNum($t_attr->get('table_num'), true);
 				$pt_subject->load($t_attr->get('row_id'));
 			
 				if (!($vs_viewer_name = MediaViewerManager::getViewerForMimetype($ps_display_type, $vs_mimetype = $t_instance->getMediaInfo('value_blob', 'original', 'MIMETYPE')))) {
@@ -4073,7 +4073,7 @@ require_once(__CA_LIB_DIR__.'/Media/MediaInfoCoder.php');
 				$t_instance = new ca_attribute_values($va_identifier['id']);
 				$t_instance->useBlobAsMediaField(true);
 				$t_attr = new ca_attributes($t_instance->get('attribute_id'));
-								$pt_subject = Datamodel::getInstanceByTableNun($t_attr->get('table_num'), true);
+								$pt_subject = Datamodel::getInstanceByTableNum($t_attr->get('table_num'), true);
 				$pt_subject->load($t_attr->get('row_id'));
 			
 				if (!($vs_viewer_name = MediaViewerManager::getViewerForMimetype($ps_display_type, $vs_mimetype = $t_instance->getMediaInfo('value_blob', 'original', 'MIMETYPE')))) {

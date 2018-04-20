@@ -34,9 +34,9 @@
   *
   */
 
-require_once(__CA_LIB_DIR__."/core/Db/DbDriverBase.php");
-require_once(__CA_LIB_DIR__."/core/Db/DbResult.php");
-require_once(__CA_LIB_DIR__."/core/Db/DbStatement.php");
+require_once(__CA_LIB_DIR__."/Db/DbDriverBase.php");
+require_once(__CA_LIB_DIR__."/Db/DbResult.php");
+require_once(__CA_LIB_DIR__."/Db/DbStatement.php");
 
 /**
  * Cache for prepared statements

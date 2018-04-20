@@ -40,10 +40,10 @@ require_once(__CA_MODELS_DIR__."/ca_metadata_elements.php");
 require_once(__CA_MODELS_DIR__."/ca_attributes.php");
 require_once(__CA_MODELS_DIR__."/ca_attribute_values.php");
 require_once(__CA_MODELS_DIR__."/ca_bundle_displays.php");
-require_once(__CA_LIB_DIR__."/core/Datamodel.php");
-require_once(__CA_LIB_DIR__."/ca/ApplicationPluginManager.php");
-require_once(__CA_LIB_DIR__."/ca/ResultContext.php");
-require_once(__CA_LIB_DIR__."/core/Logging/Eventlog.php");
+require_once(__CA_LIB_DIR__."/Datamodel.php");
+require_once(__CA_LIB_DIR__."/ApplicationPluginManager.php");
+require_once(__CA_LIB_DIR__."/ResultContext.php");
+require_once(__CA_LIB_DIR__."/Logging/Eventlog.php");
 require_once(__CA_LIB_DIR__.'/Print/PDFRenderer.php');
 require_once(__CA_LIB_DIR__.'/Parsers/ZipStream.php');
 require_once(__CA_LIB_DIR__.'/Media/MediaViewerManager.php');
@@ -2479,7 +2479,7 @@ class BaseEditorController extends ActionController {
 			return;
 		}
 		$t_element = new ca_metadata_elements($t_attr->get('element_id'));
-		$this->request->setParameter(Datamodel::getTablePrimaryKeyName($vn_table_num), $t_attr->get('row_id'));
+		$this->request->setParameter(Datamodel::primaryKey($vn_table_num), $t_attr->get('row_id'));
 
 		list($vn_subject_id, $t_subject) = $this->_initView($pa_options);
 		$ps_version = $this->request->getParameter('version', pString);

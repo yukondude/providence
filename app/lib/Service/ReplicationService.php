@@ -33,7 +33,7 @@
 require_once(__CA_MODELS_DIR__.'/ca_change_log.php');
 require_once(__CA_MODELS_DIR__.'/ca_replication_log.php');
 require_once(__CA_LIB_DIR__.'/Sync/LogEntry/Base.php');
-require_once(__CA_LIB_DIR__."/core/Logging/Logger.php");
+require_once(__CA_LIB_DIR__."/Logging/Logger.php");
 
 class ReplicationService {
 	# -------------------------------------------------------

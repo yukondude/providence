@@ -37,7 +37,7 @@
  *
  */
 
-require_once(__CA_LIB_DIR__."/core/Parsers/MediaMetadata/BaseMediaMetadataParser.php");
+require_once(__CA_LIB_DIR__."/Parsers/MediaMetadata/BaseMediaMetadataParser.php");
 
 /**
  * The XMPParser class parses files for embedded XMP-format metadata. It provides an API

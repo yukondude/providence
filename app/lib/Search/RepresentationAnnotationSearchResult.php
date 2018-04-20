@@ -34,8 +34,8 @@
   *
   */
 
-include_once(__CA_LIB_DIR__."/ca/Search/BaseSearchResult.php");
-include_once(__CA_LIB_DIR__."/core/Parsers/TimecodeParser.php");
+include_once(__CA_LIB_DIR__."/Search/BaseSearchResult.php");
+include_once(__CA_LIB_DIR__."/Parsers/TimecodeParser.php");
 
 class RepresentationAnnotationSearchResult extends BaseSearchResult {
 	# -------------------------------------

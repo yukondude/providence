@@ -34,12 +34,12 @@
   *
   */
 
-require_once(__CA_LIB_DIR__."/core/Db/Transaction.php");
-require_once(__CA_LIB_DIR__."/core/Plugins/WLPlug.php");
-require_once(__CA_LIB_DIR__."/core/Plugins/IWLPlugTaskQueueHandler.php");
+require_once(__CA_LIB_DIR__."/Db/Transaction.php");
+require_once(__CA_LIB_DIR__."/Plugins/WLPlug.php");
+require_once(__CA_LIB_DIR__."/Plugins/IWLPlugTaskQueueHandler.php");
 require_once(__CA_LIB_DIR__.'/Db.php');
-require_once(__CA_LIB_DIR__."/core/Logging/Eventlog.php");
-require_once(__CA_LIB_DIR__."/core/Datamodel.php");
+require_once(__CA_LIB_DIR__."/Logging/Eventlog.php");
+require_once(__CA_LIB_DIR__."/Datamodel.php");
 require_once(__CA_LIB_DIR__.'/Zend/Mail.php');
 require_once(__CA_LIB_DIR__.'/BatchProcessor.php');
 require_once(__CA_MODELS_DIR__.'/ca_sets.php');
@@ -110,7 +110,7 @@ require_once(__CA_MODELS_DIR__.'/ca_users.php');
 			$o_app = AppController::getInstance($o_request, $o_response);
 			
 			$t_set = new ca_sets($pa_parameters['set_id']);
-						$t_subject = Datamodel::getInstanceByTableNun($t_set->get('table_num'));
+						$t_subject = Datamodel::getInstanceByTableNum($t_set->get('table_num'));
 			
 			if (isset($pa_parameters['isBatchTypeChange']) && $pa_parameters['isBatchTypeChange']) {
 				$va_report = BatchProcessor::changeTypeBatchForSet($o_request, $pa_parameters['new_type_id'], $t_set, $t_subject, array('sendMail' => (bool)$pa_parameters['sendMail'], 'sendSMS' => (bool)$pa_parameters['sendSMS']));

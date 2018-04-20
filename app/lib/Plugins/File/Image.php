@@ -40,9 +40,9 @@
   * the PHP MagickWand extension being installed (unlike the Media plugins)
   */
 
-require_once(__CA_LIB_DIR__."/core/Plugins/WLPlug.php");
-require_once(__CA_LIB_DIR__."/core/Plugins/IWLPlugFileFormat.php");
-require_once(__CA_LIB_DIR__."/core/Configuration.php");
+require_once(__CA_LIB_DIR__."/Plugins/WLPlug.php");
+require_once(__CA_LIB_DIR__."/Plugins/IWLPlugFileFormat.php");
+require_once(__CA_LIB_DIR__."/Configuration.php");
 
 define("LIBRARY_GD", 0);
 define("LIBRARY_MAGICKWAND",1);

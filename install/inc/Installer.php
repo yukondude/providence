@@ -750,7 +750,7 @@ class Installer {
 						$this->addError("Invalid table specified for restriction $vs_restriction_code in element $vs_element_code");
 						return false;
 					}
-					$t_instance = Datamodel::getTableInstance((string)$vo_restriction->table);
+					$t_instance = Datamodel::getInstanceByTableName((string)$vo_restriction->table);
 					$vn_type_id = null;
 					$vs_type = trim((string)$vo_restriction->type);
 
@@ -1289,7 +1289,7 @@ class Installer {
 			$vn_table_num = Datamodel::getTableNum($vs_table);
 			$this->logStatus(_t('Processing relationship types for table %1', $vs_table));
 
-			$t_rel_table = Datamodel::getTableInstance($vs_table);
+			$t_rel_table = Datamodel::getInstanceByTableName($vs_table);
 
 			if (!method_exists($t_rel_table, 'getLeftTableName')) {
 				continue;
@@ -1395,7 +1395,7 @@ class Installer {
 				||
 				($vs_left_subtype_code = trim((string) $vo_type->subTypeLeft))
 			) {
-				$t_obj = Datamodel::getTableInstance($ps_left_table);
+				$t_obj = Datamodel::getInstanceByTableName($ps_left_table);
 				$vs_list_code = $t_obj->getFieldListCode($t_obj->getTypeFieldName());
 
 				$this->logStatus(_t('Adding left type restriction %1 for relationship type with code %2', $vs_left_subtype_code, $vs_type_code));
@@ -1425,7 +1425,7 @@ class Installer {
 				||
 				($vs_right_subtype_code = trim((string) $vo_type->subTypeRight))
 			) {
-				$t_obj = Datamodel::getTableInstance($ps_right_table);
+				$t_obj = Datamodel::getInstanceByTableName($ps_right_table);
 				$vs_list_code = $t_obj->getFieldListCode($t_obj->getTypeFieldName());
 
 				$this->logStatus(_t('Adding right type restriction %1 for relationship type with code %2', $vs_right_subtype_code, $vs_type_code));

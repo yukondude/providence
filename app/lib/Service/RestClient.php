@@ -34,7 +34,7 @@
   *
   */
   
-require_once(__CA_LIB_DIR__."/core/Zend/Rest/Client.php");
+require_once(__CA_LIB_DIR__."/Zend/Rest/Client.php");
 
 class RestClient extends Zend_Rest_Client {
 	# -------------------------------------------------------

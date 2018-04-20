@@ -34,8 +34,8 @@
   *
   */
 
-require_once(__CA_LIB_DIR__."/core/ApplicationError.php");
-require_once(__CA_LIB_DIR__."/core/BaseObject.php");
+require_once(__CA_LIB_DIR__."/ApplicationError.php");
+require_once(__CA_LIB_DIR__."/BaseObject.php");
 
 class WLPlug extends BaseObject {
 	# ------------------------------------------------------------------------

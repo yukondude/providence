@@ -466,7 +466,7 @@ class ca_bookmark_folders extends BaseModel {
 			$vn_table_num = $pm_table_name_or_num;
 		}
 		
-		if (!Datamodel::getInstanceByTableNun($vn_table_num, true)) {
+		if (!Datamodel::getInstanceByTableNum($vn_table_num, true)) {
 			// table name or number is not valid
 			return null;
 		}

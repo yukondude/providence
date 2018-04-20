@@ -186,7 +186,7 @@
 		 *
 		 */
 		public static function get_exif_tags($po_opts=null) {
-			require_once(__CA_LIB_DIR__."/ca/Import/DataReaders/ExifDataReader.php");
+			require_once(__CA_LIB_DIR__."/Import/DataReaders/ExifDataReader.php");
 			
 			$vs_directory_path = (string)$po_opts->getOption('directory');
 			if (!$vs_directory_path) { 

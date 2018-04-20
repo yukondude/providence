@@ -38,7 +38,7 @@
  	require_once(__CA_LIB_DIR__.'/Attributes/Values/IAttributeValue.php');
  	require_once(__CA_LIB_DIR__.'/Attributes/Values/AttributeValue.php');
  	require_once(__CA_LIB_DIR__.'/Configuration.php');
-	require_once(__CA_LIB_DIR__."/core/Media/MediaInfoCoder.php");
+	require_once(__CA_LIB_DIR__."/Media/MediaInfoCoder.php");
  	require_once(__CA_LIB_DIR__.'/BaseModel.php');	// we use the BaseModel field type (FT_*) and display type (DT_*) constants
  	
  

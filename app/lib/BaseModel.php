@@ -98,27 +98,27 @@ define("__CA_MEDIA_QUEUED_ICON__", 'queued');
 # ----------------------------------------------------------------------
 # --- Import classes
 # ----------------------------------------------------------------------
-require_once(__CA_LIB_DIR__."/core/BaseObject.php");
-require_once(__CA_LIB_DIR__."/core/ApplicationError.php");
-require_once(__CA_LIB_DIR__."/core/Configuration.php");
-require_once(__CA_LIB_DIR__."/core/Datamodel.php");
-require_once(__CA_LIB_DIR__."/core/ApplicationChangeLog.php");
-require_once(__CA_LIB_DIR__."/core/Parsers/TimeExpressionParser.php");
-require_once(__CA_LIB_DIR__."/core/Parsers/TimecodeParser.php");
-require_once(__CA_LIB_DIR__."/core/Db.php");
-require_once(__CA_LIB_DIR__."/core/Media.php");
-require_once(__CA_LIB_DIR__."/core/Media/MediaVolumes.php");
-require_once(__CA_LIB_DIR__."/core/File.php");
-require_once(__CA_LIB_DIR__."/core/File/FileVolumes.php");
-require_once(__CA_LIB_DIR__."/core/Utils/Timer.php");
-require_once(__CA_LIB_DIR__."/core/Search/SearchIndexer.php");
-require_once(__CA_LIB_DIR__."/core/Db/Transaction.php");
-require_once(__CA_LIB_DIR__."/core/Media/MediaProcessingSettings.php");
+require_once(__CA_LIB_DIR__."/BaseObject.php");
+require_once(__CA_LIB_DIR__."/ApplicationError.php");
+require_once(__CA_LIB_DIR__."/Configuration.php");
+require_once(__CA_LIB_DIR__."/Datamodel.php");
+require_once(__CA_LIB_DIR__."/ApplicationChangeLog.php");
+require_once(__CA_LIB_DIR__."/Parsers/TimeExpressionParser.php");
+require_once(__CA_LIB_DIR__."/Parsers/TimecodeParser.php");
+require_once(__CA_LIB_DIR__."/Db.php");
+require_once(__CA_LIB_DIR__."/Media.php");
+require_once(__CA_LIB_DIR__."/Media/MediaVolumes.php");
+require_once(__CA_LIB_DIR__."/File.php");
+require_once(__CA_LIB_DIR__."/File/FileVolumes.php");
+require_once(__CA_LIB_DIR__."/Utils/Timer.php");
+require_once(__CA_LIB_DIR__."/Search/SearchIndexer.php");
+require_once(__CA_LIB_DIR__."/Db/Transaction.php");
+require_once(__CA_LIB_DIR__."/Media/MediaProcessingSettings.php");
 require_once(__CA_APP_DIR__."/helpers/utilityHelpers.php");
 require_once(__CA_APP_DIR__."/helpers/gisHelpers.php");
 require_once(__CA_APP_DIR__."/helpers/printHelpers.php");
-require_once(__CA_LIB_DIR__."/ca/ApplicationPluginManager.php");
-require_once(__CA_LIB_DIR__."/ca/MediaContentLocationIndexer.php");
+require_once(__CA_LIB_DIR__."/ApplicationPluginManager.php");
+require_once(__CA_LIB_DIR__."/MediaContentLocationIndexer.php");
 require_once(__CA_LIB_DIR__.'/MediaReplicator.php');
 require_once(__CA_LIB_DIR__.'/Media/Remote/Base.php');
 
@@ -2295,7 +2295,7 @@ class BaseModel extends BaseObject {
 							($vs_field_value == "") || ($vs_field_value === null)
 						)
 					)) {
-						if ($t_many_table = Datamodel::getTableInstance($va_many_to_one_relations[$vs_field]["one_table"])) {
+						if ($t_many_table = Datamodel::getInstanceByTableName($va_many_to_one_relations[$vs_field]["one_table"])) {
 							if ($this->inTransaction()) {
 								$o_trans = $this->getTransaction();
 								$t_many_table->setTransaction($o_trans);
@@ -2883,7 +2883,7 @@ class BaseModel extends BaseObject {
 				if (isset($va_many_to_one_relations[$vs_field]) && $va_many_to_one_relations[$vs_field]) {
 					# Nothing to verify if key is null
 					if (!(($va_attr["IS_NULL"]) && ($vs_field_value == ""))) {
-						if ($t_many_table = Datamodel::getTableInstance($va_many_to_one_relations[$vs_field]["one_table"])) {
+						if ($t_many_table = Datamodel::getInstanceByTableName($va_many_to_one_relations[$vs_field]["one_table"])) {
 							if ($this->inTransaction()) {
 								$o_trans = $this->getTransaction();
 								$t_many_table->setTransaction($o_trans);
@@ -3408,7 +3408,7 @@ class BaseModel extends BaseObject {
 						if (isset($pa_table_list[$vs_many_table.'/'.$va_relationship["many_table_field"]]) && $pa_table_list[$vs_many_table.'/'.$va_relationship["many_table_field"]]) { continue; }
 
 						# do any records exist?
-						$t_related = Datamodel::getTableInstance($vs_many_table);
+						$t_related = Datamodel::getInstanceByTableName($vs_many_table);
 						$o_trans = $this->getTransaction();
 						$t_related->setTransaction($o_trans);
 						$qr_record_check = $o_db->query("
@@ -6558,7 +6558,7 @@ class BaseModel extends BaseObject {
 					
 					foreach($va_subject_config['RELATED_TABLES'] as $vs_dest_table => $va_path_to_dest) {
 
-						$t_dest = Datamodel::getTableInstance($vs_dest_table);
+						$t_dest = Datamodel::getInstanceByTableName($vs_dest_table);
 						if (!$t_dest) { continue; }
 
 						$vn_dest_table_num = $t_dest->tableNum();
@@ -7512,7 +7512,7 @@ class BaseModel extends BaseObject {
 					// TODO: handle many-many cases
 				}
 				
-				$t_additional_table_to_join = Datamodel::getTableInstance($ps_additional_table_to_join);
+				$t_additional_table_to_join = Datamodel::getInstanceByTableName($ps_additional_table_to_join);
 				$vs_additional_table_to_join_group_by = ', '.$ps_additional_table_to_join.'.'.$t_additional_table_to_join->primaryKey();
 			}
 			$vs_sql_joins = join("\n", $va_sql_joins);
@@ -8548,7 +8548,7 @@ $pa_options["display_form_field_tips"] = true;
 								#
 								# Use foreign  key to populate <select>
 								#
-								$o_one_table = Datamodel::getTableInstance($va_many_to_one_relations[$ps_field]["one_table"]);
+								$o_one_table = Datamodel::getInstanceByTableName($va_many_to_one_relations[$ps_field]["one_table"]);
 								$vs_one_table_primary_key = $o_one_table->primaryKey();
 	
 								if ($o_one_table->isHierarchical()) {
@@ -9726,7 +9726,7 @@ $pa_options["display_form_field_tips"] = true;
 		
 		$vs_item_pk = $this->primaryKey();
 		
-		if (!($t_rel_item = Datamodel::getTableInstance($va_rel_info['related_table_name']))) {	// related item
+		if (!($t_rel_item = Datamodel::getInstanceByTableName($va_rel_info['related_table_name']))) {	// related item
 			return null;
 		}
 		
@@ -9829,7 +9829,7 @@ $pa_options["display_form_field_tips"] = true;
 		
 		$vs_item_pk = $this->primaryKey();
 		
-		if (!($t_rel_item = Datamodel::getTableInstance($va_rel_info['related_table_name']))) {	// related item
+		if (!($t_rel_item = Datamodel::getInstanceByTableName($va_rel_info['related_table_name']))) {	// related item
 			return null;
 		}
 		
@@ -11414,7 +11414,7 @@ $pa_options["display_form_field_tips"] = true;
 	 * @return string idno value, null if id does not exist or false if id exists but fails checkAccess checks
 	 */
 	public static function getIdnoForID($pn_id, $pa_options=null) {
-				if (($t_instance = Datamodel::getTableInstance(static::class, true)) && ($vs_idno_fld = $t_instance->getProperty('ID_NUMBERING_ID_FIELD'))) {
+				if (($t_instance = Datamodel::getInstanceByTableName(static::class, true)) && ($vs_idno_fld = $t_instance->getProperty('ID_NUMBERING_ID_FIELD'))) {
 			$o_db = new Db();
 			$qr_res = $o_db->query("SELECT {$vs_idno_fld} FROM ".$t_instance->tableName()." WHERE ".$t_instance->primaryKey()." = ?", [(int)$pn_id]);
 			
@@ -12159,13 +12159,13 @@ $pa_options["display_form_field_tips"] = true;
 
 		switch(sizeof($va_path = array_keys(Datamodel::getPath($this->tableName(), $vs_related_table_name)))) {
 			case 3:
-				$t_item_rel = Datamodel::getTableInstance($va_path[1]);
-				$t_rel_item = Datamodel::getTableInstance($va_path[2]);
+				$t_item_rel = Datamodel::getInstanceByTableName($va_path[1]);
+				$t_rel_item = Datamodel::getInstanceByTableName($va_path[2]);
 				$vs_key = $t_item_rel->primaryKey(); //'relation_id';
 				break;
 			case 2:
 				$t_item_rel = null;
-				$t_rel_item = Datamodel::getTableInstance($va_path[1]);
+				$t_rel_item = Datamodel::getInstanceByTableName($va_path[1]);
 				$vs_key = $t_rel_item->primaryKey();
 				break;
 			default:
@@ -12429,7 +12429,7 @@ $pa_options["display_form_field_tips"] = true;
 }
 
 // includes for which BaseModel must already be defined
-require_once(__CA_LIB_DIR__."/core/TaskQueue.php");
+require_once(__CA_LIB_DIR__."/TaskQueue.php");
 require_once(__CA_APP_DIR__.'/models/ca_lists.php');
 require_once(__CA_APP_DIR__.'/models/ca_guids.php');
 require_once(__CA_APP_DIR__.'/models/ca_locales.php');

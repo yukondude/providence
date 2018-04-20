@@ -33,7 +33,7 @@
  /**
   *
   */
-require_once(__CA_LIB_DIR__."/core/Controller/Request.php");
+require_once(__CA_LIB_DIR__."/Controller/Request.php");
 
 # ----------------------------------------
 # Authorization constants

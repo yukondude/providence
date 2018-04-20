@@ -34,8 +34,8 @@
  * Calendar visualizer plugin created by idéesculture
  */
 
-include_once(__CA_LIB_DIR__."/core/Plugins/IWLPlugVisualizer.php");
-include_once(__CA_LIB_DIR__."/core/Plugins/Visualizer/BaseVisualizerPlugin.php");
+include_once(__CA_LIB_DIR__."/Plugins/IWLPlugVisualizer.php");
+include_once(__CA_LIB_DIR__."/Plugins/Visualizer/BaseVisualizerPlugin.php");
 
 class WLPlugVisualizerCalendar Extends BaseVisualizerPlugIn Implements IWLPlugVisualizer {
 	# ------------------------------------------------

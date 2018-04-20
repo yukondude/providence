@@ -2582,7 +2582,7 @@
 			
 			foreach($va_references as $vn_table_num => $va_rows) {
 				$va_row_ids = array_keys($va_rows);
-				if ((sizeof($va_row_ids) > 0) && $t_instance = Datamodel::getInstanceByTableNun($vn_table_num, true)) {
+				if ((sizeof($va_row_ids) > 0) && $t_instance = Datamodel::getInstanceByTableNum($vn_table_num, true)) {
 					if (!$t_instance->hasField('deleted')) { continue; }
 					$vs_pk = $t_instance->primaryKey();
 					$qr_del = $o_db->query("SELECT {$vs_pk} FROM ".$t_instance->tableName()." WHERE {$vs_pk} IN (?)".($t_instance->hasField('deleted') ? "AND deleted = 1" : ''), array($va_row_ids));
@@ -2905,7 +2905,7 @@
 			}
 			
 						foreach($va_ids_by_table as $vn_table_num => $va_row_ids) {
-				if (!($t_instance = Datamodel::getInstanceByTableNun($vn_table_num, true))) {
+				if (!($t_instance = Datamodel::getInstanceByTableNum($vn_table_num, true))) {
 					continue;
 				}
 				if (!$t_instance->hasField('deleted')) { continue; }

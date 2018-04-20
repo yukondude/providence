@@ -34,9 +34,9 @@
   *
   */
 
-require_once(__CA_LIB_DIR__."/core/Configuration.php");
+require_once(__CA_LIB_DIR__."/Configuration.php");
 require_once(__CA_APP_DIR__."/helpers/utilityHelpers.php");
-require_once(__CA_LIB_DIR__."/ca/ApplicationPluginManager.php");
+require_once(__CA_LIB_DIR__."/ApplicationPluginManager.php");
 
 /**
  * Constant for expression that will parse as current date/time independent of current locale.

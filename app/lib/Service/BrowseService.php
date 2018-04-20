@@ -34,8 +34,8 @@
  *
  */
 
-require_once(__CA_LIB_DIR__."/ca/Service/BaseJSONService.php");
-require_once(__CA_LIB_DIR__."/ca/Browse/BrowseEngine.php");
+require_once(__CA_LIB_DIR__."/Service/BaseJSONService.php");
+require_once(__CA_LIB_DIR__."/Browse/BrowseEngine.php");
 
 class BrowseService extends BaseJSONService {
 	# -------------------------------------------------------
@@ -130,7 +130,7 @@ class BrowseService extends BaseJSONService {
 			'limit' => (int) $this->opo_request->getParameter('limit', pInteger),
 		));
 
-		$t_instance = $this->_getTableInstance($this->getTableName());
+		$t_instance = $this->_getInstanceByTableName($this->getTableName());
 
 		while($vo_result->nextHit()) {
 			$va_item = array();
@@ -174,7 +174,7 @@ class BrowseService extends BaseJSONService {
 	# --------------------------------------------------
 	private function initBrowseWithUserFacets() {
 		$ps_class = $this->mapTypeToSearchClassName($this->getTableName());
-		require_once(__CA_LIB_DIR__."/ca/Browse/{$ps_class}.php");
+		require_once(__CA_LIB_DIR__."/Browse/{$ps_class}.php");
 
 		$o_browse = new $ps_class();
 		$va_post = $this->getRequestBodyArray();

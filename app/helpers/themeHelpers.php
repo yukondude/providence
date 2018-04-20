@@ -265,7 +265,7 @@
 		$o_db = new Db();
 		
 		if (!($vs_linking_table = RepresentableBaseModel::getRepresentationRelationshipTableName($ps_table))) { return null; }
-		$vs_pk = Datamodel::getTablePrimaryKeyName($ps_table);
+		$vs_pk = Datamodel::primaryKey($ps_table);
 
 		$qr_res = $o_db->query("
 			SELECT oxor.{$vs_pk}, orep.media, orep.representation_id

@@ -35,7 +35,7 @@
   */
   
  	require_once(__CA_APP_DIR__.'/helpers/accessHelpers.php');
-	require_once(__CA_LIB_DIR__."/core/Datamodel.php");
+	require_once(__CA_LIB_DIR__."/Datamodel.php");
  	require_once(__CA_LIB_DIR__.'/ResultContext.php');
  	require_once(__CA_LIB_DIR__.'/GeographicMap.php');
 	require_once(__CA_MODELS_DIR__."/ca_bundle_displays.php");
@@ -142,7 +142,7 @@
  				// set browse context for controller
  				$this->setContext($this->opo_browse->getContext());
  				
- 				$t_table = Datamodel::getTableInstance($this->ops_tablename);
+ 				$t_table = Datamodel::getInstanceByTableName($this->ops_tablename);
 				if ($this->request->session->getVar($this->ops_tablename.'_'.$this->ops_appname.'_detail_current_item_id') != $vn_item_id) {
 					$this->opo_browse->removeAllCriteria();	
 				}
@@ -424,7 +424,7 @@
  			
  			// generate type menu and type value list for related authority table facet
  			if ($va_facet_info['type'] === 'authority') {
-				$t_model = Datamodel::getTableInstance($va_facet_info['table']);
+				$t_model = Datamodel::getInstanceByTableName($va_facet_info['table']);
 				if (method_exists($t_model, "getTypeList")) {
 					$this->view->setVar('type_list', $t_model->getTypeList());
 				}
@@ -433,7 +433,7 @@
 				$this->view->setVar('relationship_type_list', $t_rel_types->getRelationshipInfo($va_facet_info['relationship_table']));
 			}
 			
-			$t_table = Datamodel::getTableInstance($this->ops_tablename);
+			$t_table = Datamodel::getInstanceByTableName($this->ops_tablename);
 			$this->view->setVar('other_parameters', array($t_table->primaryKey() => $this->request->getParameter($t_table->primaryKey(), pInteger)));
  			$this->render('../Browse/ajax_browse_facet_html.php');
  		}

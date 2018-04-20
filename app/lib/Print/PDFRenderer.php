@@ -216,9 +216,9 @@
 		 */
 		public function getPDFRendererPlugin($ps_plugin_code) {
 			if (preg_match('![^A-Za-z0-9_\-]+!', $ps_plugin_code)) { return null; }
-			if (!file_exists(__CA_LIB_DIR__."/core/Plugins/PDFRenderer/{$ps_plugin_code}.php")) { return null; }
+			if (!file_exists(__CA_LIB_DIR__."/Plugins/PDFRenderer/{$ps_plugin_code}.php")) { return null; }
 		
-			require_once(__CA_LIB_DIR__."/core/Plugins/PDFRenderer/{$ps_plugin_code}.php");
+			require_once(__CA_LIB_DIR__."/Plugins/PDFRenderer/{$ps_plugin_code}.php");
 			$vs_plugin_classname = "WLPlugPDFRenderer{$ps_plugin_code}";
 			return new $vs_plugin_classname;
 		}

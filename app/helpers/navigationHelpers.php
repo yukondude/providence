@@ -950,7 +950,7 @@
 	 */
 	function caEditorUrl($po_request, $ps_table, $pn_id=null, $pb_return_url_as_pieces=false, $pa_additional_parameters=null, $pa_options=null) {
 				if (is_numeric($ps_table)) {
-			if (!($t_table = Datamodel::getInstanceByTableNun($ps_table, true))) { return null; }
+			if (!($t_table = Datamodel::getInstanceByTableNum($ps_table, true))) { return null; }
 		} else {
 			if (!($t_table = Datamodel::getInstanceByTableName($ps_table, true))) { return null; }
 		}
@@ -1126,7 +1126,7 @@
 	 */
 	function caDetailUrl($po_request, $ps_table, $pn_id=null, $pb_return_url_as_pieces=false, $pa_additional_parameters=null, $pa_options=null) {
 				if (is_numeric($ps_table)) {
-			if (!($t_table = Datamodel::getInstanceByTableNun($ps_table, true))) { return null; }
+			if (!($t_table = Datamodel::getInstanceByTableNum($ps_table, true))) { return null; }
 		} else {
 			if (!($t_table = Datamodel::getInstanceByTableName($ps_table, true))) { return null; }
 		}
@@ -1200,7 +1200,7 @@
 	function caJSONLookupServiceUrl($po_request, $ps_table, $pa_attributes=null) {
 				
 		if (is_numeric($ps_table)) {
-			if (!($t_table = Datamodel::getInstanceByTableNun($ps_table, true))) { return null; }
+			if (!($t_table = Datamodel::getInstanceByTableNum($ps_table, true))) { return null; }
 		} else {
 			if (!($t_table = Datamodel::getInstanceByTableName($ps_table, true))) { return null; }
 		}

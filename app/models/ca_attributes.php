@@ -36,7 +36,7 @@
 
 require_once(__CA_APP_DIR__.'/models/ca_attribute_values.php');
 require_once(__CA_LIB_DIR__.'/Attributes/Attribute.php');
-require_once(__CA_LIB_DIR__."/ca/SyncableBaseModel.php");
+require_once(__CA_LIB_DIR__."/SyncableBaseModel.php");
 		
 
 BaseModel::$s_ca_models_definitions['ca_attributes'] = array(
@@ -933,7 +933,7 @@ class ca_attributes extends BaseModel {
 	public function getRowInstance() {
 		if(!$this->getPrimaryKey()) { return false; }
 
-                if (($t_instance = Datamodel::getInstanceByTableNun($this->get('table_num'), true)) && ($t_instance->load($this->get('row_id')))) {
+                if (($t_instance = Datamodel::getInstanceByTableNum($this->get('table_num'), true)) && ($t_instance->load($this->get('row_id')))) {
             return $t_instance;
         }
         
@@ -995,7 +995,7 @@ class ca_attributes extends BaseModel {
         ", [(int)$pn_value_id]);
         
                 while($qr_res->nextRow()) {
-            if (($t_instance = Datamodel::getInstanceByTableNun($qr_res->get('table_num'), true)) && ($t_instance->load($qr_res->get('row_id')))) {
+            if (($t_instance = Datamodel::getInstanceByTableNum($qr_res->get('table_num'), true)) && ($t_instance->load($qr_res->get('row_id')))) {
                 return $t_instance;
             }
         }

@@ -30,7 +30,7 @@
  * ----------------------------------------------------------------------
  */
 
-require_once(__CA_LIB_DIR__."/ca/Browse/BrowseEngine.php");
+require_once(__CA_LIB_DIR__."/Browse/BrowseEngine.php");
 require_once(__CA_APP_DIR__."/helpers/browseHelpers.php");
 
 class SimpleService {

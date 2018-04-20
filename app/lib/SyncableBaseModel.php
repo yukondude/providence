@@ -160,7 +160,7 @@ trait SyncableBaseModel {
 				$qr_res = $o_db->query("SELECT * FROM ca_guids WHERE guid = ?", [$ps_guid]);
 		
 		if($qr_res->nextRow()) {
-			if (($t_instance = Datamodel::getInstanceByTableNun($qr_res->get('table_num'))) && ($t_instance->load($qr_res->get('row_id')))) {
+			if (($t_instance = Datamodel::getInstanceByTableNum($qr_res->get('table_num'))) && ($t_instance->load($qr_res->get('row_id')))) {
 				return $t_instance;
 			}
 		}

@@ -38,12 +38,12 @@
   * Plugin for processing images using ImageMagick command-line executables
   */
 
-include_once(__CA_LIB_DIR__."/core/Plugins/Media/BaseMediaPlugin.php");
-include_once(__CA_LIB_DIR__."/core/Plugins/IWLPlugMedia.php");
-include_once(__CA_LIB_DIR__."/core/Parsers/TilepicParser.php");
-include_once(__CA_LIB_DIR__."/core/Configuration.php");
+include_once(__CA_LIB_DIR__."/Plugins/Media/BaseMediaPlugin.php");
+include_once(__CA_LIB_DIR__."/Plugins/IWLPlugMedia.php");
+include_once(__CA_LIB_DIR__."/Parsers/TilepicParser.php");
+include_once(__CA_LIB_DIR__."/Configuration.php");
 include_once(__CA_APP_DIR__."/helpers/mediaPluginHelpers.php");
-include_once(__CA_LIB_DIR__."/core/Parsers/MediaMetadata/XMPParser.php");
+include_once(__CA_LIB_DIR__."/Parsers/MediaMetadata/XMPParser.php");
 
 class WLPlugMediaImageMagick Extends BaseMediaPlugin Implements IWLPlugMedia {
 	var $errors = array();

@@ -38,8 +38,8 @@
  	require_once(__CA_LIB_DIR__.'/Attributes/Values/IAttributeValue.php');
  	require_once(__CA_LIB_DIR__.'/Attributes/Values/AttributeValue.php');
  	require_once(__CA_LIB_DIR__.'/Configuration.php');
-	require_once(__CA_LIB_DIR__."/core/File/FileInfoCoder.php");
-	require_once(__CA_LIB_DIR__."/core/File/FileMimeTypes.php");
+	require_once(__CA_LIB_DIR__."/File/FileInfoCoder.php");
+	require_once(__CA_LIB_DIR__."/File/FileMimeTypes.php");
  	require_once(__CA_LIB_DIR__.'/BaseModel.php');	// we use the BaseModel field type (FT_*) and display type (DT_*) constants
  	
  

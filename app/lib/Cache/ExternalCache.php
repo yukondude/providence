@@ -30,7 +30,7 @@
  * ----------------------------------------------------------------------
  */
 
-require_once(__CA_LIB_DIR__."/core/Cache/MemoryCache.php");
+require_once(__CA_LIB_DIR__."/Cache/MemoryCache.php");
 
 class ExternalCache {
 	# ------------------------------------------------

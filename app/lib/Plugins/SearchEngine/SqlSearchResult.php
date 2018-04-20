@@ -58,7 +58,7 @@ class WLPlugSearchEngineSqlSearchResult extends WLPlug implements IWLPlugSearchE
 		
 		if (sizeof($this->opa_hits)) {
 						
-			$this->opo_subject_instance = Datamodel::getInstanceByTableNun($this->opn_subject_tablenum, true);
+			$this->opo_subject_instance = Datamodel::getInstanceByTableNum($this->opn_subject_tablenum, true);
 			$this->ops_subject_primary_key = $this->opo_subject_instance->primaryKey();
 			$this->ops_subject_table_name = $this->opo_subject_instance->tableName();
 		}

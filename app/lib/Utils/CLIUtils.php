@@ -255,7 +255,7 @@
 		 * Rebuild search indices
 		 */
 		public static function rebuild_search_index($po_opts=null) {
-			require_once(__CA_LIB_DIR__."/core/Search/SearchIndexer.php");
+			require_once(__CA_LIB_DIR__."/Search/SearchIndexer.php");
 			ini_set('memory_limit', '4000m');
 			set_time_limit(24 * 60 * 60 * 7); /* maximum indexing time: 7 days :-) */
 
@@ -392,7 +392,7 @@
 		 * Remove media present in media directories but not referenced in database (aka. orphan media)
 		 */
 		public static function remove_unused_media($po_opts=null) {
-			require_once(__CA_LIB_DIR__."/core/Db.php");
+			require_once(__CA_LIB_DIR__."/Db.php");
 			require_once(__CA_MODELS_DIR__."/ca_object_representations.php");
 
 			$vb_delete_opt = (bool)$po_opts->getOption('delete');
@@ -487,7 +487,7 @@
 		 * Permanently remove object representations marked for deletion, deleting referenced files on disk and reclaiming disk space
 		 */
 		public static function remove_deleted_representations($po_opts=null) {
-			require_once(__CA_LIB_DIR__."/core/Db.php");
+			require_once(__CA_LIB_DIR__."/Db.php");
 			require_once(__CA_MODELS_DIR__."/ca_object_representations.php");
 
 			$vb_delete_opt = (bool)$po_opts->getOption('delete');
@@ -650,7 +650,7 @@
 		 * Export current system configuration as an XML installation profile
 		 */
 		public static function export_profile($po_opts=null) {
-			require_once(__CA_LIB_DIR__."/ca/ConfigurationExporter.php");
+			require_once(__CA_LIB_DIR__."/ConfigurationExporter.php");
 
 			if(!class_exists("DOMDocument")){
 				CLIUtils::addError(_t("The PHP DOM extension is required to export profiles"));
@@ -719,7 +719,7 @@
 		 * Process queued tasks
 		 */
 		public static function process_task_queue($po_opts=null) {
-			require_once(__CA_LIB_DIR__."/core/TaskQueue.php");
+			require_once(__CA_LIB_DIR__."/TaskQueue.php");
 
 			$vo_tq = new TaskQueue();
 
@@ -770,7 +770,7 @@
 		 * Reprocess media
 		 */
 		public static function reprocess_media($po_opts=null) {
-			require_once(__CA_LIB_DIR__."/core/Db.php");
+			require_once(__CA_LIB_DIR__."/Db.php");
 			require_once(__CA_MODELS_DIR__."/ca_object_representations.php");
 
 			$o_db = new Db();
@@ -966,7 +966,7 @@
 		 * Reindex PDF media by content for in-PDF search
 		 */
 		public static function reindex_pdfs($po_opts=null) {
-			require_once(__CA_LIB_DIR__."/core/Db.php");
+			require_once(__CA_LIB_DIR__."/Db.php");
 			require_once(__CA_MODELS_DIR__."/ca_object_representations.php");
 
 			if (!caPDFMinerInstalled()) {
@@ -1158,7 +1158,7 @@
 		 * Update database schema
 		 */
 		public static function update_database_schema($po_opts=null) {
-			require_once(__CA_LIB_DIR__."/ca/ConfigurationCheck.php");
+			require_once(__CA_LIB_DIR__."/ConfigurationCheck.php");
 
 			$o_config_check = new ConfigurationCheck();
 			if (($vn_current_revision = ConfigurationCheck::getSchemaVersion()) < __CollectiveAccess_Schema_Rev__) {
@@ -1574,7 +1574,7 @@
 		 *
 		 */
 		public static function regenerate_annotation_previews($po_opts=null) {
-			require_once(__CA_LIB_DIR__."/core/Db.php");
+			require_once(__CA_LIB_DIR__."/Db.php");
 			require_once(__CA_MODELS_DIR__."/ca_representation_annotations.php");
 
 			$o_db = new Db();
@@ -2264,7 +2264,7 @@
 		 *
 		 */
 		public static function check_media_fixity($po_opts=null) {
-			require_once(__CA_LIB_DIR__."/core/Db.php");
+			require_once(__CA_LIB_DIR__."/Db.php");
 			require_once(__CA_MODELS_DIR__."/ca_object_representations.php");
 
 			if (!($ps_file_path = strtolower((string)$po_opts->getOption('file')))) {
@@ -2426,7 +2426,7 @@
 											$t_attr = new ca_attributes($vn_attribute_id = $t_attr_val->get('attribute_id'));
 
 											$vs_label = "attribute_id={$vn_attribute_id}; value_id={$vn_value_id}";
-											if ($t_instance = Datamodel::getInstanceByTableNun($t_attr->get('table_num'), true)) {
+											if ($t_instance = Datamodel::getInstanceByTableNum($t_attr->get('table_num'), true)) {
 												if ($t_instance->load($t_attr->get('row_id'))) {
 													$vs_label = $t_instance->get($t_instance->tableName().'.preferred_labels');
 													if ($vs_idno = $t_instance->get($t_instance->getProperty('ID_NUMBERING_ID_FIELD'))) {
@@ -2500,7 +2500,7 @@
 										$t_attr = new ca_attributes($vn_attribute_id = $t_attr_val->get('attribute_id'));
 
 										$vs_label = "attribute_id={$vn_attribute_id}; value_id={$vn_value_id}";
-										if ($t_instance = Datamodel::getInstanceByTableNun($t_attr->get('table_num'), true)) {
+										if ($t_instance = Datamodel::getInstanceByTableNum($t_attr->get('table_num'), true)) {
 											if ($t_instance->load($t_attr->get('row_id'))) {
 												$vs_label = $t_instance->get($t_instance->tableName().'.preferred_labels');
 												if ($vs_idno = $t_instance->get($t_instance->getProperty('ID_NUMBERING_ID_FIELD'))) {
@@ -2587,7 +2587,7 @@
 		 *
 		 */
 		public static function create_ngrams($po_opts=null) {
-			require_once(__CA_LIB_DIR__."/core/Db.php");
+			require_once(__CA_LIB_DIR__."/Db.php");
 
 			$o_db = new Db();
 
@@ -2729,7 +2729,7 @@
 		 *
 		 */
 		public static function reload_object_current_locations($po_opts=null) {
-			require_once(__CA_LIB_DIR__."/core/Db.php");
+			require_once(__CA_LIB_DIR__."/Db.php");
 			require_once(__CA_MODELS_DIR__."/ca_objects.php");
 
 			$o_db = new Db();
@@ -2790,7 +2790,7 @@
 		 *
 		 */
 		public static function clear_caches($po_opts=null) {
-			require_once(__CA_LIB_DIR__."/core/Configuration.php");
+			require_once(__CA_LIB_DIR__."/Configuration.php");
 			$o_config = Configuration::load();
 
 			$ps_cache = strtolower((string)$po_opts->getOption('cache'));
@@ -2860,11 +2860,11 @@
 		 */
 		public static function do_configuration_check($po_opts=null) {
 			
-			include_once(__CA_LIB_DIR__."/core/Search/SearchEngine.php");
-			include_once(__CA_LIB_DIR__."/core/Media.php");
-			include_once(__CA_LIB_DIR__."/ca/ApplicationPluginManager.php");
-			include_once(__CA_LIB_DIR__."/ca/ConfigurationCheck.php");
-			require_once(__CA_LIB_DIR__."/core/Configuration.php");
+			include_once(__CA_LIB_DIR__."/Search/SearchEngine.php");
+			include_once(__CA_LIB_DIR__."/Media.php");
+			include_once(__CA_LIB_DIR__."/ApplicationPluginManager.php");
+			include_once(__CA_LIB_DIR__."/ConfigurationCheck.php");
+			require_once(__CA_LIB_DIR__."/Configuration.php");
 			
 			// Media
 			$t_media = new Media();
@@ -3179,7 +3179,7 @@
 		 *
 		 */
 		public static function precache_search_index($po_opts=null) {
-			require_once(__CA_LIB_DIR__."/core/Db.php");
+			require_once(__CA_LIB_DIR__."/Db.php");
 			$o_db = new Db();
 			
 			CLIUtils::addMessage(_t("Preloading primary search index..."), array('color' => 'bold_blue'));
@@ -3228,7 +3228,7 @@
 		 *
 		 */
 		public static function precache_content($po_opts=null) {
-			require_once(__CA_LIB_DIR__."/core/Db.php");
+			require_once(__CA_LIB_DIR__."/Db.php");
 			
 			$o_config = Configuration::load();
 			if(!(bool)$o_config->get('do_content_caching')) { 
@@ -3992,7 +3992,7 @@
 		 * @return bool
 		 */
 		public static function scan_site_page_templates($po_opts=null) {
-			require_once(__CA_LIB_DIR__."/ca/SitePageTemplateManager.php");
+			require_once(__CA_LIB_DIR__."/SitePageTemplateManager.php");
 			
 			CLIUtils::addMessage(_t("Scanning templates for tags"));
 			$va_results = SitePageTemplateManager::scan();
@@ -4070,7 +4070,7 @@
 		 *
 		 */
 		public static function precache_simple_services($po_opts=null) {
-			require_once(__CA_LIB_DIR__."/ca/SitePageTemplateManager.php");
+			require_once(__CA_LIB_DIR__."/SitePageTemplateManager.php");
 			
 		
 		    $o_app_conf = Configuration::load();
@@ -4171,7 +4171,7 @@
 		 *
 		 */
 		public static function import_media($po_opts=null) {
-			require_once(__CA_LIB_DIR__."/ca/BatchProcessor.php");
+			require_once(__CA_LIB_DIR__."/BatchProcessor.php");
 			
 						
 			if (!caCheckMediaDirectoryPermissions()) {
@@ -4479,7 +4479,7 @@
 			    // get type restrictions
 			    $va_type_res_list = $t_element->getTypeRestrictions();
 			    foreach($va_type_res_list as $va_type_res) {
-			        if (!($t_instance = Datamodel::getInstanceByTableNun($va_type_res['table_num']))) { continue; }
+			        if (!($t_instance = Datamodel::getInstanceByTableNum($va_type_res['table_num']))) { continue; }
 			        $vs_table_name = $t_instance->tableName();
 			        if ($va_type_res['type_id'] > 0) {
 			            $qr_res = call_user_func("{$vs_table_name}::find", ["type_id" => (int)$va_type_res['type_id']], ['returnAs' => 'searchResult']);

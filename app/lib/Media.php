@@ -34,8 +34,8 @@
   *
   */
  
-require_once (__CA_LIB_DIR__."/core/Configuration.php");
-require_once (__CA_LIB_DIR__."/core/BaseObject.php");
+require_once (__CA_LIB_DIR__."/Configuration.php");
+require_once (__CA_LIB_DIR__."/BaseObject.php");
 
 define("__CA_MEDIA_VIDEO_DEFAULT_ICON__", 'video');
 define("__CA_MEDIA_AUDIO_DEFAULT_ICON__", 'audio');

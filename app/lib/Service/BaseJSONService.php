@@ -146,7 +146,7 @@ class BaseJSONService {
 	 * @param mixed $pn_id integer primary key value of the record to load, or string idno value for the record to load 
 	 * @return BundlableLabelableBaseModelWithAttributes
 	 */
-	protected function _getTableInstance($ps_table,$pn_id=null){		// $pn_id might be a string if the user is fetching by idno
+	protected function _getInstanceByTableName($ps_table,$pn_id=null){		// $pn_id might be a string if the user is fetching by idno
 		if(!in_array($ps_table, $this->opa_valid_tables)){
 			$this->opa_errors[] = _t("Accessing this table directly is not allowed");
 			return false;

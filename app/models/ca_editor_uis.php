@@ -312,7 +312,7 @@ class ca_editor_uis extends BundlableLabelableBaseModelWithAttributes {
 		if (isset(ca_editor_uis::$s_default_ui_cache[$pm_table_name_or_num.'/'.$pn_type_id])) { return ca_editor_uis::$s_default_ui_cache[$pm_table_name_or_num.'/'.$pn_type_id]; }
 		
 				if (is_numeric($pm_table_name_or_num)) {
-			$t_instance = Datamodel::getInstanceByTableNun($pm_table_name_or_num, true);
+			$t_instance = Datamodel::getInstanceByTableNum($pm_table_name_or_num, true);
 		} else {
 			$t_instance = Datamodel::getInstanceByTableName($pm_table_name_or_num, true);
 		}
@@ -1433,7 +1433,7 @@ class ca_editor_uis extends BundlableLabelableBaseModelWithAttributes {
 		
 		$va_bundles = [];
 		
-				$t_instance = Datamodel::getInstanceByTableNun($this->get('editor_type'), true);
+				$t_instance = Datamodel::getInstanceByTableNum($this->get('editor_type'), true);
 		$vs_table = $t_instance->tableName();
 		
 		$pa_type_restriction_ids = null;

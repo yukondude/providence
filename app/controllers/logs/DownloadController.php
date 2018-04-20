@@ -59,7 +59,7 @@
 					$va_row_id_by_table_num[$va_download["table_num"]][] = $va_download["row_id"];
 				}
 				foreach($va_row_id_by_table_num as $vn_table_num => $va_row_ids){
-					$t_table = Datamodel::getInstanceByTableNun($vn_table_num, true);
+					$t_table = Datamodel::getInstanceByTableNum($vn_table_num, true);
 					$va_tables[$vn_table_num]['name'] = Datamodel::getTableName($vn_table_num);
 					$va_tables[$vn_table_num]['displayname'] = $t_table->getProperty('NAME_SINGULAR');
 					$va_record_labels_by_table_num[$vn_table_num] = $t_table->getPreferredDisplayLabelsForIDs($va_row_ids);
