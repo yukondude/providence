@@ -33,7 +33,7 @@
  /**
    *
    */
-require_once(__CA_LIB_DIR__.'/ca/ObjectRelationshipBaseModel.php');
+require_once(__CA_LIB_DIR__.'/ObjectRelationshipBaseModel.php');
 require_once(__CA_LIB_DIR__."/ca/CurrentLocationCriterionTrait.php");
 
 

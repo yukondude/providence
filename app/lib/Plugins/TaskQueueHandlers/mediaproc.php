@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/core/Plugins/TaskQueueHandlers/mediaproc.php :
+ * app/lib/Plugins/TaskQueueHandlers/mediaproc.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -160,8 +160,7 @@ include_once(__CA_LIB_DIR__."/core/Logging/Eventlog.php");
 			
 			$va_report = array('errors' => array(), 'notes' => array());
 			
-			$o_dm 						= Datamodel::load();
-			$o_media_volumes 			= new MediaVolumes();
+						$o_media_volumes 			= new MediaVolumes();
 			$o_media 					= new Media();
 			$o_media_proc_settings 		= new MediaProcessingSettings($vs_table, $vs_field);
 			
@@ -179,7 +178,7 @@ include_once(__CA_LIB_DIR__."/core/Logging/Eventlog.php");
 				return $va_report;
 			}
 			
-			if ($t_instance = $o_dm->getInstanceByTableName($vs_table, true)) {
+			if ($t_instance = Datamodel::getInstanceByTableName($vs_table, true)) {
 				if ($t_instance->hasField($vs_field)) {
 					if (!$t_instance->load($vn_id)) {
 						# record no longer exists

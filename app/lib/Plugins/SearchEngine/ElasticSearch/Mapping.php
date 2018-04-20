@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/core/Plugins/SearchEngine/ElasticSearch/Mapping.php :
+ * app/lib/Plugins/SearchEngine/ElasticSearch/Mapping.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -48,7 +48,6 @@ class Mapping {
 	/**
 	 * @var \Datamodel
 	 */
-	protected $opo_datamodel;
 
 	/**
 	 * @var \Db
@@ -77,7 +76,6 @@ class Mapping {
 	 */
 	public function __construct() {
 		// set up basic properties
-		$this->opo_datamodel = \Datamodel::load();
 		$this->opo_search_conf = \Configuration::load(\Configuration::load()->get('search_config'));
 		$this->opo_indexing_conf = \Configuration::load($this->opo_search_conf->get('search_indexing_config'));
 		$this->version = $this->opo_indexing_conf->get('elasticsearch_version');
@@ -121,13 +119,6 @@ class Mapping {
 	 */
 	protected function getSearchBase() {
 		return $this->opo_search_base;
-	}
-
-	/**
-	 * @return \Datamodel
-	 */
-	protected function getDatamodel() {
-		return $this->opo_datamodel;
 	}
 
 	/**

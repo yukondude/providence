@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/ca/Service/UserContentService.php
+ * app/lib/Service/UserContentService.php
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -41,11 +41,8 @@ require_once(__CA_MODELS_DIR__."/ca_set_items.php");
 
 class UserContentService extends BaseService {
 	# -------------------------------------------------------
-	protected $opo_dm;
-	# -------------------------------------------------------
 	public function  __construct($po_request) {
 		parent::__construct($po_request);
-		$this->opo_dm = Datamodel::load();
 	}
 	# -------------------------------------------------------
 	/**
@@ -137,7 +134,7 @@ class UserContentService extends BaseService {
 	 * @throws SoapFault
 	 */
 	public function addSet($type, $set_info_array){
-		if(!($vn_tablenum = $this->opo_dm->getTableNum($type))){
+		if(!($vn_tablenum = Datamodel::getTableNum($type))){
 			throw new SoapFault("Server", "Invalid set type");
 		}
 		$t_new_set = new ca_sets();
@@ -207,7 +204,7 @@ class UserContentService extends BaseService {
 	 * @throws SoapFault
 	 */
 	public function addItemToSet($set_id, $type, $item_id, $set_item_info_array){
-		if(!($vn_tablenum = $this->opo_dm->getTableNum($type))){
+		if(!($vn_tablenum = Datamodel::getTableNum($type))){
 			throw new SoapFault("Server", "Invalid type");
 		}
 		$t_set_item = new ca_set_items();

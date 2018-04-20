@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/core/Media/MediaInfoCoder.php :
+ * app/lib/Media/MediaInfoCoder.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software

@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/ca/BaseApplicationTool.php : 
+ * app/lib/BaseApplicationTool.php : 
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -34,10 +34,10 @@
   *
   */
  
-require_once(__CA_LIB_DIR__.'/ca/Utils/IApplicationTool.php');
-require_once(__CA_LIB_DIR__.'/ca/Utils/ApplicationToolSettings.php');
-require_once(__CA_LIB_DIR__.'/core/Logging/KLogger/KLogger.php');
-require_once(__CA_LIB_DIR__.'/ca/ProgressBar.php');
+require_once(__CA_LIB_DIR__.'/Utils/IApplicationTool.php');
+require_once(__CA_LIB_DIR__.'/Utils/ApplicationToolSettings.php');
+require_once(__CA_LIB_DIR__.'/Logging/KLogger/KLogger.php');
+require_once(__CA_LIB_DIR__.'/ProgressBar.php');
  
 	abstract class BaseApplicationTool implements IApplicationTool {
 		# -------------------------------------------------------
@@ -95,7 +95,6 @@ require_once(__CA_LIB_DIR__.'/ca/ProgressBar.php');
 		/**
 		 * Application datamodel object
 		 */
-		protected $opo_datamodel;
 			
 		/**
 		 * Tool run mode. Either CLI (command line) or WebUI (via web-based user interface)
@@ -119,8 +118,7 @@ require_once(__CA_LIB_DIR__.'/ca/ProgressBar.php');
 		public function __construct($pa_settings=null, $ps_mode='CLI', $ps_tool_config_path=null, $ps_log_path=null) {
 			$this->SETTINGS = new ApplicationToolSettings($this->opa_available_settings, array());
 			
-			$this->opo_datamodel = Datamodel::load();
-			$this->opo_app_config = Configuration::load();
+						$this->opo_app_config = Configuration::load();
 			
 			if (is_array($pa_settings)) { $this->setSettings($pa_settings); }
 			if ($ps_tool_config_path) { $this->ops_tool_config_path = $ps_tool_config_path; }
@@ -187,15 +185,6 @@ require_once(__CA_LIB_DIR__.'/ca/ProgressBar.php');
 		 */
 		public function getAppConfig() {
 			return $this->opo_app_config;
-		}
-		# -------------------------------------------------------
-		/**
-		 * Get application Datamodel instance
-		 *
-		 * @return Datamodel
-		 */
-		public function getAppDatamodel() {
-			return $this->opo_datamodel;
 		}
 		# -------------------------------------------------------
 		/**

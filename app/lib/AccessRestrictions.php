@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/core/AccessRestrictions.php :
+ * app/lib/AccessRestrictions.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software

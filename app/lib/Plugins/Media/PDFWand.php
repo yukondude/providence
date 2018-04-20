@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/core/Plugins/Media/PDFWand.php :
+ * app/lib/Plugins/Media/PDFWand.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software

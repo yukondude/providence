@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/core/Db/mysqli.php :
+ * app/lib/Db/mysqli.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software

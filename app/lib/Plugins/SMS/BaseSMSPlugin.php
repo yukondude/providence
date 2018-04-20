@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/core/Plugins/SMS/BaseSMSPlugIn.php : 
+ * app/lib/Plugins/SMS/BaseSMSPlugIn.php : 
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software

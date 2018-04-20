@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/core/Cache/ExternalCache.php : provides caching using external facilities
+ * app/lib/Cache/ExternalCache.php : provides caching using external facilities
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software

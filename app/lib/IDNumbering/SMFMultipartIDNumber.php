@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/ca/IDNumbering/SMFMultipartIDNumber.php : plugin to generate id numbers for Musées de France
+ * app/lib/IDNumbering/SMFMultipartIDNumber.php : plugin to generate id numbers for Musées de France
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software

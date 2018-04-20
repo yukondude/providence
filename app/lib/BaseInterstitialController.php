@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/ca/BaseInterstitialController.php : 
+ * app/lib/BaseInterstitialController.php : 
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -41,11 +41,10 @@
  	require_once(__CA_LIB_DIR__."/ca/ApplicationPluginManager.php");
  	require_once(__CA_LIB_DIR__."/ca/ResultContext.php");
 	require_once(__CA_LIB_DIR__."/core/Logging/Eventlog.php");
- 	require_once(__CA_LIB_DIR__.'/ca/Utils/DataMigrationUtils.php');
+ 	require_once(__CA_LIB_DIR__.'/Utils/DataMigrationUtils.php');
  
  	class BaseInterstitialController extends ActionController {
  		# -------------------------------------------------------
- 		protected $opo_datamodel;
  		protected $opo_app_plugin_manager;
  		protected $opo_result_context;
  		# -------------------------------------------------------
@@ -54,8 +53,7 @@
  		public function __construct(&$po_request, &$po_response, $pa_view_paths=null) {
  			parent::__construct($po_request, $po_response, $pa_view_paths);
 			
- 			$this->opo_datamodel = Datamodel::load();
- 			$this->opo_app_plugin_manager = new ApplicationPluginManager();
+ 			 			$this->opo_app_plugin_manager = new ApplicationPluginManager();
  			$this->opo_result_context = new ResultContext($po_request, $this->ops_table_name, ResultContext::getLastFind($po_request, $this->ops_table_name));
  		}
  		# -------------------------------------------------------
@@ -282,7 +280,7 @@
  			AssetLoadManager::register('imageScroller');
  			AssetLoadManager::register('ckeditor');
 
- 			if (!($t_subject = $this->opo_datamodel->getInstanceByTableName($this->ops_table_name))) { return null; }
+ 			if (!($t_subject = Datamodel::getInstanceByTableName($this->ops_table_name))) { return null; }
  			
  			if (is_array($pa_options) && isset($pa_options['loadSubject']) && (bool)$pa_options['loadSubject'] && ($vn_subject_id = (int)$this->request->getParameter($t_subject->primaryKey(), pInteger))) {
  				$t_subject->load($vn_subject_id);

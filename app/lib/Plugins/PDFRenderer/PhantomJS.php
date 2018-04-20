@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/core/Plugins/PDFRenderer/PhantomJS.php : renders HTML as PDF using PhantomJS
+ * app/lib/Plugins/PDFRenderer/PhantomJS.php : renders HTML as PDF using PhantomJS
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software

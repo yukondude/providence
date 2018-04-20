@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/ca/BaseFeedController.php : base controller for RSS and Atom feeds
+ * app/lib/BaseFeedController.php : base controller for RSS and Atom feeds
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software

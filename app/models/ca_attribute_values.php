@@ -34,7 +34,7 @@
    *
    */
  
-require_once(__CA_LIB_DIR__.'/ca/Attributes/Attribute.php');
+require_once(__CA_LIB_DIR__.'/Attributes/Attribute.php');
 require_once(__CA_MODELS_DIR__.'/ca_attribute_value_multifiles.php');
 require_once(__CA_LIB_DIR__."/ca/SyncableBaseModel.php");
 

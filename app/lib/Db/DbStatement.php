@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/core/Db/DbStatement.php :
+ * app/lib/Db/DbStatement.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software

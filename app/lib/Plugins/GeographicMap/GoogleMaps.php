@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/core/Plugins/GeographicMap/WLPlugGeographicMapGoogleMaps.php : generates maps via GoogleMaps API
+ * app/lib/Plugins/GeographicMap/WLPlugGeographicMapGoogleMaps.php : generates maps via GoogleMaps API
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software

@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/ca/Service/IIIFService.php
+ * app/lib/Service/IIIFService.php
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -115,8 +115,7 @@ class IIIFService {
 						$t_attr = new ca_attributes($t_media->get('attribute_id'));
 					}
 					
-					$o_dm = Datamodel::load();
-					if ($t_instance = $o_dm->getInstanceByTableNum($t_attr->get('table_num'), true)) {
+										if ($t_instance = Datamodel::getInstanceByTableNun($t_attr->get('table_num'), true)) {
 						if ($t_instance->load($t_attr->get('row_id'))) {
 							if (!$t_instance->isReadable($po_request)) {
 								// not readable

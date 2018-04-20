@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/core/Plugins/GeographicMap/BaseGeographicMapPlugIn.php : base class for geographic map plugins
+ * app/lib/Plugins/GeographicMap/BaseGeographicMapPlugIn.php : base class for geographic map plugins
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software

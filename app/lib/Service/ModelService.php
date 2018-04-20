@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/ca/Service/ModelService.php
+ * app/lib/Service/ModelService.php
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software

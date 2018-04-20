@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/core/Plugins/Visualizer/BaseVisualizerPlugin.php : base class for visualization plugins
+ * app/lib/Plugins/Visualizer/BaseVisualizerPlugin.php : base class for visualization plugins
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software

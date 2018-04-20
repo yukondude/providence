@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/ca/BaseSearchController.php : base controller for search interface
+ * app/lib/BaseSearchController.php : base controller for search interface
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -451,8 +451,7 @@
 			$pn_id 					=  $this->request->getParameter('id', pInteger);
 			$pa_within_fields	=  $this->request->getParameter('withinFields', pArray); 
 			
-			$vo_dm = Datamodel::load();
-			if (!($t_instance = $vo_dm->getInstanceByTableNum($pn_table_num, true))) {
+						if (!($t_instance = Datamodel::getInstanceByTableNum($pn_table_num, true))) {
 				return null;	// invalid table number
 			}
 			

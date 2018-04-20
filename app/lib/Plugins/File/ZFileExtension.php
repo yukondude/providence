@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/core/Plugins/File/ZFileExtension.php :
+ * app/lib/Plugins/File/ZFileExtension.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software

@@ -111,8 +111,7 @@
 		 */
 		public function hookRenderMenuBar($pa_menu_bar) {
 			if ($o_req = $this->getRequest()) {
-				$o_dm = Datamodel::load();
-				$va_activity_lists = array();
+								$va_activity_lists = array();
 
 				if($this->opo_config instanceof Configuration) {
 					$va_menu_item_names = $this->opo_config->getAssoc('menuItemNames');
@@ -129,7 +128,7 @@
 				
 					if (sizeof($va_activity_list) == 0) { continue; }
 					
-					$t_instance = $o_dm->getInstanceByTableName($vs_table_name, true);
+					$t_instance = Datamodel::getInstanceByTableName($vs_table_name, true);
 					$va_labels = $t_instance->getPreferredDisplayLabelsForIDs(array_keys($va_activity_list));
 					
 					if ($vs_table_name === 'ca_occurrences') {

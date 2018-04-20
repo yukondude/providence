@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/core/Plugins/Media/QuicktimeVR.php :
+ * app/lib/Plugins/Media/QuicktimeVR.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software

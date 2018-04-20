@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/core/Plugins/GeographicMap/WLPlugGeographicMapOpenLayers.php : generates maps via OpenLayers API
+ * app/lib/Plugins/GeographicMap/WLPlugGeographicMapOpenLayers.php : generates maps via OpenLayers API
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software

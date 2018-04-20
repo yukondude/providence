@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/core/Plugins/TaskQueueHandlers/as3mirror.php :
+ * app/lib/Plugins/TaskQueueHandlers/as3mirror.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -173,8 +173,7 @@ include_once(__CA_LIB_DIR__."/core/Logging/Eventlog.php");
 			#
 			# Update record
 			#		
-			$o_dm =& Datamodel::load();
-			if ($table_obj = $o_dm->getTableInstance($table)) {
+			if ($table_obj = Datamodel::getTableInstance($table)) {
 				if ($table_obj->hasField($field)) {
 					if ($table_obj->load($id)) {
 						$md = $table_obj->get($field);

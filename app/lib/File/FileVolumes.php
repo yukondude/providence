@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/core/File/FileVolumes.php : 
+ * app/lib/File/FileVolumes.php : 
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software

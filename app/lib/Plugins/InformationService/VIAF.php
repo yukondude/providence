@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/core/Plugins/InformationService/VIAF.php :
+ * app/lib/Plugins/InformationService/VIAF.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software

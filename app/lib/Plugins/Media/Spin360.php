@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/core/Plugins/Media/Spin360.php :
+ * app/lib/Plugins/Media/Spin360.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software

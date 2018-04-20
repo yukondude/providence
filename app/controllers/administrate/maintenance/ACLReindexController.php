@@ -30,7 +30,7 @@ require_once(__CA_LIB_DIR__."/core/Search/SearchEngine.php");
 require_once(__CA_LIB_DIR__."/core/Media.php");
 require_once(__CA_LIB_DIR__."/ca/ApplicationPluginManager.php");
 require_once(__CA_APP_DIR__."/helpers/configurationHelpers.php");
-require_once(__CA_LIB_DIR__.'/ca/ACLReindexingProgress.php');
+require_once(__CA_LIB_DIR__.'/ACLReindexingProgress.php');
 
 class ACLReindexController extends ActionController {
 

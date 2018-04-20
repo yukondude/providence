@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/ca/Search/UserRepresentationAnnotationSearch.php :
+ * app/lib/Search/UserRepresentationAnnotationSearch.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software

@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/core/Plugins/Visualizer/BaseCurrencyConversionPlugin.php : 
+ * app/lib/Plugins/Visualizer/BaseCurrencyConversionPlugin.php : 
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software

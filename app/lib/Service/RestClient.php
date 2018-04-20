@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/ca/Service/RestClient.php
+ * app/lib/Service/RestClient.php
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software

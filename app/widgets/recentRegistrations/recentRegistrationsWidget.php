@@ -25,17 +25,16 @@
  *
  * ----------------------------------------------------------------------
  */
- 	require_once(__CA_LIB_DIR__.'/ca/BaseWidget.php');
- 	require_once(__CA_LIB_DIR__.'/ca/IWidget.php');
- 	require_once(__CA_LIB_DIR__.'/core/Db.php');
-	require_once(__CA_LIB_DIR__.'/core/Configuration.php');
-	require_once(__CA_LIB_DIR__.'/core/Datamodel.php');
+ 	require_once(__CA_LIB_DIR__.'/BaseWidget.php');
+ 	require_once(__CA_LIB_DIR__.'/IWidget.php');
+ 	require_once(__CA_LIB_DIR__.'/Db.php');
+	require_once(__CA_LIB_DIR__.'/Configuration.php');
+	require_once(__CA_LIB_DIR__.'/Datamodel.php');
 	require_once(__CA_MODELS_DIR__."/ca_users.php");
  
 	class recentRegistrationsWidget extends BaseWidget implements IWidget {
 		# -------------------------------------------------------
 		private $opo_config;
-		private $opo_datamodel;
 		
 		static $s_widget_settings = array();
 		# -------------------------------------------------------
@@ -45,8 +44,7 @@
 			parent::__construct($ps_widget_path, $pa_settings);
 			
 			$this->opo_config = Configuration::load($ps_widget_path.'/conf/recentRegistrations.conf');
-			$this->opo_datamodel = Datamodel::load();
-		}
+					}
 		# -------------------------------------------------------
 		/**
 		 * Override checkStatus() to return true

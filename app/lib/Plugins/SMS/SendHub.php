@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/core/Plugins/SMS/WLPlugSMSSendHub.php : generates SMS messages via SendHub API
+ * app/lib/Plugins/SMS/WLPlugSMSSendHub.php : generates SMS messages via SendHub API
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software

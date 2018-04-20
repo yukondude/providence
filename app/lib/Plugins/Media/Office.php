@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/core/Plugins/Media/Office.php :
+ * app/lib/Plugins/Media/Office.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software

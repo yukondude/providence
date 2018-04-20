@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/core/Plugins/Media/XMLDoc.php :
+ * app/lib/Plugins/Media/XMLDoc.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software

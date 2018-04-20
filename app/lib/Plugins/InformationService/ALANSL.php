@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/core/Plugins/InformationService/ALANSL.php :
+ * app/lib/Plugins/InformationService/ALANSL.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software

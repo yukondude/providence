@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/core/Plugins/MediaReplication/WLPlugMediaReplicationYouTube.php : replicates media to YouTube
+ * app/lib/Plugins/MediaReplication/WLPlugMediaReplicationYouTube.php : replicates media to YouTube
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software

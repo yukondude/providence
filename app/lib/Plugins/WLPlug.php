@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/core/Plugins/WLPlug.php :
+ * app/lib/Plugins/WLPlug.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software

@@ -34,7 +34,7 @@
    *
    */
 
-require_once(__CA_LIB_DIR__.'/ca/BundlableLabelableBaseModelWithAttributes.php');
+require_once(__CA_LIB_DIR__.'/BundlableLabelableBaseModelWithAttributes.php');
 require_once(__CA_APP_DIR__.'/models/ca_list_items.php');
 require_once(__CA_APP_DIR__.'/helpers/htmlFormHelpers.php');
 require_once(__CA_APP_DIR__.'/helpers/listHelpers.php');
@@ -1564,8 +1564,7 @@ class ca_lists extends BundlableLabelableBaseModelWithAttributes {
 		
 		$va_in_use_list = null;
 		if ($pa_options['inUse'] && (int)$pa_options['element_id'] && $pa_options['table']) {
-			$o_dm = Datamodel::load();
-			if ($t_instance = $o_dm->getInstance($pa_options['table'], true)) {
+						if ($t_instance = Datamodel::getInstance($pa_options['table'], true)) {
 				$va_params = array((int)$pa_options['element_id']);
 				if(is_array($pa_check_access) && sizeof($pa_check_access)) {
 					$va_params[] = $pa_check_access;

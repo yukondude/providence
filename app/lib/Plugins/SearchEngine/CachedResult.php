@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/core/Plugins/SearchEngine/CachedResult.php :
+ * app/lib/Plugins/SearchEngine/CachedResult.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -34,14 +34,13 @@
   *
   */
  
- include_once(__CA_LIB_DIR__.'/core/Datamodel.php');
- include_once(__CA_LIB_DIR__.'/core/Plugins/WLPlug.php');
- include_once(__CA_LIB_DIR__.'/core/Plugins/IWLPlugSearchEngineResult.php');
+ include_once(__CA_LIB_DIR__.'/Datamodel.php');
+ include_once(__CA_LIB_DIR__.'/Plugins/WLPlug.php');
+ include_once(__CA_LIB_DIR__.'/Plugins/IWLPlugSearchEngineResult.php');
 
 class WLPlugSearchEngineCachedResult extends WLPlug implements IWLPlugSearchEngineResult {
 	# -------------------------------------------------------
 	private $opo_config;
-	private $opo_datamodel;
 	
 	private $opa_hits;
 	private $opn_current_row;
@@ -49,11 +48,10 @@ class WLPlugSearchEngineCachedResult extends WLPlug implements IWLPlugSearchEngi
 	protected $ops_subject_pk;
 	# -------------------------------------------------------
 	public function __construct($pa_hits, $pn_table_num) {
-		$this->opo_datamodel = Datamodel::load();
-		
+				
 		$this->opn_subject_tablenum = $pn_table_num;
 		
-		$this->ops_subject_pk = $this->opo_datamodel->getTablePrimaryKeyName($pn_table_num);
+		$this->ops_subject_pk = Datamodel::getTablePrimaryKeyName($pn_table_num);
 		$this->setHits(array_values($pa_hits));
 	}
 	# -------------------------------------------------------

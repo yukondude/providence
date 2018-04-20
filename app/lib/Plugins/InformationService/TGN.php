@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/core/Plugins/InformationService/TGN.php :
+ * app/lib/Plugins/InformationService/TGN.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software

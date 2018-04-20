@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/ca/Search/InterstitialSearch.php :
+ * app/lib/Search/InterstitialSearch.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -47,11 +47,10 @@ class InterstitialSearch extends BaseSearch {
 
 	# ----------------------------------------------------------------------
 	public function __construct($ps_table) {
-		$o_dm = Datamodel::load();
-		$this->ops_tablename = $ps_table;
-		$this->opn_tablenum = $o_dm->getTableNum($ps_table);
+				$this->ops_tablename = $ps_table;
+		$this->opn_tablenum = Datamodel::getTableNum($ps_table);
 		
-		$this->ops_primary_key = $o_dm->getTablePrimaryKeyName($ps_table);
+		$this->ops_primary_key = Datamodel::getTablePrimaryKeyName($ps_table);
 		parent::__construct();
 	}
 	# ----------------------------------------------------------------------

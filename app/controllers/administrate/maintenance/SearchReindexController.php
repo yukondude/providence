@@ -31,7 +31,7 @@ require_once(__CA_LIB_DIR__."/core/Media.php");
 require_once(__CA_LIB_DIR__."/ca/ApplicationPluginManager.php");
 require_once(__CA_APP_DIR__."/helpers/configurationHelpers.php");
 require_once(__CA_LIB_DIR__."/core/Search/SearchIndexer.php");
-require_once(__CA_LIB_DIR__.'/ca/SearchReindexingProgress.php');
+require_once(__CA_LIB_DIR__.'/SearchReindexingProgress.php');
 
 class SearchReindexController extends ActionController {
 

@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/ca/Search/BaseSearch.php : Base class for ca_* searches
+ * app/lib/Search/BaseSearch.php : Base class for ca_* searches
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software

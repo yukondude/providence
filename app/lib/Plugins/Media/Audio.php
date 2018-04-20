@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/core/Plugins/Media/Audio.php :
+ * app/lib/Plugins/Media/Audio.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software

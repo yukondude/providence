@@ -54,8 +54,7 @@
 		$i = 0;
 		$vn_item_count = 0;
 		//$o_tep = new TimeExpressionParser();
-		//$o_datamodel = Datamodel::load();
-		
+		//		
 		while(($vn_item_count < $vn_items_per_page) && $vo_result->nextHit()) {
 ?>
 				<tr>

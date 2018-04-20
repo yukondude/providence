@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/core/Logging/BaseLogger.php :
+ * app/lib/Logging/BaseLogger.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software

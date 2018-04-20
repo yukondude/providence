@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/core/Plugins/InformationService/Iconclass.php :
+ * app/lib/Plugins/InformationService/Iconclass.php :
  * ----------------------------------------------------------------------
  * Iconclass InformationService by Karl Becker 2017-2018
  * ----------------------------------------------------------------------

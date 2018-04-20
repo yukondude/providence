@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/core/ApplicationError.php : 
+ * app/lib/ApplicationError.php : 
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software

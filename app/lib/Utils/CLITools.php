@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/ca/Utils/CLITools.php :
+ * app/lib/Utils/CLITools.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -34,7 +34,7 @@
   *
   */
 
- 	require_once(__CA_LIB_DIR__.'/ca/Utils/CLIBaseUtils.php');
+ 	require_once(__CA_LIB_DIR__.'/Utils/CLIBaseUtils.php');
 	require_once(__CA_APP_DIR__."/helpers/utilityHelpers.php");
  
 	class CLITools extends CLIBaseUtils {

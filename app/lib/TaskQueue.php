@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/core/TaskQueue.php : class for managing deferred tasks queue
+ * app/lib/TaskQueue.php : class for managing deferred tasks queue
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software

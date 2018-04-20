@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
- * app/lib/ca/Search/QuickSearch.php :
+ * app/lib/Search/QuickSearch.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -60,15 +60,14 @@
  			];
  				
 			$t_list = new ca_lists();
-			$o_dm = Datamodel::load();
-			
+						
  			$va_searches_sorted = [];
  			foreach($va_default_order as $vs_table) {
  				if((bool)$o_config->get("{$vs_table}_disable")) { continue; }
  				$va_searches_sorted[$vs_table] = $va_searches[$vs_table];
  				
  				if (is_array($va_breakout_by_type) && in_array($vs_table, $va_breakout_by_type)) {
- 					if (!($t_instance = $o_dm->getInstanceByTableName($vs_table, true))) { continue; }
+ 					if (!($t_instance = Datamodel::getInstanceByTableName($vs_table, true))) { continue; }
  					
  					if (is_array($va_types = caExtractValuesByUserLocale($t_list->getItemsForList($t_instance->getTypeListCode())))) {
 						$va_proto_type = $va_searches_sorted[$vs_table];

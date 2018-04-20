@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/core/Plugins/SearchEngine/BaseSearchPlugin.php :
+ * app/lib/Plugins/SearchEngine/BaseSearchPlugin.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -35,11 +35,11 @@
   */
   
   
- require_once(__CA_LIB_DIR__.'/core/Db.php');
- require_once(__CA_LIB_DIR__.'/core/Configuration.php');
- require_once(__CA_LIB_DIR__.'/core/Datamodel.php');
- require_once(__CA_LIB_DIR__.'/core/Plugins/WLPlug.php');
- require_once(__CA_LIB_DIR__.'/core/Plugins/IWLPlugSearchEngine.php');
+ require_once(__CA_LIB_DIR__.'/Db.php');
+ require_once(__CA_LIB_DIR__.'/Configuration.php');
+ require_once(__CA_LIB_DIR__.'/Datamodel.php');
+ require_once(__CA_LIB_DIR__.'/Plugins/WLPlug.php');
+ require_once(__CA_LIB_DIR__.'/Plugins/IWLPlugSearchEngine.php');
 
 abstract class BaseSearchPlugin extends WLPlug implements IWLPlugSearchEngine {
 	# -------------------------------------------------------
@@ -63,7 +63,6 @@ abstract class BaseSearchPlugin extends WLPlug implements IWLPlugSearchEngine {
 	 *
 	 * @var Datamodel
 	 */
-	protected $opo_datamodel;
 	
 	/**
 	 *
@@ -106,8 +105,7 @@ abstract class BaseSearchPlugin extends WLPlug implements IWLPlugSearchEngine {
 		
 		$this->opo_config = Configuration::load();
 		$this->opo_search_config = Configuration::load(__CA_CONF_DIR__.'/search.conf');
-		$this->opo_datamodel = Datamodel::load();
-		$this->ops_encoding = $this->opo_config->get('character_set');
+				$this->ops_encoding = $this->opo_config->get('character_set');
 		
 		$this->opo_db = $po_db ? $po_db : new Db();
 		

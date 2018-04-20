@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/core/Controller/Request/RequestHTTP.php :
+ * app/lib/Controller/Request/RequestHTTP.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software

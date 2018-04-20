@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/ca/BaseLabel.php : Base class for ca_*_labels models
+ * app/lib/BaseLabel.php : Base class for ca_*_labels models
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -34,8 +34,8 @@
   *
   */
   
- 	require_once(__CA_LIB_DIR__.'/core/BaseModel.php');
- 	require_once(__CA_LIB_DIR__.'/core/Parsers/TimeExpressionParser.php');
+ 	require_once(__CA_LIB_DIR__.'/BaseModel.php');
+ 	require_once(__CA_LIB_DIR__.'/Parsers/TimeExpressionParser.php');
 	require_once(__CA_LIB_DIR__."/ca/SyncableBaseModel.php");
  
 	class BaseLabel extends BaseModel {
@@ -129,7 +129,7 @@
 		 */
 		public function getSubjectTableInstance($pa_options=null) {
 			if ($vs_subject_table_name = $this->getSubjectTableName()) {
-				$t_subject =  $this->_DATAMODEL->getInstanceByTableName($vs_subject_table_name, true);
+				$t_subject =  Datamodel::getInstanceByTableName($vs_subject_table_name, true);
 				
 				if ($t_subject->inTransaction()) { 
 					$t_subject->setTransaction($this->getTransaction()); 

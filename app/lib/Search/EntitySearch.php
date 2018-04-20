@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/ca/Search/EntitySearch.php :
+ * app/lib/Search/EntitySearch.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software

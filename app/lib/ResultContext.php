@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/ca/ResultContext.php :
+ * app/lib/ResultContext.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -1147,8 +1147,7 @@
 		 * @return string - table name
 		 */
 		static function getTableName($pm_table_name_or_num) {
-			$o_dm = Datamodel::load();
-			return $o_dm->getTableName($pm_table_name_or_num);
+						return Datamodel::getTableName($pm_table_name_or_num);
 		}
 		# ------------------------------------------------------------------
 	}

@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/ca/Sync/LogEntry/Relationship.php
+ * app/lib/Sync/LogEntry/Relationship.php
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -34,7 +34,7 @@ namespace CA\Sync\LogEntry;
 
 use Hoa\Core\Exception\Exception;
 
-require_once(__CA_LIB_DIR__.'/ca/Sync/LogEntry/Base.php');
+require_once(__CA_LIB_DIR__.'/Sync/LogEntry/Base.php');
 
 class Relationship extends Base {
 
@@ -139,14 +139,13 @@ class Relationship extends Base {
 	private function verifyLeftOrRightFieldNameFromSnapshot($ps_field, $pb_left=true) {
 		$vs_property = $pb_left ? 'RELATIONSHIP_LEFT_FIELDNAME' : 'RELATIONSHIP_RIGHT_FIELDNAME';
 		$va_snapshot = $this->getSnapshot();
-		$o_dm = \Datamodel::load();
 
 		if (isset($va_snapshot[$ps_field . '_guid']) && ($vs_reference_guid = $va_snapshot[$ps_field . '_guid'])) {
 			/** @var \BaseRelationshipModel $t_instance */
 			if($pb_left) {
-				$t_instance = $o_dm->getInstanceByTableName($this->getModelInstance()->getLeftTableName(), true);
+				$t_instance = Datamodel::getInstanceByTableName($this->getModelInstance()->getLeftTableName(), true);
 			} else {
-				$t_instance = $o_dm->getInstanceByTableName($this->getModelInstance()->getRightTableName(), true);
+				$t_instance = Datamodel::getInstanceByTableName($this->getModelInstance()->getRightTableName(), true);
 			}
 
 			$t_instance->setTransaction($this->getTx());

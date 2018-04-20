@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/core/Logging/Searchlog.php :
+ * app/lib/Logging/Searchlog.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -84,13 +84,12 @@ class Searchlog extends BaseLogger {
 					ORDER BY log_datetime DESC
 				");
 				
-				$o_dm = Datamodel::load();
-				
+								
 				$va_rows = array();
 				while($qr_log->nextRow()) {
 					$va_row = $qr_log->getRow();
 					
-					$t_table = $o_dm->getInstanceByTableNum($va_row['table_num'], true);
+					$t_table = Datamodel::getInstanceByTableNun($va_row['table_num'], true);
 					$va_row['table_name'] = $t_table->getProperty('NAME_PLURAL');
 					$va_row['user_name'] = $va_row['fname'].' '.$va_row['lname'];
 					$va_rows[$va_row['search_id']] = $va_row;

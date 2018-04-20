@@ -33,7 +33,7 @@
 	require_once(__CA_MODELS_DIR__."/ca_sets.php");
 	require_once(__CA_MODELS_DIR__."/ca_set_items.php");
 	require_once(__CA_MODELS_DIR__."/ca_set_item_labels.php");
-	require_once(__CA_LIB_DIR__.'/core/Media/MediaViewerManager.php');
+	require_once(__CA_LIB_DIR__.'/Media/MediaViewerManager.php');
  	
  	class SearchObjectsController extends BaseSearchController {
  		# -------------------------------------------------------

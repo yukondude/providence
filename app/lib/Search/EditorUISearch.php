@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/ca/Search/EditorUISearch.php :
+ * app/lib/Search/EditorUISearch.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software

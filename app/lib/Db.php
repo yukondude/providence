@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/core/Db.php : 
+ * app/lib/Db.php : 
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -98,7 +98,6 @@ class Db extends DbBase {
 	 */
 	public function __construct($ps_config_file_path="", $pa_options=null, $pb_die_on_error=false) {
 		$this->config = Configuration::load();
-		$this->datamodel = Datamodel::load();
 
 		$this->opn_transaction_count = 0;
 
@@ -508,7 +507,7 @@ class Db extends DbBase {
 	 * @return mixed
 	 */
 	public function getTableInstance($ps_table) {
-		return $this->datamodel->getInstanceByTableName($ps_table);
+		return Datamodel::getInstanceByTableName($ps_table);
 	}
 
 	/**

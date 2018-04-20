@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/ca/IDNumbering/IDNumber.php : base class for id number processing plugins
+ * app/lib/IDNumbering/IDNumber.php : base class for id number processing plugins
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -50,7 +50,6 @@
 		 * Instance of application data model
 		 * @type Datamodel
 		 */
-		protected $opo_datamodel;
 		
 		/**
 		 * The current format
@@ -87,8 +86,7 @@
 		 * Initialize and load configuration files
 		 */
 		public function __construct() {
-			$this->opo_datamodel = Datamodel::load();
-			$this->opo_config = Configuration::load();
+						$this->opo_config = Configuration::load();
 		}
 		# -------------------------------------------------------
 		# Formats

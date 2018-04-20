@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/ca/Utils/CLIBaseUtils.php :
+ * app/lib/Utils/CLIBaseUtils.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -34,7 +34,7 @@
   *
   */
 
-require_once(__CA_LIB_DIR__.'/core/Utils/CLIProgressBar.php');
+require_once(__CA_LIB_DIR__.'/Utils/CLIProgressBar.php');
 require_once(__CA_APP_DIR__.'/helpers/CLIHelpers.php');
 require_once(__CA_APP_DIR__.'/helpers/utilityHelpers.php');
 require_once(__CA_APP_DIR__.'/helpers/mediaPluginHelpers.php');

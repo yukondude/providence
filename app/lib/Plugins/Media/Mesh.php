@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/core/Plugins/Media/Mesh.php :
+ * app/lib/Plugins/Media/Mesh.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software

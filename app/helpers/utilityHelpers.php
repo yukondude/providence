@@ -34,13 +34,13 @@
    *
    */
 
-require_once(__CA_LIB_DIR__.'/core/Datamodel.php');
-require_once(__CA_LIB_DIR__.'/core/Configuration.php');
-require_once(__CA_LIB_DIR__.'/core/Parsers/ZipFile.php');
-require_once(__CA_LIB_DIR__.'/core/Logging/Eventlog.php');
-require_once(__CA_LIB_DIR__.'/core/Utils/Encoding.php');
-require_once(__CA_LIB_DIR__.'/core/Zend/Measure/Length.php');
-require_once(__CA_LIB_DIR__.'/core/Parsers/ganon.php');
+require_once(__CA_LIB_DIR__.'/Datamodel.php');
+require_once(__CA_LIB_DIR__.'/Configuration.php');
+require_once(__CA_LIB_DIR__.'/Parsers/ZipFile.php');
+require_once(__CA_LIB_DIR__.'/Logging/Eventlog.php');
+require_once(__CA_LIB_DIR__.'/Utils/Encoding.php');
+require_once(__CA_LIB_DIR__.'/Zend/Measure/Length.php');
+require_once(__CA_LIB_DIR__.'/Parsers/ganon.php');
 use Guzzle\Http\Client;
 
 # ----------------------------------------------------------------------
@@ -1498,7 +1498,7 @@ function caFileIsIncludable($ps_file) {
 	}
 	# ---------------------------------------
 	function caFormatXML($ps_xml){
-		require_once(__CA_LIB_DIR__.'/core/Parsers/XMLFormatter.php');
+		require_once(__CA_LIB_DIR__.'/Parsers/XMLFormatter.php');
 
 		$va_options = array(
 			"paddingString" => " ",
@@ -2297,8 +2297,7 @@ function caFileIsIncludable($ps_file) {
 	 * @return null|SearchResult
 	 */
 	function caMakeSearchResult($ps_table, $pa_ids, $pa_options=null) {
-		$o_dm = Datamodel::load();
-		if ($t_instance = $o_dm->getInstanceByTableName('ca_objects', true)) {	// get an instance of a model inherits from BundlableLabelableBaseModelWithAttributes; doesn't matter which one
+				if ($t_instance = Datamodel::getInstanceByTableName('ca_objects', true)) {	// get an instance of a model inherits from BundlableLabelableBaseModelWithAttributes; doesn't matter which one
 			return $t_instance->makeSearchResult($ps_table, $pa_ids, $pa_options);
 		}
 		return null;
@@ -3661,10 +3660,9 @@ function caFileIsIncludable($ps_file) {
 	 */
 	function caGetPrimaryTablesForHTMLSelect($pb_include_rel_tables=false) {
 		$va_tables = caGetPrimaryTables($pb_include_rel_tables);
-		$o_dm = Datamodel::load();
-		$va_ret = [];
+				$va_ret = [];
 		foreach($va_tables as $vn_table_num => $vs_table) {
-			$va_ret[$o_dm->getInstance($vn_table_num, true)->getProperty('NAME_PLURAL')] = $vn_table_num;
+			$va_ret[Datamodel::getInstance($vn_table_num, true)->getProperty('NAME_PLURAL')] = $vn_table_num;
 		}
 		return $va_ret;
 	}

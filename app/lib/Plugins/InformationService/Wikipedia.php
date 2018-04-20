@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/core/Plugins/InformationService/Wikipedia.php :
+ * app/lib/Plugins/InformationService/Wikipedia.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software

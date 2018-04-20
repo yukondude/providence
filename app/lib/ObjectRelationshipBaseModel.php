@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/ca/ObjectRelationshipBaseModel.php :
+ * app/lib/ObjectRelationshipBaseModel.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -34,7 +34,7 @@
   *
   */
  
- require_once(__CA_LIB_DIR__.'/core/BaseRelationshipModel.php');
+ require_once(__CA_LIB_DIR__.'/BaseRelationshipModel.php');
  require_once(__CA_APP_DIR__.'/helpers/htmlFormHelpers.php');
  require_once(__CA_MODELS_DIR__.'/ca_objects.php');
  
@@ -60,7 +60,7 @@
 		
 			$o_view = new View($po_request, $po_request->getViewsDirectoryPath().'/bundles/');	
 		
-			$o_view->setVar('lookup_urls', caJSONLookupServiceUrl($po_request, $this->getAppDatamodel()->getTableName($this->get('table_num'))));
+			$o_view->setVar('lookup_urls', caJSONLookupServiceUrl($po_request, Datamodel::getTableName($this->get('table_num'))));
 			$o_view->setVar('t_subject', $this);
 			
 			$vn_object_id = ($this->getLeftTableName() == 'ca_objects') ? $this->get($this->getLeftTableFieldName()) : $this->get($this->getRightTableFieldName());

@@ -36,7 +36,7 @@
 
 require_once(__CA_LIB_DIR__."/ca/IBundleProvider.php");
 require_once(__CA_LIB_DIR__."/ca/RepresentableBaseModel.php");
-require_once(__CA_LIB_DIR__.'/ca/IHierarchy.php');
+require_once(__CA_LIB_DIR__.'/IHierarchy.php');
 require_once(__CA_LIB_DIR__."/ca/BaseObjectLocationModel.php");
 
 

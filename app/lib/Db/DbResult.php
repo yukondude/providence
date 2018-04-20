@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/core/Db/DbResult.php :
+ * app/lib/Db/DbResult.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -95,7 +95,6 @@ class DbResult extends DbBase {
 	 *
 	 * @access private
 	 */
-	private $opo_datamodel;
 
 	/**
 	 * Cache for fieldInfo() results
@@ -112,8 +111,7 @@ class DbResult extends DbBase {
 	 */
 	function __construct(&$po_db, $pr_res) {
 
-		$this->opo_datamodel = Datamodel::load();
-		if (!isset($GLOBALS["_DbResult_time_expression_parser"]) || !$GLOBALS["_DbResult_time_expression_parser"]) { $GLOBALS["_DbResult_time_expression_parser"] = new TimeExpressionParser(); }
+				if (!isset($GLOBALS["_DbResult_time_expression_parser"]) || !$GLOBALS["_DbResult_time_expression_parser"]) { $GLOBALS["_DbResult_time_expression_parser"] = new TimeExpressionParser(); }
 		if (!isset($GLOBALS["_DbResult_timecodeparser"]) || !$GLOBALS["_DbResult_timecodeparser"]) { $GLOBALS["_DbResult_timecodeparser"] = new TimecodeParser(); }
 
 		if (!isset($GLOBALS["_DbResult_mediainfocoder"]) || !$GLOBALS["_DbResult_mediainfocoder"]) { $GLOBALS["_DbResult_mediainfocoder"] = new MediaInfoCoder(); }
@@ -328,7 +326,7 @@ class DbResult extends DbBase {
 				return DbResult::$s_field_info_cache[$ps_field] = array("table" => null, "field" => $ps_field, "instance" => null);
 				break;
 			case 2:		// table.field format fieldname
-				$o_instance = $this->opo_datamodel->getInstanceByTableName($va_tmp[0], true);
+				$o_instance = Datamodel::getInstanceByTableName($va_tmp[0], true);
 
 				if ($o_instance) {
 					return DbResult::$s_field_info_cache[$ps_field] = array("table" => $va_tmp[0], "field" => $va_tmp[1], "instance" => $o_instance);

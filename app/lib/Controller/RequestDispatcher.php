@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/core/Controller/RequestDispatcher.php :
+ * app/lib/Controller/RequestDispatcher.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software

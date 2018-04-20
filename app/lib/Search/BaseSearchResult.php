@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/ca/Search/BaseSearchResult.php : Base class for ca_* search results
+ * app/lib/Search/BaseSearchResult.php : Base class for ca_* search results
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -34,14 +34,13 @@
   *
   */
   
- require_once(__CA_LIB_DIR__.'/core/Search/SearchResult.php');
+ require_once(__CA_LIB_DIR__.'/Search/SearchResult.php');
  require_once(__CA_MODELS_DIR__.'/ca_lists.php');
  require_once(__CA_MODELS_DIR__.'/ca_locales.php');
  
 	class BaseSearchResult extends SearchResult {
 		# -------------------------------------------------------
 		private $opo_list = null;
-		private $opo_datamodel = null;
 		private $opa_locales = null;
 		
 		/**
@@ -57,8 +56,7 @@
 		public function __construct($po_engine_result=null, $pa_tables=null) {
 			parent::__construct($po_engine_result, $pa_tables);
 			$this->opo_list = new ca_lists();
-			$this->opo_datamodel = Datamodel::load();
-			
+						
 			$this->opa_locales = ca_locales::getLocaleList();
 			$this->ops_label_table_name = method_exists($this->opo_subject_instance, "getLabelTableName") ? $this->opo_subject_instance->getLabelTableName() : null;
 			$this->ops_label_display_field = method_exists($this->opo_subject_instance, "getLabelDisplayField") ? $this->opo_subject_instance->getLabelDisplayField() : null;

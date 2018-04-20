@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/ca/Search/SitePageMediaSearchResults.php :
+ * app/lib/Search/SitePageMediaSearchResults.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software

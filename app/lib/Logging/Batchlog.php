@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/core/Logging/Batchlog.php :
+ * app/lib/Logging/Batchlog.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software

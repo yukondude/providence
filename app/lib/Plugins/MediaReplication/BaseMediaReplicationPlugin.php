@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/core/Plugins/MediaReplication/BaseMediaReplicationPlugIn.php : 
+ * app/lib/Plugins/MediaReplication/BaseMediaReplicationPlugIn.php : 
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software

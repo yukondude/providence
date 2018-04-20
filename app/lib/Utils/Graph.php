@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/core/Utils/Graph.php :
+ * app/lib/Utils/Graph.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software

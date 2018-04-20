@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/core/Plugins/InformationService/WLPlugInformationServiceWorldCat.php :
+ * app/lib/Plugins/InformationService/WLPlugInformationServiceWorldCat.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software

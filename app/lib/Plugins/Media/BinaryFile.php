@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/core/Plugins/Media/BinaryFile.php :
+ * app/lib/Plugins/Media/BinaryFile.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software

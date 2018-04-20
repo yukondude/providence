@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/core/Db/pdo_mysql.php :
+ * app/lib/Db/pdo_mysql.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software

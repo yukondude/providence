@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/ca/IDNumbering/IDNumbering.php : wrapper for configured IDNumbering plugins
+ * app/lib/IDNumbering/IDNumbering.php : wrapper for configured IDNumbering plugins
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -42,7 +42,7 @@
 		 * Initialize an instance of the currently configured numbering plugin. 
 		 * Plugin is defined is application configuration (app.conf) in the X_id_numbering_plugin directive where "X" = the current format.
 		 * Ex. if the format is ca_objects, then the class specified in the 'ca_objects_id_numbering_plugin' directive will be used as the numbering plugin.
-		 * All plugin classes are defined in app/lib/ca/IDNumbering
+		 * All plugin classes are defined in app/lib/IDNumbering
 		 *
 		 * @param string $ps_format The current format.
 		 * @param string $pm_type The current type. [Default is '__default__']

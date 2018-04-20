@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/core/Plugins/PDFRenderer/wkhtmltopdf.php : renders HTML as PDF using wkhtmltopdf
+ * app/lib/Plugins/PDFRenderer/wkhtmltopdf.php : renders HTML as PDF using wkhtmltopdf
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software

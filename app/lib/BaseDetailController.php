@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/ca/BaseBrowseController.php : base controller for search interface
+ * app/lib/BaseBrowseController.php : base controller for search interface
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -36,15 +36,14 @@
   
  	require_once(__CA_APP_DIR__.'/helpers/accessHelpers.php');
 	require_once(__CA_LIB_DIR__."/core/Datamodel.php");
- 	require_once(__CA_LIB_DIR__.'/ca/ResultContext.php');
- 	require_once(__CA_LIB_DIR__.'/core/GeographicMap.php');
+ 	require_once(__CA_LIB_DIR__.'/ResultContext.php');
+ 	require_once(__CA_LIB_DIR__.'/GeographicMap.php');
 	require_once(__CA_MODELS_DIR__."/ca_bundle_displays.php");
 	require_once(__CA_MODELS_DIR__."/ca_relationship_types.php");
 	require_once(__CA_MODELS_DIR__."/ca_lists.php");
  	
 	class BaseDetailController extends ActionController {
 		# -------------------------------------------------------
- 		protected $opo_datamodel;
  		protected $ops_context = '';
 		protected $opo_browse;
 		protected $ops_tablename;
@@ -53,8 +52,7 @@
  		# -------------------------------------------------------
  		public function __construct(&$po_request, &$po_response, $pa_view_paths=null) {
  			parent::__construct($po_request, $po_response, $pa_view_paths);
- 			$this->opo_datamodel = Datamodel::load();
- 			
+ 			 			
  			AssetLoadManager::register('maps');
  		}
  		# -------------------------------------------------------
@@ -112,7 +110,7 @@
  			$va_access_values = caGetUserAccessValues($this->request);
  			$this->view->setVar('access_values', $va_access_values);
  			
- 			if(!$t_item = $this->opo_datamodel->getInstanceByTableName($this->ops_tablename, true)) {
+ 			if(!$t_item = Datamodel::getInstanceByTableName($this->ops_tablename, true)) {
  				throw new ApplicationException("Invalid table name ".$this->ops_tablename." for detail");
  			}
 
@@ -144,7 +142,7 @@
  				// set browse context for controller
  				$this->setContext($this->opo_browse->getContext());
  				
- 				$t_table = $this->opo_datamodel->getTableInstance($this->ops_tablename);
+ 				$t_table = Datamodel::getTableInstance($this->ops_tablename);
 				if ($this->request->session->getVar($this->ops_tablename.'_'.$this->ops_appname.'_detail_current_item_id') != $vn_item_id) {
 					$this->opo_browse->removeAllCriteria();	
 				}
@@ -351,7 +349,7 @@
  		# Tagging and commenting
  		# -------------------------------------------------------
  		public function saveCommentRanking() {
- 			if(!$t_item = $this->opo_datamodel->getInstanceByTableName($this->ops_tablename, true)) {
+ 			if(!$t_item = Datamodel::getInstanceByTableName($this->ops_tablename, true)) {
  				throw new ApplicationException("Invalid table name ".$this->ops_tablename." for saving comment");
  			}
 
@@ -426,7 +424,7 @@
  			
  			// generate type menu and type value list for related authority table facet
  			if ($va_facet_info['type'] === 'authority') {
-				$t_model = $this->opo_datamodel->getTableInstance($va_facet_info['table']);
+				$t_model = Datamodel::getTableInstance($va_facet_info['table']);
 				if (method_exists($t_model, "getTypeList")) {
 					$this->view->setVar('type_list', $t_model->getTypeList());
 				}
@@ -435,7 +433,7 @@
 				$this->view->setVar('relationship_type_list', $t_rel_types->getRelationshipInfo($va_facet_info['relationship_table']));
 			}
 			
-			$t_table = $this->opo_datamodel->getTableInstance($this->ops_tablename);
+			$t_table = Datamodel::getTableInstance($this->ops_tablename);
 			$this->view->setVar('other_parameters', array($t_table->primaryKey() => $this->request->getParameter($t_table->primaryKey(), pInteger)));
  			$this->render('../Browse/ajax_browse_facet_html.php');
  		}

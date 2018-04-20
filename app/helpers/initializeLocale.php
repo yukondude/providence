@@ -33,7 +33,7 @@
   /**
    *
    */
-	require_once(__CA_LIB_DIR__.'/core/Zend/Locale.php');
+	require_once(__CA_LIB_DIR__.'/Zend/Locale.php');
 	# ----------------------------------------
 	/**
 	 * Verify the locale is valid and supported by current installation

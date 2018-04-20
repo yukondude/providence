@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/core/Plugins/InformationService/WLPlugInformationServiceCollectiveAccess.php :
+ * app/lib/Plugins/InformationService/WLPlugInformationServiceCollectiveAccess.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -143,8 +143,7 @@ class WLPlugInformationServiceCollectiveAccess Extends BaseInformationServicePlu
 		$o_client = new Client($pa_settings['baseURL']);
 
 		// Get sort field
-		$o_dm = Datamodel::load();
-		$t_instance = $o_dm->getInstanceByTableName($pa_settings['table'], true);
+				$t_instance = Datamodel::getInstanceByTableName($pa_settings['table'], true);
 		$vs_sort_field = $t_instance->getLabelTableName().".".$t_instance->getLabelSortField();
 
 		// Create a request with basic Auth

@@ -30,7 +30,7 @@
  * ----------------------------------------------------------------------
  */
 
-	require_once(__CA_LIB_DIR__.'/core/Configuration.php');
+	require_once(__CA_LIB_DIR__.'/Configuration.php');
 
 	class Visualizer {
 		# --------------------------------------------------------------------------------
@@ -135,8 +135,7 @@
 			$vs_viz_plugin = $va_viz_settings['plugin'];
 			if($o_viz = $this->getVisualizationPlugin($vs_viz_plugin)) {
 				$va_ids = array();
-				$o_dm = Datamodel::load();
-				$t_instance = $o_dm->getInstanceByTableName($vs_table, true);
+								$t_instance = Datamodel::getInstanceByTableName($vs_table, true);
 				$vs_pk = $t_instance->primaryKey();
 				
 				foreach($this->opa_data as $o_data) {
@@ -187,8 +186,7 @@
 			if($o_viz = $this->getVisualizationPlugin($vs_viz_plugin)) {
 			
 				$va_ids = array();
-				$o_dm = Datamodel::load();
-				$t_instance = $o_dm->getInstanceByTableName($vs_table, true);
+								$t_instance = Datamodel::getInstanceByTableName($vs_table, true);
 				$vs_pk = $t_instance->primaryKey();
 				
 				foreach($this->opa_data as $o_data) {
@@ -337,7 +335,7 @@
 			$o_viz_config = $o_viz->getVisualizationConfig();
 			
 			Visualizer::$s_plugin_names = array();
-			$r_dir = opendir(__CA_LIB_DIR__.'/core/Plugins/Visualizer');
+			$r_dir = opendir(__CA_LIB_DIR__.'/Plugins/Visualizer');
 			while (($vs_plugin = readdir($r_dir)) !== false) {
 				if ($vs_plugin == "BaseVisualizerPlugin.php") { continue; }
 				if (preg_match("/^([A-Za-z_]+[A-Za-z0-9_]*).php$/", $vs_plugin, $va_matches)) {
@@ -358,9 +356,9 @@
 		 */
 		public function getVisualizationPlugin($ps_plugin_name) {
 			if (preg_match('![^A-Za-z0-9_\-]+!', $ps_plugin_name)) { return null; }
-			if (!file_exists(__CA_LIB_DIR__.'/core/Plugins/Visualizer/'.$ps_plugin_name.'.php')) { return null; }
+			if (!file_exists(__CA_LIB_DIR__.'/Plugins/Visualizer/'.$ps_plugin_name.'.php')) { return null; }
 		
-			require_once(__CA_LIB_DIR__.'/core/Plugins/Visualizer/'.$ps_plugin_name.'.php');
+			require_once(__CA_LIB_DIR__.'/Plugins/Visualizer/'.$ps_plugin_name.'.php');
 			$vs_plugin_classname = 'WLPlugVisualizer'.$ps_plugin_name;
 			return new $vs_plugin_classname;
 		}

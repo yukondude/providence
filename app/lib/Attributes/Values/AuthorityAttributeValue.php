@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/ca/Attributes/Values/AuthorityAttributeValue.php :
+ * app/lib/Attributes/Values/AuthorityAttributeValue.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -34,8 +34,8 @@
  *
  */
 
-require_once(__CA_LIB_DIR__.'/core/BaseObject.php');
-require_once(__CA_LIB_DIR__.'/ca/Attributes/Values/AttributeValue.php');
+require_once(__CA_LIB_DIR__.'/BaseObject.php');
+require_once(__CA_LIB_DIR__.'/Attributes/Values/AttributeValue.php');
 require_once(__CA_APP_DIR__.'/helpers/htmlFormHelpers.php');
 
 abstract class AuthorityAttributeValue extends AttributeValue {
@@ -153,8 +153,7 @@ abstract class AuthorityAttributeValue extends AttributeValue {
 
 		$vn_id = null;
 
-		$o_dm = Datamodel::load();
-		$t_item = $o_dm->getInstanceByTableName($this->ops_table_name, true);
+				$t_item = Datamodel::getInstanceByTableName($this->ops_table_name, true);
 
 		foreach($va_match_on as $vs_match_on) {
 			switch($vs_match_on) {
@@ -300,40 +299,39 @@ abstract class AuthorityAttributeValue extends AttributeValue {
 	 * @return BaseModel A table instance or null if the datatype number is not an authority attribute datatype.
 	 */
 	public static function elementTypeToInstance($pn_type) {
-		$o_dm = Datamodel::load();
-		switch($pn_type) {
+				switch($pn_type) {
 			case __CA_ATTRIBUTE_VALUE_LIST__:
-				return $o_dm->getInstanceByTableName('ca_list_items', true);
+				return Datamodel::getInstanceByTableName('ca_list_items', true);
 				break;
 			case __CA_ATTRIBUTE_VALUE_OBJECTS__:
-				return $o_dm->getInstanceByTableName('ca_objects', true);
+				return Datamodel::getInstanceByTableName('ca_objects', true);
 				break;
 			case __CA_ATTRIBUTE_VALUE_ENTITIES__:
-				return $o_dm->getInstanceByTableName('ca_entities', true);
+				return Datamodel::getInstanceByTableName('ca_entities', true);
 				break;
 			case __CA_ATTRIBUTE_VALUE_PLACES__:
-				return $o_dm->getInstanceByTableName('ca_places', true);
+				return Datamodel::getInstanceByTableName('ca_places', true);
 				break;
 			case __CA_ATTRIBUTE_VALUE_OCCURRENCES__:
-				return $o_dm->getInstanceByTableName('ca_occurrences', true);
+				return Datamodel::getInstanceByTableName('ca_occurrences', true);
 				break;
 			case __CA_ATTRIBUTE_VALUE_COLLECTIONS__:
-				return $o_dm->getInstanceByTableName('ca_collections', true);
+				return Datamodel::getInstanceByTableName('ca_collections', true);
 				break;
 			case __CA_ATTRIBUTE_VALUE_LOANS__:
-				return $o_dm->getInstanceByTableName('ca_loans', true);
+				return Datamodel::getInstanceByTableName('ca_loans', true);
 				break;
 			case __CA_ATTRIBUTE_VALUE_MOVEMENTS__:
-				return $o_dm->getInstanceByTableName('ca_movements', true);
+				return Datamodel::getInstanceByTableName('ca_movements', true);
 				break;
 			case __CA_ATTRIBUTE_VALUE_STORAGELOCATIONS__:
-				return $o_dm->getInstanceByTableName('ca_storage_locations', true);
+				return Datamodel::getInstanceByTableName('ca_storage_locations', true);
 				break;
 			case __CA_ATTRIBUTE_VALUE_OBJECTLOTS__:
-				return $o_dm->getInstanceByTableName('ca_object_lots', true);
+				return Datamodel::getInstanceByTableName('ca_object_lots', true);
 				break;
 			case __CA_ATTRIBUTE_VALUE_OBJECTREPRESENTATIONS__:
-				return $o_dm->getInstanceByTableName('ca_object_representations', true);
+				return Datamodel::getInstanceByTableName('ca_object_representations', true);
 				break;
 		}
 		return null;
@@ -347,8 +345,7 @@ abstract class AuthorityAttributeValue extends AttributeValue {
 	 * @return int An attribute datatype number or null if the table does not have an associated attribute type
 	 */
 	public static function tableToElementType($pm_table_name_or_num) {
-		$o_dm = Datamodel::load();
-		$vs_table = $o_dm->getTableName($pm_table_name_or_num);
+				$vs_table = Datamodel::getTableName($pm_table_name_or_num);
 		switch($vs_table) {
 			case 'ca_list_items':
 				require_once(__CA_LIB_DIR__."/ca/Attributes/Values/ListAttributeValue.php");

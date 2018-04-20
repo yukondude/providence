@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/ca/Utils/CLIUtils.php :
+ * app/lib/Utils/CLIUtils.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -34,7 +34,7 @@
   *
   */
 
- 	require_once(__CA_LIB_DIR__.'/ca/Utils/CLIBaseUtils.php');
+ 	require_once(__CA_LIB_DIR__.'/Utils/CLIBaseUtils.php');
 
 	class CLIUtils extends CLIBaseUtils {
 		# -------------------------------------------------------
@@ -576,15 +576,14 @@
                 return false;
             }
 
-			$o_dm = Datamodel::load();
-			$va_tables = $o_dm->getTableNames();
+						$va_tables = Datamodel::getTableNames();
 			$o_db = new Db();
 			$va_tables_to_process = array_filter(array_map("trim", preg_split('![ ,;]!', (string)$po_opts->getOption('tables'))), "strlen");
 
 			$vn_t = 0;
 			foreach($va_tables as $vs_table) {
 				if(is_array($va_tables_to_process) && sizeof($va_tables_to_process) && !in_array($vs_table, $va_tables_to_process)) { continue; }
-				if (!$t_instance = $o_dm->getInstanceByTableName($vs_table, true)) { continue; }
+				if (!$t_instance = Datamodel::getInstanceByTableName($vs_table, true)) { continue; }
 				if (!$t_instance->hasField('deleted')) { continue; }
 			
 				$t_instance->setMode(ACCESS_WRITE);
@@ -1745,7 +1744,7 @@
 		 *
 		 */
 		public static function replicate_data($po_opts=null) {
-			require_once(__CA_LIB_DIR__.'/ca/Sync/Replicator.php');
+			require_once(__CA_LIB_DIR__.'/Sync/Replicator.php');
 
 			$o_replicator = new Replicator();
 			$o_replicator->replicate();
@@ -1867,7 +1866,7 @@
 		 *
 		 */
 		public static function fix_permissionsHelp() {
-			return _t("CollectiveAccess must have both read and write access to the temporary storage directory (app/tmp), media directory (media) and HTMLPurifier definition cache (app/lib/core/Parsers/htmlpurifier/standalone/HTMLPurifier/DefinitionCache). A run-time error will be displayed if any of these locations is not accessible to the application. To change these permissions to allow CollectiveAccess to run normally run this command while logged in with administrative/root privileges. You are currently logged in as %1 (uid %2). You can specify which user will be given ownership of the directories using the --user option. If you do not specify a user, the web server user for your server will be automatically determined and used.", caGetProcessUserName(), caGetProcessUserID());
+			return _t("CollectiveAccess must have both read and write access to the temporary storage directory (app/tmp), media directory (media) and HTMLPurifier definition cache (app/lib/Parsers/htmlpurifier/standalone/HTMLPurifier/DefinitionCache). A run-time error will be displayed if any of these locations is not accessible to the application. To change these permissions to allow CollectiveAccess to run normally run this command while logged in with administrative/root privileges. You are currently logged in as %1 (uid %2). You can specify which user will be given ownership of the directories using the --user option. If you do not specify a user, the web server user for your server will be automatically determined and used.", caGetProcessUserName(), caGetProcessUserID());
 		}
 		# -------------------------------------------------------
 		/**
@@ -2154,8 +2153,7 @@
 			require_once(__CA_MODELS_DIR__.'/ca_metadata_dictionary_rules.php');
 			require_once(__CA_MODELS_DIR__.'/ca_metadata_dictionary_rule_violations.php');
 
-			$o_dm = Datamodel::load();
-
+			
 			$t_violation = new ca_metadata_dictionary_rule_violations();
 
 			$va_rules = ca_metadata_dictionary_rules::getRules();
@@ -2169,7 +2167,7 @@
 				$va_expression_tags = caGetTemplateTags($va_rule['expression']);
 
 				$va_tmp = explode(".", $va_rule['bundle_name']);
-				if (!($t_instance = $o_dm->getInstanceByTableName($va_tmp[0]))) {
+				if (!($t_instance = Datamodel::getInstanceByTableName($va_tmp[0]))) {
 					CLIUtils::addError(_t("Table for bundle %1 is not valid", $va_tmp[0]));
 					continue;
 				}
@@ -2282,8 +2280,7 @@
 			$pa_kinds = caGetOption('kinds', $po_opts, 'all', ['forceLowercase' => true, 'validValues' => ['all', 'ca_object_representations', 'ca_attributes'], 'delimiter' => [',', ';']]);
 			
 			$o_db = new Db();
-			$o_dm = Datamodel::load();
-			$t_rep = new ca_object_representations();
+						$t_rep = new ca_object_representations();
 
 			$vs_report_output = join(($ps_format == 'tab') ? "\t" : ",", array(_t('Type'), _t('Error'), _t('Name'), _t('ID'), _t('Version'), _t('File path'), _t('Expected MD5'), _t('Actual MD5')))."\n";
 
@@ -2429,7 +2426,7 @@
 											$t_attr = new ca_attributes($vn_attribute_id = $t_attr_val->get('attribute_id'));
 
 											$vs_label = "attribute_id={$vn_attribute_id}; value_id={$vn_value_id}";
-											if ($t_instance = $o_dm->getInstanceByTableNum($t_attr->get('table_num'), true)) {
+											if ($t_instance = Datamodel::getInstanceByTableNun($t_attr->get('table_num'), true)) {
 												if ($t_instance->load($t_attr->get('row_id'))) {
 													$vs_label = $t_instance->get($t_instance->tableName().'.preferred_labels');
 													if ($vs_idno = $t_instance->get($t_instance->getProperty('ID_NUMBERING_ID_FIELD'))) {
@@ -2503,7 +2500,7 @@
 										$t_attr = new ca_attributes($vn_attribute_id = $t_attr_val->get('attribute_id'));
 
 										$vs_label = "attribute_id={$vn_attribute_id}; value_id={$vn_value_id}";
-										if ($t_instance = $o_dm->getInstanceByTableNum($t_attr->get('table_num'), true)) {
+										if ($t_instance = Datamodel::getInstanceByTableNun($t_attr->get('table_num'), true)) {
 											if ($t_instance->load($t_attr->get('row_id'))) {
 												$vs_label = $t_instance->get($t_instance->tableName().'.preferred_labels');
 												if ($vs_idno = $t_instance->get($t_instance->getProperty('ID_NUMBERING_ID_FIELD'))) {
@@ -3357,8 +3354,8 @@
 		 */
 		public static function load_chenhall_nomenclature($po_opts=null) {
 
-			require_once(__CA_LIB_DIR__.'/core/Parsers/PHPExcel/PHPExcel.php');
-			require_once(__CA_LIB_DIR__.'/core/Parsers/PHPExcel/PHPExcel/IOFactory.php');
+			require_once(__CA_LIB_DIR__.'/Parsers/PHPExcel/PHPExcel.php');
+			require_once(__CA_LIB_DIR__.'/Parsers/PHPExcel/PHPExcel/IOFactory.php');
 			require_once(__CA_MODELS_DIR__.'/ca_lists.php');
 			require_once(__CA_MODELS_DIR__.'/ca_locales.php');
 
@@ -3610,11 +3607,10 @@
 		 *
 		 */
 		public static function generate_missing_guids($po_opts=null) {
-			$o_dm = Datamodel::load();
-			$o_db = new Db();
+						$o_db = new Db();
 
-			foreach($o_dm->getTableNames() as $vs_table) {
-				$t_instance = $o_dm->getInstance($vs_table);
+			foreach(Datamodel::getTableNames() as $vs_table) {
+				$t_instance = Datamodel::getInstance($vs_table);
 				if(
 					($t_instance instanceof BundlableLabelableBaseModelWithAttributes) ||
 					($t_instance instanceof BaseLabel) ||
@@ -3691,7 +3687,7 @@
 						CLIUtils::addMessage(_t('Table %1 has %2 records that have potential duplicates.', $vs_t, sizeof($va_dupes)), array('color' => 'red'));
 
 
-						$t_instance = Datamodel::load()->getInstance($vs_t);
+						$t_instance = Datamodel::getInstance($vs_t);
 
 						foreach ($va_dupes as $vs_sha2 => $va_keys) {
 							CLIUtils::addMessage("\t" . _t('%1 records have the checksum %2', sizeof($va_keys), $vs_sha2));
@@ -3755,7 +3751,7 @@
 		 * @return bool
 		 */
 		public static function push_config_changes($po_opts=null) {
-			require_once(__CA_LIB_DIR__.'/ca/ConfigurationExporter.php');
+			require_once(__CA_LIB_DIR__.'/ConfigurationExporter.php');
 
 			if (!($vs_targets = $po_opts->getOption('targets'))) {
 				CLIUtils::addError(_t("Missing required parameter: targets. Try checking the help for this subcommand."));
@@ -3946,7 +3942,7 @@
 		 * @return bool
 		 */
 		public static function check_url_reference_integrity($po_opts=null) {
-			require_once(__CA_LIB_DIR__.'/ca/Attributes/Values/UrlAttributeValue.php');
+			require_once(__CA_LIB_DIR__.'/Attributes/Values/UrlAttributeValue.php');
 
 			$o_request = new RequestHTTP(null, [
 				'no_headers' => true,
@@ -4079,8 +4075,7 @@
 		
 		    $o_app_conf = Configuration::load();
             $o_service_conf = Configuration::load(__CA_APP_DIR__.'/conf/services.conf');
-            $o_dm = Datamodel::load();
-
+            
             $va_endpoints = $o_service_conf->get('simple_api_endpoints');
             
             $ps_password = $vs_auth = null;
@@ -4093,7 +4088,7 @@
 
             foreach($va_endpoints as $vs_endpoint => $va_endpoint_info) {
                 if ($va_precache_config = caGetOption('precache', $va_endpoint_info, null)) {
-                    if (!($t_instance = $o_dm->getInstanceByTableName($vs_table = $va_endpoint_info['table'],true))) {
+                    if (!($t_instance = Datamodel::getInstanceByTableName($vs_table = $va_endpoint_info['table'],true))) {
                         continue;
                     }
                     $vs_pk = $t_instance->primaryKey(true);
@@ -4107,7 +4102,7 @@
                                         $va_vals = [];
                                         foreach($va_tags as $vs_tag) {
                                             $va_tmp = explode('.', $vs_tag);
-                                            if (!($t_tag = $o_dm->getInstanceByTableName($va_tmp[0],true))) {
+                                            if (!($t_tag = Datamodel::getInstanceByTableName($va_tmp[0],true))) {
                                                 continue;
                                             }
                                             
@@ -4178,8 +4173,7 @@
 		public static function import_media($po_opts=null) {
 			require_once(__CA_LIB_DIR__."/ca/BatchProcessor.php");
 			
-			$o_dm = Datamodel::load();
-			
+						
 			if (!caCheckMediaDirectoryPermissions()) {
 			    CLIUtils::addError(_t('The media directory is not writeable by the current user. Try again, running the import as the web server user.'));
 				return false;
@@ -4236,12 +4230,12 @@
 			    $vs_import_target = 'ca_objects';
 			    CLIUtils::addMessage(_t('Setting import target to default %1.', $vs_import_target));
 			}
-			$t_instance = $o_dm->getInstance($vs_import_target);
+			$t_instance = Datamodel::getInstance($vs_import_target);
 			if (!$t_instance || !is_subclass_of($t_instance, 'RepresentableBaseModel')) {
 				CLIUtils::addMessage(_t('Import target %1 is invalid. Defaulting to ca_objects.', $vs_import_target));
 				$vs_import_target = 'ca_objects';
 			}
-			if (!($t_instance = $o_dm->getInstanceByTableName($vs_import_target, true))) {
+			if (!($t_instance = Datamodel::getInstanceByTableName($vs_import_target, true))) {
 			    CLIUtils::addError(_t('Import target %1 is invalid.', $vs_import_target));
 			    return false;
 			}
@@ -4471,8 +4465,7 @@
 		public static function regenerate_dependent_field_values($po_opts=null) {
 			// Find containers with dependent fields
 			$va_elements = ca_metadata_elements::getElementSetsWithSetting("isDependentValue", 1);
-			$o_dm = Datamodel::load();
-			
+						
 			
 			$c = 0;
 			foreach($va_elements as $va_element) {
@@ -4486,7 +4479,7 @@
 			    // get type restrictions
 			    $va_type_res_list = $t_element->getTypeRestrictions();
 			    foreach($va_type_res_list as $va_type_res) {
-			        if (!($t_instance = $o_dm->getInstanceByTableNum($va_type_res['table_num']))) { continue; }
+			        if (!($t_instance = Datamodel::getInstanceByTableNun($va_type_res['table_num']))) { continue; }
 			        $vs_table_name = $t_instance->tableName();
 			        if ($va_type_res['type_id'] > 0) {
 			            $qr_res = call_user_func("{$vs_table_name}::find", ["type_id" => (int)$va_type_res['type_id']], ['returnAs' => 'searchResult']);

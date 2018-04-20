@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/ca/Service/CataloguingService.php
+ * app/lib/Service/CataloguingService.php
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -39,12 +39,8 @@ require_once(__CA_LIB_DIR__."/core/Datamodel.php");
 
 class CataloguingService extends BaseService {
 	# -------------------------------------------------------
-	protected $opo_dm;
-	# -------------------------------------------------------
 	public function  __construct($po_request) {
 		parent::__construct($po_request);
-
-		$this->opo_dm = Datamodel::load();
 	}
 	# -------------------------------------------------------
 	/**
@@ -604,14 +600,14 @@ class CataloguingService extends BaseService {
 	}
 	# -------------------------------------------------------
 	private function getRelTableInstance($ps_left_table,$ps_right_table,$pn_relation_id){
-		$va_relationships = $this->opo_dm->getPath($ps_left_table, $ps_right_table);
+		$va_relationships = Datamodel::getPath($ps_left_table, $ps_right_table);
 		unset($va_relationships[$ps_left_table]);
 		unset($va_relationships[$ps_right_table]);
 		if(sizeof($va_relationships)==1){
 			foreach($va_relationships as $vs_table_name => $vs_table_num){
 				$vs_table = $vs_table_name;
 			}
-			$t_rel_instance = $this->opo_dm->getTableInstance($vs_table);
+			$t_rel_instance = Datamodel::getTableInstance($vs_table);
 			if(!$t_rel_instance->load($pn_relation_id)){
 				throw new SoapFault("Server", "Invalid relation ID");
 			} else {

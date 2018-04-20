@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/core/Controller/Request/Session.php :
+ * app/lib/Controller/Request/Session.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software

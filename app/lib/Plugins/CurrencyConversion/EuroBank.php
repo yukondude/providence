@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
- * app/lib/core/Plugins/CurrencyConversion/EuroBank.php :
+ * app/lib/Plugins/CurrencyConversion/EuroBank.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software

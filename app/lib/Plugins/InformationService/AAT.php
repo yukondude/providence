@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/core/Plugins/InformationService/AAT.php :
+ * app/lib/Plugins/InformationService/AAT.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software

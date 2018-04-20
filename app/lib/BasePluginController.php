@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/ca/BasePluginController.php : 
+ * app/lib/BasePluginController.php : 
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -60,8 +60,6 @@
  		 *
  		 */
  		public function __construct(&$po_request, &$po_response, $pa_view_paths=null) {
- 			$this->datamodel = Datamodel::load();
- 			
  			$this->appConfig = Configuration::load();
  			
  			$vs_plugin_name = $po_request->getModulePath();

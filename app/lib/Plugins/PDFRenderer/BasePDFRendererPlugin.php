@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/core/Plugins/PDFRenderer/BasePDFRendererPlugin.php : base class for PDFRenderer plugins
+ * app/lib/Plugins/PDFRenderer/BasePDFRendererPlugin.php : base class for PDFRenderer plugins
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software

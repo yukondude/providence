@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/core/Plugins/InformationService/uBio.php :
+ * app/lib/Plugins/InformationService/uBio.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software

@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/core/Plugins/Media/Imagick.php :
+ * app/lib/Plugins/Media/Imagick.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
