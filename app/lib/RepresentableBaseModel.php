@@ -658,15 +658,6 @@
 			if (caExtractEmbeddedMetadata($this, $va_metadata, $pn_locale_id)) {
 				$this->update();
 			}
-			
-			
-			// Trigger automatic replication
-			$va_auto_targets = $t_rep->getAvailableMediaReplicationTargets('media', 'original', array('trigger' => 'auto', 'access' => $t_rep->get('access')));
-			if(is_array($va_auto_targets)) {
-				foreach($va_auto_targets as $vs_target => $va_target_info) {
-					$t_rep->replicateMedia('media', $vs_target);
-				}
-			}
 		
 			if (isset($pa_options['returnRepresentation']) && (bool)$pa_options['returnRepresentation']) {
 				return $t_rep;
@@ -708,11 +699,6 @@
 				if ($pm_type_id = caGetOption('type_id', $pa_options, null)) {  $t_rep->set('type_id', $pm_type_id, ['allowSettingOfTypeID' => true]); }
 			
 				if ($ps_media_path) {
-					if(is_array($va_replication_targets = $t_rep->getUsedMediaReplicationTargets('media'))) {
-						foreach($va_replication_targets as $vs_target => $va_target_info) {
-							$va_old_replication_keys[$vs_target] = $t_rep->getMediaReplicationKey('media', $vs_target);
-						}
-					}
 					$t_rep->set('media', $ps_media_path, $pa_options);
 				}
 			
@@ -763,21 +749,6 @@
                         $this->errors = array_merge($this->errors, $t_rep->errors());
                         return false;
                     }
-				}
-					
-				if ($ps_media_path) {
-					// remove any replicated media
-					foreach($va_old_replication_keys as $vs_target => $vs_old_replication_key) {
-						$t_rep->removeMediaReplication('media', $vs_target, $vs_old_replication_key, array('force' => true));
-					}
-					
-					// Trigger automatic replication
-					$va_auto_targets = $t_rep->getAvailableMediaReplicationTargets('media', 'original', array('trigger' => 'auto', 'access' => $t_rep->get('access')));
-					if(is_array($va_auto_targets)) {
-						foreach($va_auto_targets as $vs_target => $va_target_info) {
-							$t_rep->replicateMedia('media', $vs_target);
-						}
-					}
 				}
 			
 				if (!($t_oxor = $this->_getRepresentationRelationshipTableInstance())) { return null; }
@@ -879,13 +850,6 @@
 					if ($t_rep->numErrors()) {
 						$this->errors = array_merge($this->errors, $t_rep->errors());
 						return false;
-					}
-				}
-						
-				// remove any replicated media
-				if(is_array($va_replication_targets = $t_rep->getUsedMediaReplicationTargets('media'))) {
-					foreach($va_replication_targets as $vs_target => $va_target_info) {
-						$t_rep->removeMediaReplication('media', $vs_target, $t_rep->getMediaReplicationKey('media', $vs_target));
 					}
 				}
 			

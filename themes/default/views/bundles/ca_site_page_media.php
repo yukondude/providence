@@ -214,19 +214,6 @@
 				</div>
 			
 				<br class="clear"/>
-				
-				<div id="{fieldNamePrefix}media_replication_container_{n}" style="display: none;">
-					<div class="caRepresentationMediaReplicationButton">
-						<a href="#" id="{fieldNamePrefix}caRepresentationMediaReplicationButton_{n}" onclick="caToggleDisplayMediaReplication('{fieldNamePrefix}media_replication{n}', '{fieldNamePrefix}caRepresentationMediaReplicationButton_{n}', '{n}'); return false;" class="caRepresentationMediaReplicationButton"><?php print caNavIcon(__CA_NAV_ICON_MEDIA_METADATA__, '15px')." "._t('Replication'); ?></a>
-					</div>
-					<div>
-						<div id="{fieldNamePrefix}media_replication{n}" class="caRepresentationMediaReplication">
-							<?php print caBusyIndicatorIcon($this->request).' '._t('Loading'); ?>
-						</div>
-					</div>
-				</div>
-				
-				<br class="clear"/>
 			</div>
 		</textarea>
 <?php

@@ -239,17 +239,6 @@
 			
 				<br class="clear"/>
 				
-				<div id="{fieldNamePrefix}media_replication_container_{n}" style="display: none;">
-					<div class="caRepresentationMediaReplicationButton">
-						<a href="#" id="{fieldNamePrefix}caRepresentationMediaReplicationButton_{n}" onclick="caToggleDisplayMediaReplication('{fieldNamePrefix}media_replication{n}', '{fieldNamePrefix}caRepresentationMediaReplicationButton_{n}', '{n}'); return false;" class="caRepresentationMediaReplicationButton"><?php print caNavIcon(__CA_NAV_ICON_MEDIA_METADATA__, '15px')." "._t('Replication'); ?></a>
-					</div>
-					<div>
-						<div id="{fieldNamePrefix}media_replication{n}" class="caRepresentationMediaReplication">
-							<?php print caBusyIndicatorIcon($this->request).' '._t('Loading'); ?>
-						</div>
-					</div>
-				</div>
-			
 				<div id="{fieldNamePrefix}media_metadata_container_{n}">	
 					<div class="caObjectRepresentationMetadataButton">
 						<a href="#" id="{fieldNamePrefix}caObjectRepresentationMetadataButton_{n}" onclick="caToggleDisplayObjectRepresentationMetadata('{fieldNamePrefix}media_metadata_{n}', '{fieldNamePrefix}caObjectRepresentationMetadataButton_{n}'); return false;" class="caObjectRepresentationMetadataButton"><?php print caNavIcon(__CA_NAV_ICON_MEDIA_METADATA__, '15px').' '._t('Media metadata'); ?></a>
@@ -434,18 +423,7 @@
 		jQuery('#' + media_metadata_id).slideToggle(300);
 		jQuery('#' + media_metadata_button_id + ' img').rotate({ duration:500, angle: m ? 0 : 180, animateTo: m ? 180 : 0 });
 	}
-	
-	function caToggleDisplayMediaReplication(media_replication_id, media_replication_button_id, n) {
-		var m = jQuery('#' + media_replication_id).is(':hidden');
-		jQuery('#' + media_replication_button_id + ' img').rotate({ duration:500, angle: m ? 0 : 180, animateTo: m ? 180 : 0 });
 		
-		jQuery('#' + media_replication_id).slideToggle(300, function() { 
-			if(jQuery('#' + media_replication_id).css('display') == 'block') {
-				jQuery('#' + media_replication_id).load('<?php print caNavUrl($this->request, $this->request->getModulePath(), $this->request->getController(), 'MediaReplicationControls', array('representation_id' => '')); ?>' + n); 
-			} 
-		});
-	}
-	
 	function caOpenRepresentationDetailEditor(id) {
 		jQuery('#<?php print $vs_id_prefix; ?>_detail_editor_' + id).slideDown(250);
 		jQuery('#<?php print $vs_id_prefix; ?>_rep_info_ro' + id).slideUp(250);
