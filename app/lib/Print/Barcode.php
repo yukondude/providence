@@ -27,9 +27,6 @@
 # MODIFIED for use with CollectiveAccess
 # Mods (c) 2008 Whirl-i-Gig
 #
-
-require_once(__CA_LIB_DIR__.'/Parsers/PEAR.php');
-
 /**
  * Image_Barcode class
  *
@@ -43,7 +40,7 @@ require_once(__CA_LIB_DIR__.'/Parsers/PEAR.php');
  * @version    Release: @package_version@
  * @link       http://pear.php.net/package/Image_Barcode
  */
-class Barcode extends PEAR
+class Barcode
 {
     /**
      * Draws a image barcode
@@ -70,10 +67,10 @@ class Barcode extends PEAR
     {
         //Make sure no bad files are included
         if (!preg_match('/^[a-zA-Z0-9_-]+$/', $type)) {
-            return PEAR::raiseError('Invalid barcode type ' . $type);
+            return ApplicationException('Invalid barcode type ' . $type);
         }
         if (!include_once(__CA_LIB_DIR__.'/Print/Barcode/' . $type . '.php')) {
-            return PEAR::raiseError($type . ' barcode is not supported');
+            return new ApplicationException($type . ' barcode is not supported');
         }
 
         $classname = 'Barcode_' . $type;
@@ -111,4 +108,3 @@ class Barcode extends PEAR
         return $va_dimensions;
     }
 }
-?>

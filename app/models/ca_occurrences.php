@@ -245,6 +245,7 @@ class ca_occurrences extends BaseObjectLocationModel implements IBundleProvider 
 	# ------------------------------------------------------
 	# Hierarchical table properties
 	# ------------------------------------------------------
+	use HierarchicalModelTrait;
 	protected $HIERARCHY_TYPE				=	__CA_HIER_TYPE_ADHOC_MONO__;
 	protected $HIERARCHY_LEFT_INDEX_FLD 	= 	'hier_left';
 	protected $HIERARCHY_RIGHT_INDEX_FLD 	= 	'hier_right';
