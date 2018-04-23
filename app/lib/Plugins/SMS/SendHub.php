@@ -122,8 +122,7 @@ class WLPlugSMSSendHub Extends BaseSMSPlugin Implements IWLPlugSMS {
 		
 		// TODO: check and log errors here
 		
-		$pt_user->setMode(ACCESS_WRITE);
-		$pt_user->setVar('sms_sendhub_contact_id', $vn_sendhub_contact_id = (int)$va_return->{'id'});
+$pt_user->setVar('sms_sendhub_contact_id', $vn_sendhub_contact_id = (int)$va_return->{'id'});
 		$pt_user->setVar('sms_sendhub_phone_number', $pt_user->get('sms_number'));
 		$pt_user->update();
 		if ($pt_user->numErrors()) {

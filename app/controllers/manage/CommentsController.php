@@ -139,7 +139,7 @@
 						$va_errors[] = _t("The comment does not exist");	
 						break;
 					}
-					$t_comment->setMode(ACCESS_WRITE);;
+;
 					if (!$t_comment->delete()) {
 		 				$va_errors[] = _t("Could not delete comment");
 						break;

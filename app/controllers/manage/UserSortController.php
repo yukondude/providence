@@ -58,8 +58,7 @@ class UserSortController extends ActionController {
 			$t_user_sorts = new ca_user_sorts();
 			foreach($pa_sort_ids as $vn_sort_id) {
 				if($t_user_sorts->load($vn_sort_id)) {
-					$t_user_sorts->setMode(ACCESS_WRITE);
-					$t_user_sorts->delete();
+$t_user_sorts->delete();
 					if ($t_user_sorts->numErrors()) {
 						$va_errors = $t_user_sorts->errors;
 					}
@@ -101,9 +100,7 @@ class UserSortController extends ActionController {
 	# -------------------------------------------------------
 	public function Save() {
 		$t_sort = new ca_user_sorts();
-		$t_sort->setMode(ACCESS_WRITE);
-
-		if($vn_sort_id = $this->getRequest()->getParameter('sort_id', pInteger)) {
+if($vn_sort_id = $this->getRequest()->getParameter('sort_id', pInteger)) {
 			if(!$t_sort->load($vn_sort_id)) {
 				$this->notification->addNotification(_t("Sort doesn't exist"), __NOTIFICATION_TYPE_ERROR__);
 				$this->ListSorts();

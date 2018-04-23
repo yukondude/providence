@@ -319,8 +319,7 @@ class ca_user_roles extends BaseModel {
 		$this->set('vars', $va_vars);
 
 		$vn_old_mode = $this->getMode();
-		$this->setMode(ACCESS_WRITE);
-		$this->update();
+$this->update();
 		$this->setMode($vn_old_mode);
 
 		if($this->numErrors()>0) {
@@ -340,8 +339,7 @@ class ca_user_roles extends BaseModel {
 		$this->set('vars', $va_vars);
 
 		$vn_old_mode = $this->getMode();
-		$this->setMode(ACCESS_WRITE);
-		$this->update();
+$this->update();
 		$this->setMode($vn_old_mode);
 
 		if($this->numErrors()>0) {
@@ -361,8 +359,7 @@ class ca_user_roles extends BaseModel {
 		$this->set('vars', $va_vars);
 
 		$vn_old_mode = $this->getMode();
-		$this->setMode(ACCESS_WRITE);
-		$this->update();
+$this->update();
 		$this->setMode($vn_old_mode);
 
 		if($this->numErrors()>0) {
@@ -382,8 +379,7 @@ class ca_user_roles extends BaseModel {
 		$this->set('vars', $va_vars);
 
 		$vn_old_mode = $this->getMode();
-		$this->setMode(ACCESS_WRITE);
-		$this->update();
+$this->update();
 		$this->setMode($vn_old_mode);
 
 		if($this->numErrors()>0) {
@@ -443,8 +439,7 @@ class ca_user_roles extends BaseModel {
 		$this->set('vars', $va_vars);
 
 		$vn_old_mode = $this->getMode();
-		$this->setMode(ACCESS_WRITE);
-		$this->update();
+$this->update();
 		$this->setMode($vn_old_mode);
 
 		if($this->numErrors()>0) {
@@ -508,8 +503,7 @@ class ca_user_roles extends BaseModel {
 		$this->set('vars', $va_vars);
 
 		$vn_old_mode = $this->getMode();
-		$this->setMode(ACCESS_WRITE);
-		$this->update();
+$this->update();
 		$this->setMode($vn_old_mode);
 
 		if($this->numErrors()>0) {

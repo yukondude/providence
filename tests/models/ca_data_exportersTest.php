@@ -50,8 +50,7 @@ class ca_data_exportersTest extends PHPUnit_Framework_TestCase {
 		$this->assertEmpty($va_errors, 'Should be no error messages');
 		$this->assertTrue(is_object($vo_exporter), 'Should have found an exporter by the correct name');
 		$this->assertInstanceOf('ca_data_exporters', $vo_exporter, 'Incorrect type loaded');
-		$vo_exporter->setMode(ACCESS_WRITE);
-		$vo_exporter->delete(true, array( 'hard' => true ));
+$vo_exporter->delete(true, array( 'hard' => true ));
 
 		$vo_exporter = $t_exporter->load(array('exporter_code' => 'testmappingforunittests'));
 		$this->assertFalse($vo_exporter, 'Should no longer have an exporter loaded');

@@ -91,8 +91,7 @@
 										// mark record
 										foreach($va_items_for_user as $va_item) {
 											if ($t_checkout->load($va_item['checkout_id'])) {
-												$t_checkout->setMode(ACCESS_WRITE);
-												$t_checkout->set('last_sent_coming_due_email', _t('now'));	
+$t_checkout->set('last_sent_coming_due_email', _t('now'));	
 												$t_checkout->update();
 												if ($t_checkout->numErrors()) {
 													$t_log->log(array('CODE' => 'ERR', 'MESSAGE' => _t('Could not mark checkout coming due message sent time because update failed: %1', join("; ", $t_checkout->getErrors())), 'SOURCE' => 'libraryServicesPlugin->hookPeriodicTask'));	
@@ -129,8 +128,7 @@
 										// mark record
 										foreach($va_items_for_user as $va_item) {
 											if ($t_checkout->load($va_item['checkout_id'])) {
-												$t_checkout->setMode(ACCESS_WRITE);
-												$t_checkout->set('last_sent_overdue_email', _t('now'));	
+$t_checkout->set('last_sent_overdue_email', _t('now'));	
 												$t_checkout->update();
 												if ($t_checkout->numErrors()) {
 													$t_log->log(array('CODE' => 'ERR', 'MESSAGE' => _t('Could not mark checkout overdue message sent time because update failed: %1', join("; ", $t_checkout->getErrors())), 'SOURCE' => 'libraryServicesPlugin->hookPeriodicTask'));	
@@ -167,8 +165,7 @@
 										// mark record
 										foreach($va_items_for_user as $va_item) {
 											if ($t_checkout->load($va_item['checkout_id'])) {
-												$t_checkout->setMode(ACCESS_WRITE);
-												$t_checkout->set('last_reservation_available_email', _t('now'));	
+$t_checkout->set('last_reservation_available_email', _t('now'));	
 												$t_checkout->update();
 												if ($t_checkout->numErrors()) {
 													$t_log->log(array('CODE' => 'ERR', 'MESSAGE' => _t('Could not mark reserved available message sent time because update failed: %1', join("; ", $t_checkout->getErrors())), 'SOURCE' => 'libraryServicesPlugin->hookPeriodicTask'));	

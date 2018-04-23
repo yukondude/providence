@@ -494,8 +494,6 @@ class BundlableLabelableBaseModelWithAttributes extends LabelableBaseModelWithAt
 			$t_dupe->set($vs_idno_fld, $vs_idno);
 		}
 		
-		$t_dupe->setMode(ACCESS_WRITE);
-		
 		if (isset($pa_options['user_id']) && $pa_options['user_id'] && $t_dupe->hasField('user_id')) { $t_dupe->set('user_id', $pa_options['user_id']); }
 		
 		$t_dupe->insert();
@@ -1530,13 +1528,13 @@ class BundlableLabelableBaseModelWithAttributes extends LabelableBaseModelWithAt
 					case 'ca_movements':
 					case 'ca_tour_stops':
 					case 'ca_sets':
-						if (($this->_CONFIG->get($ps_bundle_name.'_disable'))) { return ''; }		// don't display if master "disable" switch is set
+						if ((self::$_CONFIG->get($ps_bundle_name.'_disable'))) { return ''; }		// don't display if master "disable" switch is set
 						$pa_options['start'] = 0;
 						$vs_element = $this->getRelatedHTMLFormBundle($pa_options['request'], $pa_options['formName'], $ps_bundle_name, $ps_placement_code, $pa_bundle_settings, $pa_options);	
 						break;
 					# -------------------------------
 					case 'ca_object_lots':
-						if ($this->_CONFIG->get($ps_bundle_name.'_disable')) { break; }		// don't display if master "disable" switch is set
+						if (self::$_CONFIG->get($ps_bundle_name.'_disable')) { break; }		// don't display if master "disable" switch is set
 						
 						$pa_lot_options = array('batch' => $vb_batch);
 						if (($this->tableName() != 'ca_object_lots') && ($vn_lot_id = $pa_options['request']->getParameter('lot_id', pInteger))) {
@@ -1569,7 +1567,7 @@ class BundlableLabelableBaseModelWithAttributes extends LabelableBaseModelWithAt
 					case 'ca_tour_stops_related_list':
 					case 'ca_object_lots_related_list':
 						$vs_table_name = preg_replace("/_related_list|_table$/", '', $ps_bundle_name);
-						if (($this->_CONFIG->get($vs_table_name. '_disable'))) { return ''; }		// don't display if master "disable" switch is set
+						if ((self::$_CONFIG->get($vs_table_name. '_disable'))) { return ''; }		// don't display if master "disable" switch is set
 						$pa_options['start'] = 0;
 						$vs_element = $this->getRelatedListHTMLFormBundle($pa_options['request'], $ps_bundle_name, $pa_options['formName'], $ps_placement_code, $pa_bundle_settings, $pa_options);
 						break;
@@ -3556,8 +3554,6 @@ if (!$vb_batch) {
 		if (method_exists($this, "processBundlesBeforeBaseModelSave")) {
 			$this->processBundlesBeforeBaseModelSave($va_bundles, $vs_form_prefix, $po_request, $pa_options);
 		}
-		
-		$this->setMode(ACCESS_WRITE);
 			
 		$vb_is_insert = false;
 		
@@ -3622,10 +3618,10 @@ if (!$vb_batch) {
 
 		// save preferred labels
 if ($this->getProperty('LABEL_TABLE_NAME')) {
-		$vb_check_for_dupe_labels = $this->_CONFIG->get('allow_duplicate_labels_for_'.$this->tableName()) ? false : true;
+		$vb_check_for_dupe_labels = self::$_CONFIG->get('allow_duplicate_labels_for_'.$this->tableName()) ? false : true;
 		$vb_error_inserting_pref_label = false;
 		if (is_array($va_fields_by_type['preferred_label'])) {
-		    $vs_label_must_be_in_list = $this->_CONFIG->get('preferred_label_for_'.$this->tableName().'_must_be_in_list');
+		    $vs_label_must_be_in_list = self::$_CONFIG->get('preferred_label_for_'.$this->tableName().'_must_be_in_list');
 		    
 			foreach($va_fields_by_type['preferred_label'] as $vs_placement_code => $vs_f) {
 
@@ -3885,7 +3881,7 @@ if (!$vb_batch) {
 						// check for existing representations to update (or delete)
 						
 						$vs_prefix_stub = $vs_placement_code.$vs_form_prefix.'_';
-						$vb_allow_fetching_of_urls = (bool)$this->_CONFIG->get('allow_fetching_of_media_from_remote_urls');
+						$vb_allow_fetching_of_urls = (bool)self::$_CONFIG->get('allow_fetching_of_media_from_remote_urls');
 						$va_rep_ids_sorted = $va_rep_sort_order = explode(';',$po_request->getParameter($vs_prefix_stub.'ObjectRepresentationBundleList', pString));
 						sort($va_rep_ids_sorted, SORT_NUMERIC);
 						
@@ -3945,7 +3941,6 @@ if (!$vb_batch) {
 										$t_rep = new ca_object_representations();
 										if ($this->inTransaction()) { $t_rep->setTransaction($this->getTransaction()); }
 										if ($t_rep->load($va_rep['representation_id'])) {
-											$t_rep->setMode(ACCESS_WRITE);
 											$t_rep->replaceLabel(array('name' => $vs_rep_label), $g_ui_locale_id, null, true, array('queueIndexing' => true));
 											if ($t_rep->numErrors()) {
 												$po_request->addActionErrors($t_rep->errors(), $vs_f, $va_rep['representation_id']);
@@ -4376,7 +4371,7 @@ if (!$vb_batch) {
 							//
 							$o_media = new Media();
 							if ($o_media->read($this->getMediaPath('media', 'original'))) {
-								$va_files = $o_media->writePreviews(array('force' => true, 'outputDirectory' => $this->_CONFIG->get("taskqueue_tmp_directory"), 'minNumberOfFrames' => 1, 'maxNumberOfFrames' => 1, 'startAtTime' => $vs_timecode, 'endAtTime' => $vs_timecode, 'width' => 720, 'height' => 540));
+								$va_files = $o_media->writePreviews(array('force' => true, 'outputDirectory' => self::$_CONFIG->get("taskqueue_tmp_directory"), 'minNumberOfFrames' => 1, 'maxNumberOfFrames' => 1, 'startAtTime' => $vs_timecode, 'endAtTime' => $vs_timecode, 'width' => 720, 'height' => 540));
 						
 								if(sizeof($va_files)) { 
 									$this->set('media', array_shift($va_files));
@@ -4391,7 +4386,7 @@ if (!$vb_batch) {
 								//
 								$o_media = new Media();
 								if ($o_media->read($this->getMediaPath('media', 'original'))) {
-									$va_files = $o_media->writePreviews(array('force' => true, 'outputDirectory' => $this->_CONFIG->get("taskqueue_tmp_directory"), 'numberOfPages' => 1, 'startAtPage' => $vn_page, 'width' => 2048, 'height' => 2048));
+									$va_files = $o_media->writePreviews(array('force' => true, 'outputDirectory' => self::$_CONFIG->get("taskqueue_tmp_directory"), 'numberOfPages' => 1, 'startAtPage' => $vn_page, 'width' => 2048, 'height' => 2048));
 							
 									if(sizeof($va_files)) { 
 										$this->set('media', array_shift($va_files));
@@ -4525,7 +4520,6 @@ if (!$vb_batch) {
 												$t_item_rel->set($vs_element, $vs_val = $po_request->getParameter("{$vs_placement_code}{$vs_form_prefix}_location_{$vs_element}new_0", pString));
 											} elseif ($vn_element_id = ca_metadata_elements::getElementID($vs_element)) {
 												$va_sub_element_ids = ca_metadata_elements::getElementsForSet($vn_element_id, ['idsOnly' => true]);
-												$t_item_rel->setMode(ACCESS_WRITE);
 												
 												$va_vals = [];
 												foreach($va_sub_element_ids as $vn_sub_element_id) {
@@ -4612,7 +4606,6 @@ if (!$vb_batch) {
 							if(is_array($va_rep_ids = $this->getRepresentationIDs())) {
 								foreach(array_keys($va_rep_ids) as $vn_rep_id) {
 									if ($t_rep->load($vn_rep_id)) {
-										$t_rep->setMode(ACCESS_WRITE);
 										$t_rep->set('access', $vn_access);
 										$t_rep->set('status', $vn_status);
 										$t_rep->update();
@@ -4654,7 +4647,7 @@ if (!$vb_batch) {
 						// check for existing representations to update (or delete)
 						
 						$vs_prefix_stub = $vs_placement_code.$vs_form_prefix.'_';
-						$vb_allow_fetching_of_urls = (bool)$this->_CONFIG->get('allow_fetching_of_media_from_remote_urls');
+						$vb_allow_fetching_of_urls = (bool)self::$_CONFIG->get('allow_fetching_of_media_from_remote_urls');
 						$va_media_ids_sorted = $va_mediasort_order = explode(';',$po_request->getParameter($vs_prefix_stub.'MediaBundleList', pString));
 						sort($va_media_ids_sorted, SORT_NUMERIC);
 						$va_media_list = $this->getPageMedia();
@@ -4704,7 +4697,6 @@ if (!$vb_batch) {
 										if ($this->inTransaction()) { $t_rep->setTransaction($this->getTransaction()); }
 										global $g_ui_locale_id;
 										if ($t_rep->load($va_media['media_id'])) {
-											$t_rep->setMode(ACCESS_WRITE);
 											$t_rep->replaceLabel(array('name' => $vs_title), $g_ui_locale_id, null, true, array('queueIndexing' => true));
 											if ($t_rep->numErrors()) {
 												$po_request->addActionErrors($t_rep->errors(), $vs_f, $va_media['media_id']);
@@ -6168,14 +6160,14 @@ if (!$vb_batch) {
 			
 			if (is_null($ps_format)) {
 				if (isset($pa_options['field_errors']) && is_array($pa_options['field_errors']) && sizeof($pa_options['field_errors'])) {
-					$ps_format = $this->_CONFIG->get('bundle_element_error_display_format');
+					$ps_format = self::$_CONFIG->get('bundle_element_error_display_format');
 					$va_field_errors = array();
 					foreach($pa_options['field_errors'] as $o_e) {
 						$va_field_errors[] = $o_e->getErrorDescription();
 					}
 					$vs_errors = join('; ', $va_field_errors);
 				} else {
-					$ps_format = $this->_CONFIG->get('bundle_element_display_format');
+					$ps_format = self::$_CONFIG->get('bundle_element_display_format');
 					$vs_errors = '';
 				}
 			}
@@ -6249,10 +6241,10 @@ $pa_options["display_form_field_tips"] = true;
 	 */
 	public function validateAdminIDNo($ps_admin_idno) {
 		$va_errors = array();
-		if ($this->_CONFIG->get('require_valid_id_number_for_'.$this->tableName()) && sizeof($va_admin_idno_errors = $this->opo_idno_plugin_instance->isValidValue($ps_admin_idno))) {
+		if (self::$_CONFIG->get('require_valid_id_number_for_'.$this->tableName()) && sizeof($va_admin_idno_errors = $this->opo_idno_plugin_instance->isValidValue($ps_admin_idno))) {
 			$va_errors[] = join('; ', $va_admin_idno_errors);
 		} else {
-			if (!$this->_CONFIG->get('allow_duplicate_id_number_for_'.$this->tableName()) && sizeof($this->checkForDupeAdminIdnos($ps_admin_idno))) {
+			if (!self::$_CONFIG->get('allow_duplicate_id_number_for_'.$this->tableName()) && sizeof($this->checkForDupeAdminIdnos($ps_admin_idno))) {
 				$va_errors[] = _t("Identifier %1 already exists and duplicates are not permitted", $ps_admin_idno);
 			}
 		}
@@ -6460,7 +6452,6 @@ $pa_options["display_form_field_tips"] = true;
 			$t_acl->clear();
 			$t_acl->load(array('user_id' => $vn_user_id, 'table_num' => $vn_table_num, 'row_id' => $vn_id));		// try to load existing record
 			
-			$t_acl->setMode(ACCESS_WRITE);
 			$t_acl->set('table_num', $vn_table_num);
 			$t_acl->set('row_id', $vn_id);
 			$t_acl->set('user_id', $vn_user_id);
@@ -6507,7 +6498,6 @@ $pa_options["display_form_field_tips"] = true;
 		foreach($pa_user_ids as $vn_user_id) {
 			if (!isset($va_current_users[$vn_user_id]) && $va_current_users[$vn_user_id]) { continue; }
 			
-			$t_acl->setMode(ACCESS_WRITE);
 			if ($t_acl->load(array('table_num' => $vn_table_num, 'row_id' => $vn_id, 'user_id' => $vn_user_id))) {
 				$t_acl->delete(true);
 				
@@ -6652,7 +6642,6 @@ $pa_options["display_form_field_tips"] = true;
 			$t_acl->clear();
 			$t_acl->load(array('group_id' => $vn_group_id, 'table_num' => $vn_table_num, 'row_id' => $vn_id));		// try to load existing record
 			
-			$t_acl->setMode(ACCESS_WRITE);
 			$t_acl->set('table_num', $vn_table_num);
 			$t_acl->set('row_id', $vn_id);
 			$t_acl->set('group_id', $vn_group_id);
@@ -6702,7 +6691,6 @@ $pa_options["display_form_field_tips"] = true;
 		foreach($pa_group_ids as $vn_group_id) {
 			if (!isset($va_current_groups[$vn_group_id]) && $va_current_groups[$vn_group_id]) { continue; }
 			
-			$t_acl->setMode(ACCESS_WRITE);
 			if ($t_acl->load(array('table_num' => $vn_table_num, 'row_id' => $vn_id, 'group_id' => $vn_group_id))) {
 				$t_acl->delete(true);
 				
@@ -6821,7 +6809,6 @@ $pa_options["display_form_field_tips"] = true;
 		$t_acl = new ca_acl();	
 		$t_acl->load(array('group_id' => null, 'user_id' => null, 'table_num' => $vn_table_num, 'row_id' => $vn_id));		// try to load existing record
 		
-		$t_acl->setMode(ACCESS_WRITE);
 		$t_acl->set('table_num', $vn_table_num);
 		$t_acl->set('row_id', $vn_id);
 		$t_acl->set('user_id', null);
@@ -6893,7 +6880,6 @@ $pa_options["display_form_field_tips"] = true;
 		}
 		
 		$vn_old_type_id = $this->getTypeID();
-		$this->setMode(ACCESS_WRITE);
 		$this->set($this->getTypeFieldName(), $pm_type, array('allowSettingOfTypeID' => true));
 		
 		// remove attributes that are not valid for new type
@@ -7197,7 +7183,6 @@ side. For many self-relations the direction determines the nature and display te
 		global $g_ui_locale_id;
 		// Are there interstitials to add?
 		if (isset($pa_options['interstitialValues']) && is_array($pa_options['interstitialValues'])) {
-			$t_rel->setMode(ACCESS_WRITE);
 			foreach ($pa_options['interstitialValues'] as $vs_element => $va_value) {
 				if ($t_rel->hasField($vs_element)) {
 					$t_rel->set($vs_element, $va_value);
@@ -7323,10 +7308,8 @@ side. For many self-relations the direction determines the nature and display te
 			if (!$vb_skip && ExpressionParser::evaluate(html_entity_decode($va_rule['expression']), $va_row)) {
 				// violation
 				if ($t_violation->getPrimaryKey()) {
-					$t_violation->setMode(ACCESS_WRITE);
 					$t_violation->update();
 				} else {
-					$t_violation->setMode(ACCESS_WRITE);
 					$t_violation->set('rule_id', $va_rule['rule_id']);
 					$t_violation->set('table_num', $this->tableNum());
 					$t_violation->set('row_id', $this->getPrimaryKey());
@@ -7337,7 +7320,6 @@ side. For many self-relations the direction determines the nature and display te
 				$vn_violation_count++;
 			} else {
 				if ($t_violation->getPrimaryKey()) {
-					$t_violation->setMode(ACCESS_WRITE);
 					$t_violation->delete(true);		// remove violation
 				}
 			}

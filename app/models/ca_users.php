@@ -754,7 +754,7 @@ class ca_users extends BaseModel {
 			}
 			$vs_buf .= "</select>\n";
 		}
-		if ($vs_buf && ($vs_format = $this->_CONFIG->get('form_element_display_format'))) {
+		if ($vs_buf && ($vs_format = self::$_CONFIG->get('form_element_display_format'))) {
 			$vs_format = str_replace("^ELEMENT", $vs_buf, $vs_format);
 			$vs_format = str_replace("^LABEL", $vs_label, $vs_format);
 			$vs_format = str_replace("^ERRORS", '', $vs_format);
@@ -1051,7 +1051,7 @@ class ca_users extends BaseModel {
 			}
 			$vs_buf .= "</select>\n";
 		}
-		if ($vs_buf && ($vs_format = $this->_CONFIG->get('form_element_display_format'))) {
+		if ($vs_buf && ($vs_format = self::$_CONFIG->get('form_element_display_format'))) {
 			$vs_format = str_replace("^ELEMENT", $vs_buf, $vs_format);
 			$vs_format = str_replace("^LABEL", $vs_label, $vs_format);
 			$vs_format = str_replace("^ERRORS", '', $vs_format);
@@ -1418,7 +1418,7 @@ class ca_users extends BaseModel {
 			}
 			$vs_buf .= "</select>\n";
 		}
-		if ($vs_buf && ($vs_format = $this->_CONFIG->get('form_element_display_format'))) {
+		if ($vs_buf && ($vs_format = self::$_CONFIG->get('form_element_display_format'))) {
 			$vs_format = str_replace("^ELEMENT", $vs_buf, $vs_format);
 			$vs_format = str_replace("^LABEL", $vs_label, $vs_format);
 			$vs_format = str_replace("^ERRORS", '', $vs_format);
@@ -1887,11 +1887,11 @@ class ca_users extends BaseModel {
 							}
 							break;
 						case 'FT_THEME':
-							if ($r_dir = opendir($this->_CONFIG->get('themes_directory'))) {
+							if ($r_dir = opendir(self::$_CONFIG->get('themes_directory'))) {
 								$va_opts = array();
 								while (($vs_theme_dir = readdir($r_dir)) !== false) {
 									if ($vs_theme_dir{0} == '.') { continue; }
-										$o_theme_info = Configuration::load($this->_CONFIG->get('themes_directory').'/'.$vs_theme_dir.'/themeInfo.conf');
+										$o_theme_info = Configuration::load(self::$_CONFIG->get('themes_directory').'/'.$vs_theme_dir.'/themeInfo.conf');
 										$va_opts[$o_theme_info->get('name')] = $vs_theme_dir;
 								}
 							}
@@ -2089,14 +2089,14 @@ class ca_users extends BaseModel {
 			
 			if (is_null($ps_format)) {
 				if (isset($pa_options['field_errors']) && is_array($pa_options['field_errors']) && sizeof($pa_options['field_errors'])) {
-					$ps_format = $this->_CONFIG->get('form_element_error_display_format');
+					$ps_format = self::$_CONFIG->get('form_element_error_display_format');
 					$va_field_errors = array();
 					foreach($pa_options['field_errors'] as $o_e) {
 						$va_field_errors[] = $o_e->getErrorDescription();
 					}
 					$vs_errors = join('; ', $va_field_errors);
 				} else {
-					$ps_format = $this->_CONFIG->get('form_element_display_format');
+					$ps_format = self::$_CONFIG->get('form_element_display_format');
 					$vs_errors = '';
 				}
 			}
@@ -2584,8 +2584,7 @@ class ca_users extends BaseModel {
 	 */
 	public function close() {
 		if($this->getPrimaryKey()) {
-			$this->setMode(ACCESS_WRITE);
-			$this->update(['dontLogChange' => true]);
+$this->update(['dontLogChange' => true]);
 		}
 	}
 	# ----------------------------------------
@@ -2702,8 +2701,7 @@ class ca_users extends BaseModel {
 			$this->passwordResetDeactivateAccount();
 		}
 
-		$this->setMode(ACCESS_WRITE);
-		$this->update();
+$this->update();
 	}
 	# ----------------------------------------
 	public function isValidToken($ps_token) {
@@ -2731,8 +2729,7 @@ class ca_users extends BaseModel {
 		if(!$vb_return) {
 			// invalid token checks count as completely botched password reset attempt. you can only have so many of those
 			$this->removePendingPasswordReset(false);
-			$this->setMode(ACCESS_WRITE);
-			$this->update();
+$this->update();
 		}
 
 		return $vb_return;
@@ -2750,8 +2747,7 @@ class ca_users extends BaseModel {
 		// use the reset password feature again. Otherwise he would immediately be locked out again.
 		$this->removePendingPasswordReset(true);
 		$this->set('active', 0);
-		$this->setMode(ACCESS_WRITE);
-		$this->update();
+$this->update();
 
 		$this->opo_log->log(array(
 			'CODE' => 'SYS', 'SOURCE' => 'ca_users/passwordResetDeactivateAccount',
@@ -2900,8 +2896,7 @@ class ca_users extends BaseModel {
 				}
 
 				$vn_mode = $this->getMode();
-				$this->setMode(ACCESS_WRITE);
-				$this->insert();
+$this->insert();
 
 				if (!$this->getPrimaryKey()) {
 					$this->setMode($vn_mode);
@@ -3131,7 +3126,7 @@ class ca_users extends BaseModel {
 		if(!ca_user_roles::isValidAction($ps_action)) { return ca_users::$s_user_action_access_cache[$vs_cache_key] = false; }	// return false if action is not valid	
 		
 		// is user administrator?
-		if ($this->getPrimaryKey() == $this->_CONFIG->get('administrator_user_id')) { return ca_users::$s_user_action_access_cache[$vs_cache_key] = true; }	// access restrictions don't apply to user with user_id = admin id
+		if ($this->getPrimaryKey() == self::$_CONFIG->get('administrator_user_id')) { return ca_users::$s_user_action_access_cache[$vs_cache_key] = true; }	// access restrictions don't apply to user with user_id = admin id
 		
 		// get user roles
 		$va_roles = $this->getUserRoles();

@@ -704,8 +704,7 @@
 			
 			$vb_separate_updates = caGetOption('separateUpdatesForAttributes', $pa_options, false);
 			
-			$pt_instance->setMode(ACCESS_WRITE);
-			if (is_array($pa_values)) {
+if (is_array($pa_values)) {
 				foreach($pa_values as $vs_element => $va_values) {
 					if (!$pt_instance->hasElement($vs_element)) { continue; }
 					if (!caIsIndexedArray($va_values)) {
@@ -1076,8 +1075,7 @@
 					$t_instance->setTransaction($pa_options['transaction']);
 				}
 				
-				$t_instance->setMode(ACCESS_WRITE);
-				$t_instance->set('locale_id', $pn_locale_id);
+$t_instance->set('locale_id', $pn_locale_id);
 				$t_instance->set('type_id', $pn_type_id);
 				
 				$va_intrinsics = array(

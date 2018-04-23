@@ -66,8 +66,7 @@
  				return;
  			}
  			
- 			$t_group->setMode(ACCESS_WRITE);
- 			foreach($t_group->getFormFields() as $vs_f => $va_field_info) {
+foreach($t_group->getFormFields() as $vs_f => $va_field_info) {
 				if ($vs_f == 'code') { continue; }
 				if ($vs_f == 'user_id') { continue; }
  				$t_group->set($vs_f, $_REQUEST[$vs_f]);
@@ -152,8 +151,7 @@
  			}
  			
  			if ($this->request->getParameter('confirm', pInteger)) {
- 				$t_group->setMode(ACCESS_WRITE);
- 				$t_group->delete(true);
+$t_group->delete(true);
 
  				if ($t_group->numErrors()) {
  					foreach ($t_group->errors() as $o_e) {

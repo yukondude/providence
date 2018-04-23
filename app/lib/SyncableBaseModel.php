@@ -48,8 +48,7 @@ trait SyncableBaseModel {
 
 		$t_guid->load(array('guid' => $vs_guid));
 
-		$t_guid->setMode(ACCESS_WRITE);
-		$t_guid->set('table_num', $this->tableNum());
+$t_guid->set('table_num', $this->tableNum());
 		$t_guid->set('row_id', $this->getPrimaryKey());
 		$t_guid->set('guid', $vs_guid);
 
@@ -70,8 +69,7 @@ trait SyncableBaseModel {
 			if($this->inTransaction()) {
 				$t_guid->setTransaction($this->getTransaction());
 			}
-			$t_guid->setMode(ACCESS_WRITE);
-			$t_guid->delete();
+$t_guid->delete();
 		}
 	}
 	# -----------------------------------------------------

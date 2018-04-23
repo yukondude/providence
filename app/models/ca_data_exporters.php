@@ -432,8 +432,7 @@ class ca_data_exporters extends BundlableLabelableBaseModelWithAttributes {
 		if (!($vn_exporter_id = $this->getPrimaryKey())) { return null; }
 
 		$t_item = new ca_data_exporter_items();
-		$t_item->setMode(ACCESS_WRITE);
-		$t_item->set('parent_id',$pn_parent_id);
+$t_item->set('parent_id',$pn_parent_id);
 		$t_item->set('exporter_id',$vn_exporter_id);
 		$t_item->set('element',$ps_element);
 		$t_item->set('source',$ps_source);
@@ -461,8 +460,7 @@ class ca_data_exporters extends BundlableLabelableBaseModelWithAttributes {
 
 		$t_item = new ca_data_exporter_items($pn_item_id);
 		if ($t_item->getPrimaryKey() && ($t_item->get('exporter_id') == $vn_exporter_id)) {
-			$t_item->setMode(ACCESS_WRITE);
-			$t_item->delete(true);
+$t_item->delete(true);
 
 			if ($t_item->numErrors()) {
 				$this->errors = array_merge($this->errors, $t_item->errors);
@@ -482,9 +480,7 @@ class ca_data_exporters extends BundlableLabelableBaseModelWithAttributes {
 
 		$va_items = $this->getItems(array('orderForDeleteCascade' => true));
 		$t_item = new ca_data_exporter_items();
-		$t_item->setMode(ACCESS_WRITE);
-
-		foreach($va_items as $vn_item_id => $va_item) {
+foreach($va_items as $vn_item_id => $va_item) {
 			$t_item->load($vn_item_id);
 			$t_item->delete(true);
 
@@ -907,9 +903,7 @@ class ca_data_exporters extends BundlableLabelableBaseModelWithAttributes {
 		if (!$va_settings['name']) { $va_settings['name'] = $va_settings['code']; }
 
 		$t_exporter = new ca_data_exporters();
-		$t_exporter->setMode(ACCESS_WRITE);
-
-		// Remove any existing mapping with this code
+// Remove any existing mapping with this code
 		if ($t_exporter->load(array('exporter_code' => $va_settings['code']))) {
 			$t_exporter->delete(true, array('hard' => true));
 			if ($t_exporter->numErrors()) {

@@ -331,8 +331,7 @@ class ca_bundle_displays extends BundlableLabelableBaseModelWithAttributes {
 				foreach($va_items as $vn_item_id => $va_item) {
 					$t_item = new ca_bundle_display_placements();
 					if ($this->inTransaction()) { $t_item->setTransaction($this->getTransaction()); }
-					$t_item->setMode(ACCESS_WRITE);
-					$va_item['display_id'] = $t_dupe->getPrimaryKey();
+$va_item['display_id'] = $t_dupe->getPrimaryKey();
 					$t_item->set($va_item);
 					$t_item->insert();
 					
@@ -402,8 +401,7 @@ class ca_bundle_displays extends BundlableLabelableBaseModelWithAttributes {
 		}
 		
 		$t_placement = new ca_bundle_display_placements(null, is_array($pa_options['additional_settings']) ? $pa_options['additional_settings'] : null);
-		$t_placement->setMode(ACCESS_WRITE);
-		if ($this->inTransaction()) { $t_placement->setTransaction($this->getTransaction()); }
+if ($this->inTransaction()) { $t_placement->setTransaction($this->getTransaction()); }
 		$t_placement->set('display_id', $vn_display_id);
 		$t_placement->set('bundle_name', $ps_bundle_name);
 		$t_placement->set('rank', $pn_rank);
@@ -444,8 +442,7 @@ class ca_bundle_displays extends BundlableLabelableBaseModelWithAttributes {
 		
 		$t_placement = new ca_bundle_display_placements($pn_placement_id);
 		if ($t_placement->getPrimaryKey() && ($t_placement->get('display_id') == $vn_display_id)) {
-			$t_placement->setMode(ACCESS_WRITE);
-			if ($this->inTransaction()) { $t_placement->setTransaction($this->getTransaction()); }
+if ($this->inTransaction()) { $t_placement->setTransaction($this->getTransaction()); }
 			$t_placement->delete(true);
 			
 			if ($t_placement->numErrors()) {
@@ -2221,8 +2218,7 @@ if (!$pb_omit_editing_info) {
 				} else {
 					$t_placement = new ca_bundle_display_placements($vn_placement_id, $va_available_bundles[$vs_bundle]['settings']);
 					if ($this->inTransaction()) { $t_placement->setTransaction($this->getTransaction()); }
-					$t_placement->setMode(ACCESS_WRITE);
-					$t_placement->set('rank', $vn_i + 1);
+$t_placement->set('rank', $vn_i + 1);
 					
 					if (is_array($va_settings[$vn_placement_id])) {
 						//foreach($va_settings[$vn_placement_id] as $vs_setting => $vs_val) {
@@ -2266,8 +2262,7 @@ if (!$pb_omit_editing_info) {
 		
 		$t_restriction = new ca_bundle_display_type_restrictions();
 		if ($this->inTransaction()) { $t_restriction->setTransaction($this->getTransaction()); }
-		$t_restriction->setMode(ACCESS_WRITE);
-		$t_restriction->set('table_num', $this->get('table_num'));
+$t_restriction->set('table_num', $this->get('table_num'));
 		$t_restriction->set('type_id', $pn_type_id);
 		$t_restriction->set('display_id', $this->getPrimaryKey());
 		$t_restriction->set('include_subtypes', caGetOption('includeSubtypes', $pa_settings, 0));
@@ -2295,8 +2290,7 @@ if (!$pb_omit_editing_info) {
 		if (!($vn_ui_id = $this->getPrimaryKey())) { return null; }		// UI must be loaded
 		$t_restriction = new ca_bundle_display_type_restrictions($pn_restriction_id);
 		if ($t_restriction->isLoaded()) {
-			$t_restriction->setMode(ACCESS_WRITE);
-			$t_restriction->set('include_subtypes', caGetOption('includeSubtypes', $pa_settings, 0));
+$t_restriction->set('include_subtypes', caGetOption('includeSubtypes', $pa_settings, 0));
 			$t_restriction->update();
 			if ($t_restriction->numErrors()) {
 				$this->errors = $t_restriction->errors();
@@ -2363,8 +2357,7 @@ if (!$pb_omit_editing_info) {
 
 		if (is_array($va_uis = ca_bundle_display_type_restrictions::find($va_params, ['returnAs' => 'modelInstances']))) {
 			foreach($va_displays as $t_display) {
-				$t_display->setMode(ACCESS_WRITE);
-				$t_display->delete(true);
+$t_display->delete(true);
 				if ($t_display->numErrors()) {
 					$this->errors = $t_t_displayui->errors();
 					return false;
@@ -2727,9 +2720,7 @@ if (!$pb_omit_editing_info) {
 				$va_ids[] = $vn_id = $va_change['id'];
 				
 				if ($t_subject->load($vn_id)) {
-					$t_subject->setMode(ACCESS_WRITE);
-					
-					$va_bundles = ca_bundle_displays::makeBundlesForResultsEditor(array($va_change['change'][1]));
+$va_bundles = ca_bundle_displays::makeBundlesForResultsEditor(array($va_change['change'][1]));
 					
 					$vb_set_value = false;
 					foreach($va_bundles as $va_bundle) {

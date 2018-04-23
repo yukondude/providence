@@ -328,8 +328,7 @@ class BaseEditorController extends ActionController {
 				// The newly created record's parent is already set to be the current parent of the "above_id"; the net effect of all of this
 				// is to insert the newly created record between the "above_id" record and its' current parent.
 				if ($vn_above_id && ($t_instance = Datamodel::getInstanceByTableName($this->ops_table_name, true)) && $t_instance->load($vn_above_id)) {
-					$t_instance->setMode(ACCESS_WRITE);
-					$t_instance->set('parent_id', $vn_subject_id);
+$t_instance->set('parent_id', $vn_subject_id);
 					$t_instance->update();
 
 					if ($t_instance->numErrors()) {
@@ -535,8 +534,7 @@ class BaseEditorController extends ActionController {
 							$vn_child_count = 0;
 							foreach($va_children as $vn_child_id) {
 								$t_child->load($vn_child_id);
-								$t_child->setMode(ACCESS_WRITE);
-								$t_child->set('parent_id', $vn_remap_id);
+$t_child->set('parent_id', $vn_remap_id);
 								$t_child->update();
 								if ($t_child->numErrors() > 0) {
 									continue;
@@ -556,8 +554,7 @@ class BaseEditorController extends ActionController {
 					$vn_child_count = 0;
 					foreach($va_children as $vn_child_id) {
 						$t_child->load($vn_child_id);
-						$t_child->setMode(ACCESS_WRITE);
-						$t_child->delete(true);
+$t_child->delete(true);
 						if ($t_child->numErrors() > 0) {
 							continue;
 						}
@@ -576,9 +573,7 @@ class BaseEditorController extends ActionController {
 				}
 			}
 			
-			$t_subject->setMode(ACCESS_WRITE);
-
-			$vb_rc = false;
+$vb_rc = false;
 			if ($this->_beforeDelete($t_subject)) {
 				if ($vb_rc = $t_subject->delete(true)) {
 					$this->_afterDelete($t_subject);
@@ -1034,8 +1029,7 @@ class BaseEditorController extends ActionController {
 
 		// Set ACL-related intrinsic fields
 		if ($t_subject->hasField('acl_inherit_from_ca_collections') || $t_subject->hasField('acl_inherit_from_parent')) {
-			$t_subject->setMode(ACCESS_WRITE);
-			if ($t_subject->hasField('acl_inherit_from_ca_collections')) {
+if ($t_subject->hasField('acl_inherit_from_ca_collections')) {
 				$t_subject->set('acl_inherit_from_ca_collections', $this->request->getParameter('acl_inherit_from_ca_collections', pInteger));
 			}
 			if ($t_subject->hasField('acl_inherit_from_parent')) {
@@ -1433,8 +1427,7 @@ class BaseEditorController extends ActionController {
 
 		if ($t_watch_list->isItemWatched($vn_subject_id, $t_subject->tableNum(), $vn_user_id)) {
 			if($t_watch_list->load(array('row_id' => $vn_subject_id, 'user_id' => $vn_user_id, 'table_num' => $t_subject->tableNum()))){
-				$t_watch_list->setMode(ACCESS_WRITE);
-				$t_watch_list->delete();
+$t_watch_list->delete();
 				if ($t_watch_list->numErrors()) {
 					$va_errors = $t_item->errors;
 					$this->view->setVar('state', 'watched');
@@ -1443,8 +1436,7 @@ class BaseEditorController extends ActionController {
 				}
 			}
 		} else {
-			$t_watch_list->setMode(ACCESS_WRITE);
-			$t_watch_list->set('user_id', $vn_user_id);
+$t_watch_list->set('user_id', $vn_user_id);
 			$t_watch_list->set('table_num', $t_subject->tableNum());
 			$t_watch_list->set('row_id', $vn_subject_id);
 			$t_watch_list->insert();

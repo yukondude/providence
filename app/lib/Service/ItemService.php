@@ -732,8 +732,7 @@ class ItemService extends BaseJSONService {
 			}
 		}
 
-		$t_instance->setMode(ACCESS_WRITE);
-		$t_instance->insert();
+$t_instance->insert();
 
 		if(!$t_instance->getPrimaryKey()) {
 			$this->opa_errors = array_merge($t_instance->getErrors(),$this->opa_errors);
@@ -815,8 +814,7 @@ class ItemService extends BaseJSONService {
 							}
 
 							if($vb_have_to_update) {
-								$t_rel->setMode(ACCESS_WRITE);
-								$t_rel->update();
+$t_rel->update();
 							}
 						}
 					}
@@ -914,8 +912,7 @@ class ItemService extends BaseJSONService {
 			}
 		}
 
-		$t_instance->setMode(ACCESS_WRITE);
-		$t_instance->update();
+$t_instance->update();
 
 		// AFTER UPDATE STUFF
 
@@ -997,8 +994,7 @@ class ItemService extends BaseJSONService {
 						}
 
 						if($vb_have_to_update) {
-							$t_rel->setMode(ACCESS_WRITE);
-							$t_rel->update();
+$t_rel->update();
 						}
 					}
 				}
@@ -1049,8 +1045,7 @@ class ItemService extends BaseJSONService {
 		$vb_delete_related = isset($va_post["delete_related"]) ? $va_post["delete_related"] : false;
 		$vb_hard_delete = isset($va_post["hard"]) ? $va_post["hard"] : false;
 
-		$t_instance->setMode(ACCESS_WRITE);
-		$t_instance->delete($vb_delete_related,array("hard" => $vb_hard_delete));
+$t_instance->delete($vb_delete_related,array("hard" => $vb_hard_delete));
 
 
 		if($t_instance->numErrors()>0) {

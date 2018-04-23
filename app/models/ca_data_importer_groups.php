@@ -214,8 +214,7 @@ class ca_data_importer_groups extends BaseModel {
 		if(!$this->getPrimaryKey()) return false;
 		
 		$t_item = new ca_data_importer_items();
-		$t_item->setMode(ACCESS_WRITE);
-		$t_item->set('group_id', $this->getPrimaryKey());
+$t_item->set('group_id', $this->getPrimaryKey());
 		$t_item->set('importer_id', $this->get('importer_id'));
 		$t_item->set('source', $ps_source);
 		$t_item->set('destination', $ps_destination);
@@ -284,8 +283,7 @@ class ca_data_importer_groups extends BaseModel {
 		}
 		
 		if($t_item->load($pn_item_id)){
-			$t_item->setMode(ACCESS_WRITE);
-			$t_item->delete();
+$t_item->delete();
 		} else {
 			return false;
 		}

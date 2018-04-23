@@ -236,8 +236,7 @@
 						$t_rep_link = Datamodel::getInstanceByTableName($vs_rel_table);
 						$t_rep_link->setTransaction($o_trans);
 						if ($t_rep_link->load($qr_res->get('relation_id'))) {
-							$t_rep_link->setMode(ACCESS_WRITE);
-							$t_rep_link->set('is_primary', 1);
+$t_rep_link->set('is_primary', 1);
 							$t_rep_link->update();
 					
 							if ($t_rep_link->numErrors()) {

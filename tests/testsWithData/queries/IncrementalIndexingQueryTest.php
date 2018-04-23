@@ -136,8 +136,7 @@ class IncrementalIndexingQueryTest extends BaseTestWithData {
 
 		foreach($va_objects as $vn_object_id) {
 			$t_object = new ca_objects($vn_object_id);
-			$t_object->setMode(ACCESS_WRITE);
-			$t_object->delete(true, array('hard' => true));
+$t_object->delete(true, array('hard' => true));
 		}
 
 		$o_search = caGetSearchInstance('ca_objects');

@@ -59,8 +59,7 @@ class UserContentService extends BaseService {
 			throw new SoapFault("Server", "Invalid type or item_id");
 		}
 		$t_comment = new ca_item_comments();
-		$t_comment->setMode(ACCESS_WRITE);
-		$t_comment->set($comment_info_array);
+$t_comment->set($comment_info_array);
 		$t_comment->set('table_num', $t_subject_instance->tableNum());
 		$t_comment->set('row_id', $t_subject_instance->getPrimaryKey());
 		$t_comment->set('user_id', $this->getUserID());
@@ -138,8 +137,7 @@ class UserContentService extends BaseService {
 			throw new SoapFault("Server", "Invalid set type");
 		}
 		$t_new_set = new ca_sets();
-		$t_new_set->setMode(ACCESS_WRITE);
-		$t_new_set->set("table_num",$vn_tablenum);
+$t_new_set->set("table_num",$vn_tablenum);
 		$t_new_set->set($set_info_array);
 		$vn_id = $t_new_set->insert();
 		if($t_new_set->numErrors()==0){
@@ -162,8 +160,7 @@ class UserContentService extends BaseService {
 		if(!$t_set->load($set_id)){
 			throw new SoapFault("Server", "Invalid set_id");
 		}
-		$t_set->setMode(ACCESS_WRITE);
-		$t_set->set($set_info_array);
+$t_set->set($set_info_array);
 		$t_set->update();
 		if($t_set->numErrors()==0){
 			return true;
@@ -184,8 +181,7 @@ class UserContentService extends BaseService {
 		if(!$t_set->load($set_id)){
 			throw new SoapFault("Server", "Invalid set_id");
 		}
-		$t_set->setMode(ACCESS_WRITE);
-		$t_set->delete();
+$t_set->delete();
 		if($t_set->numErrors()==0){
 			return true;
 		} else {
@@ -208,8 +204,7 @@ class UserContentService extends BaseService {
 			throw new SoapFault("Server", "Invalid type");
 		}
 		$t_set_item = new ca_set_items();
-		$t_set_item->setMode(ACCESS_WRITE);
-		$t_set_item->set("set_id",$set_id);
+$t_set_item->set("set_id",$set_id);
 		$t_set_item->set("row_id",$item_id);
 		$t_set_item->set("table_num",$vn_tablenum);
 		$t_set_item->set($set_item_info_array);
@@ -234,8 +229,7 @@ class UserContentService extends BaseService {
 		if(!$t_set_item->load($set_item_id)){
 			throw new SoapFault("Server", "Invalid set_item id");
 		}
-		$t_set_item->setMode(ACCESS_WRITE);
-		$t_set_item->set($set_item_info_array);
+$t_set_item->set($set_item_info_array);
 		$t_set_item->update();
 		if($t_set_item->numErrors()==0){
 			return true;
@@ -257,8 +251,7 @@ class UserContentService extends BaseService {
 		if(!$t_set_item->load($set_item_id)){
 			throw new SoapFault("Server", "Invalid set_item id");
 		}
-		$t_set_item->setMode(ACCESS_WRITE);
-		$t_set_item->delete();
+$t_set_item->delete();
 		if($t_set_item->numErrors()==0){
 			return true;
 		} else {
@@ -278,8 +271,7 @@ class UserContentService extends BaseService {
 				if(!$t_instance->load($pn_type_id_to_load)){
 					return false;
 				} else {
-					$t_instance->setMode(ACCESS_WRITE);
-					return $t_instance;
+return $t_instance;
 				}
 			} else {
 				return $t_instance;

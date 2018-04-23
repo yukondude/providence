@@ -746,8 +746,7 @@ print "START REP AT $pn_replicated_log_id\n";
 										foreach($va_value as $vs_rep_guid => $vn_access) {
 											if (($t_rep = SyncableBaseModel::GUIDToInstance($vs_rep_guid)) && ($t_rep->get('ca_object_representations.access') != $vn_access)) {
 												print "REP $vs_rep_guid has incorrect access\n";
-												$t_rep->setMode(ACCESS_WRITE);
-												$t_rep->set('access', $vn_access ? 1 : 0);
+$t_rep->set('access', $vn_access ? 1 : 0);
 												$t_rep->update();
 												$t_rep->set('access',  $vn_access ? 0 : 1);
 												$t_rep->update();
@@ -791,8 +790,7 @@ print "START REP AT $pn_replicated_log_id\n";
 											foreach($t_row->get($vs_element, ['returnWithStructure' => true, 'convertCodesToIdnos' => true]) as $vn_row_id => $va_attrs) {
 												foreach($va_attrs as $vn_attr_id => $va_attr) {
 													$t_attr = new ca_attributes($vn_attr_id);
-													$t_attr->setMode(ACCESS_WRITE);
-													print "FORce ATTR $vn_attr_id/".join(".", $va_tmp)."\n";
+print "FORce ATTR $vn_attr_id/".join(".", $va_tmp)."\n";
 													$t_attr->update(['forceLogChange' => true]);
 													//print_R($t_attr->getErrors());
 													
@@ -800,8 +798,7 @@ print "START REP AT $pn_replicated_log_id\n";
 														//print_R($va_vals);
 														//foreach($va_vals as $o_val) {
 															$t_attr_val = new ca_attribute_values($va_vals->getValueID());
-															$t_attr_val->setMode(ACCESS_WRITE);
-															$t_attr_val->update(['forceLogChange' => true]);
+$t_attr_val->update(['forceLogChange' => true]);
 															print_R($t_attr_val->getErrors());
 														//}
 													}
@@ -816,8 +813,7 @@ print "START REP AT $pn_replicated_log_id\n";
 											}
 										} elseif (($va_tmp[0] == 'ca_objects') && ($va_tmp[1] == 'idno')) {
 											$t_row->set('idno', $t_row->get('idno').' ');
-											$t_row->setMode(ACCESS_WRITE);
-											$t_row->update(['forceLogChange' => true]);
+$t_row->update(['forceLogChange' => true]);
 										}
 									}
 				}

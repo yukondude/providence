@@ -320,8 +320,7 @@ class ca_tours extends BundlableLabelableBaseModelWithAttributes {
 					$t_stop->load($qr_res->get('stop_id'));
 					if ($t_dupe_stop = $t_stop->duplicate($pa_options)) {
 						$t_dupe_stop->setTransaction($o_t);
-						$t_dupe_stop->setMode(ACCESS_WRITE);
-						$t_dupe_stop->set('tour_id', $t_dupe->getPrimaryKey());
+$t_dupe_stop->set('tour_id', $t_dupe->getPrimaryKey());
 						$t_dupe_stop->update(); 
 						
 						if ($t_dupe_stop->numErrors()) {
@@ -498,8 +497,7 @@ class ca_tours extends BundlableLabelableBaseModelWithAttributes {
 		
 		$t_stop = new ca_tour_stops();
 		$t_stop->setTransaction($o_trans);
-		$t_stop->setMode(ACCESS_WRITE);
-		$va_errors = array();
+$va_errors = array();
 		
 		
 		// delete rows not present in $pa_stop_ids
@@ -544,8 +542,7 @@ class ca_tours extends BundlableLabelableBaseModelWithAttributes {
 		
 		$t_stop = new ca_tour_stops();
 		if($this->inTransaction()) { $t_stop->setTransaction($this->getTransaction()); }
-		$t_stop->setMode(ACCESS_WRITE);
-		$t_stop->set('idno', $ps_idno);
+$t_stop->set('idno', $ps_idno);
 		$t_stop->set('type_id', $pn_type_id);
 		$t_stop->set('tour_id', $this->getPrimaryKey());
 		$t_stop->set('color', $ps_color);
@@ -579,8 +576,7 @@ class ca_tours extends BundlableLabelableBaseModelWithAttributes {
 		if($this->inTransaction()) { $t_stop->setTransaction($this->getTransaction()); }
 		
 		if (!$t_stop->load(array('tour_id' => $vn_tour_id, 'stop_id' => $pn_stop_id))) { return false; }
-		$t_stop->setMode(ACCESS_WRITE);
-		return $t_stop->delete(true);
+return $t_stop->delete(true);
 	}
 	# ------------------------------------------------------
 	# Bundles

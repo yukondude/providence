@@ -394,8 +394,7 @@ class ca_object_checkouts extends BundlableLabelableBaseModelWithAttributes {
 			$ps_due_date = isset($va_checkout_config['default_checkout_date']) ? $va_checkout_config['default_checkout_date'] : null;
 		}
 		
-		$this->setMode(ACCESS_WRITE);
-		$this->set(array(
+$this->set(array(
 			'group_uuid' => $vs_uuid,
 			'object_id' => $pn_object_id,
 			'user_id' => $pn_user_id,
@@ -406,8 +405,7 @@ class ca_object_checkouts extends BundlableLabelableBaseModelWithAttributes {
 		
 		// Do we need to set values?
 		if (is_array($va_checkout_config['set_values']) && sizeof($va_checkout_config['set_values'])) {
-			$t_object->setMode(ACCESS_WRITE);
-			foreach($va_checkout_config['set_values'] as $vs_attr => $va_attr_values_by_event) {
+foreach($va_checkout_config['set_values'] as $vs_attr => $va_attr_values_by_event) {
 				if (!is_array($va_attr_values_by_event['checkout'])) {
 					if ($t_object->hasField($vs_attr)) {
 						// Intrinsic
@@ -459,16 +457,14 @@ class ca_object_checkouts extends BundlableLabelableBaseModelWithAttributes {
 			throw new Exception(_t('Item is not out'));
 		}
 		
-		$this->setMode(ACCESS_WRITE);
-		$this->set(array(
+$this->set(array(
 			'return_date' => _t('now'),
 			'return_notes' => $ps_note
 		));	
 		
 		// Do we need to set values?
 		if (is_array($va_checkout_config['set_values']) && sizeof($va_checkout_config['set_values'])) {
-			$t_object->setMode(ACCESS_WRITE);
-			foreach($va_checkout_config['set_values'] as $vs_attr => $va_attr_values_by_event) {
+foreach($va_checkout_config['set_values'] as $vs_attr => $va_attr_values_by_event) {
 				if (!is_array($va_attr_values_by_event['checkin'])) {
 					if ($t_object->hasField($vs_attr)) {
 						// Intrinsic
@@ -532,8 +528,7 @@ class ca_object_checkouts extends BundlableLabelableBaseModelWithAttributes {
 		$vs_uuid = $this->getTransactionUUID();
 		$va_checkout_config = ca_object_checkouts::getObjectCheckoutConfigForType($t_object->getTypeCode());
 		
-		$this->setMode(ACCESS_WRITE);
-		$this->set(array(
+$this->set(array(
 			'group_uuid' => $vs_uuid,
 			'object_id' => $pn_object_id,
 			'user_id' => $pn_user_id,
@@ -542,8 +537,7 @@ class ca_object_checkouts extends BundlableLabelableBaseModelWithAttributes {
 		
 		// Do we need to set values?
 		if (is_array($va_checkout_config['set_values']) && sizeof($va_checkout_config['set_values'])) {
-			$t_object->setMode(ACCESS_WRITE);
-			foreach($va_checkout_config['set_values'] as $vs_attr => $va_attr_values_by_event) {
+foreach($va_checkout_config['set_values'] as $vs_attr => $va_attr_values_by_event) {
 				if (!is_array($va_attr_values_by_event['reserve'])) {
 					if ($t_object->hasField($vs_attr)) {
 						// Intrinsic

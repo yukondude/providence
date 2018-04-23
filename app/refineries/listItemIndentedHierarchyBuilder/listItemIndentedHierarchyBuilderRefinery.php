@@ -112,8 +112,7 @@
 			if (!$t_list->load(array('list_code' => $vs_list_code))) {
 				// create list
 				$t_list->set('list_code', $vs_list_code);
-				$t_list->setMode(ACCESS_WRITE);
-				$t_list->insert();
+$t_list->insert();
 				
 				if ($t_list->numErrors()) {
 					if ($o_log) {

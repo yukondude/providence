@@ -302,8 +302,7 @@ class prepopulatePlugin extends BaseApplicationPlugin {
 		}
 
 		$vn_old_mode = $t_instance->getMode();
-		$t_instance->setMode(ACCESS_WRITE);
-		$t_instance->update();
+$t_instance->update();
 		$t_instance->setMode($vn_old_mode);
 
 		//$_REQUEST['form_timestamp'] = $vn_timestamp;

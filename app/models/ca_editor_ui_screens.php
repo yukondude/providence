@@ -258,8 +258,7 @@ class ca_editor_ui_screens extends BundlableLabelableBaseModelWithAttributes {
 		
 		$t_placement = new ca_editor_ui_bundle_placements(null, is_array($pa_options['additional_settings']) ? $pa_options['additional_settings'] : null);
 		if ($this->inTransaction()) { $t_placement->setTransaction($this->getTransaction()); }
-		$t_placement->setMode(ACCESS_WRITE);
-		$t_placement->set('screen_id', $vn_screen_id);
+$t_placement->set('screen_id', $vn_screen_id);
 		$t_placement->set('bundle_name', $ps_bundle_name);
 		$t_placement->set('placement_code', $ps_placement_code);
 		$t_placement->set('rank', $pn_rank);
@@ -299,8 +298,7 @@ class ca_editor_ui_screens extends BundlableLabelableBaseModelWithAttributes {
 		$t_placement = new ca_editor_ui_bundle_placements($pn_placement_id);
 		if ($this->inTransaction()) { $t_placement->setTransaction($this->getTransaction()); }
 		if ($t_placement->getPrimaryKey() && ($t_placement->get('screen_id') == $vn_screen_id)) {
-			$t_placement->setMode(ACCESS_WRITE);
-			$t_placement->delete(true);
+$t_placement->delete(true);
 			
 			if ($t_placement->numErrors()) {
 				$this->errors = array_merge($this->errors, $t_placement->errors);
@@ -1832,8 +1830,7 @@ class ca_editor_ui_screens extends BundlableLabelableBaseModelWithAttributes {
 		
 		$t_restriction = new ca_editor_ui_screen_type_restrictions();
 		if ($this->inTransaction()) {  $t_restriction->setTransaction($this->getTransaction()); }
-		$t_restriction->setMode(ACCESS_WRITE);
-		$t_restriction->set('table_num', $t_ui->get('editor_type'));
+$t_restriction->set('table_num', $t_ui->get('editor_type'));
 		$t_restriction->set('type_id', $pn_type_id);
 		$t_restriction->set('screen_id', $this->getPrimaryKey());
 		$t_restriction->set('include_subtypes', caGetOption('includeSubtypes', $pa_settings, 0));
@@ -1861,8 +1858,7 @@ class ca_editor_ui_screens extends BundlableLabelableBaseModelWithAttributes {
 		if (!($vn_ui_id = $this->getPrimaryKey())) { return null; }		// UI must be loaded
 		$t_restriction = new ca_editor_ui_screen_type_restrictions($pn_restriction_id);
 		if ($t_restriction->isLoaded()) {
-			$t_restriction->setMode(ACCESS_WRITE);
-			$t_restriction->set('include_subtypes', caGetOption('includeSubtypes', $pa_settings, 0));
+$t_restriction->set('include_subtypes', caGetOption('includeSubtypes', $pa_settings, 0));
 			$t_restriction->update();
 			if ($t_restriction->numErrors()) {
 				$this->errors = $t_restriction->errors();
@@ -1943,8 +1939,7 @@ class ca_editor_ui_screens extends BundlableLabelableBaseModelWithAttributes {
 
 		if (is_array($va_screens = ca_editor_ui_screen_type_restrictions::find($va_params, ['returnAs' => 'modelInstances']))) {
 			foreach($va_screens as $t_screen) {
-				$t_screen->setMode(ACCESS_WRITE);
-				$t_screen->delete(true);
+$t_screen->delete(true);
 				if ($t_screen->numErrors()) {
 					$this->errors = $t_screen->errors();
 					return false;
@@ -2143,8 +2138,7 @@ class ca_editor_ui_screens extends BundlableLabelableBaseModelWithAttributes {
 				} else {
 					$t_placement = new ca_editor_ui_bundle_placements($vn_placement_id, $va_available_bundles[$vs_bundle]['settings']);
 					if ($this->inTransaction()) { $t_placement->setTransaction($this->getTransaction()); }
-					$t_placement->setMode(ACCESS_WRITE);
-					$t_placement->set('rank', $vn_i + 1);
+$t_placement->set('rank', $vn_i + 1);
 					
 					if (is_array($va_settings[$vn_placement_id])) {
 						foreach($t_placement->getAvailableSettings() as $vs_setting => $va_setting_info) {

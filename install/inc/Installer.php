@@ -394,8 +394,7 @@ class Installer {
 	    if (sizeof($this->opa_metadata_element_deferred_settings_processing)) {
 	        foreach($this->opa_metadata_element_deferred_settings_processing as $vs_element_code => $va_settings) {
 	            if (!($t_element = ca_metadata_elements::getInstance($vs_element_code))) { continue; }
-	            $t_element->setMode(ACCESS_WRITE);
-	            $va_available_settings = $t_element->getAvailableSettings();
+$va_available_settings = $t_element->getAvailableSettings();
 	            foreach($va_settings as $vs_setting_name => $va_setting_values) {
 	                if (!isset($va_available_settings[$vs_setting_name])) { continue; }
 	                
@@ -494,8 +493,7 @@ class Installer {
 		require_once(__CA_MODELS_DIR__."/ca_locales.php");
 
 		$t_locale = new ca_locales();
-		$t_locale->setMode(ACCESS_WRITE);
-		// Find any existing locales
+// Find any existing locales
 		$va_locales = $t_locale->getLocaleList(array('index_by_code' => true));
 		foreach($va_locales as $vs_code => $va_locale) {
 			$this->opa_locales[$vs_code] = $va_locale['locale_id'];
@@ -582,9 +580,7 @@ class Installer {
 				$this->logStatus(_t('%1 is a new list', $vs_list_code));
 			}
 
-			$t_list->setMode(ACCESS_WRITE);
-
-			if(self::getAttribute($vo_list, "deleted") && $t_list->getPrimaryKey()) {
+if(self::getAttribute($vo_list, "deleted") && $t_list->getPrimaryKey()) {
 				$this->logStatus(_t('Deleting list %1', $vs_list_code));
 				$t_list->delete(true);
 				continue;
@@ -671,8 +667,7 @@ class Installer {
 				if(self::getAttribute($vo_item, "deleted")) {
 					$this->logStatus(_t('Deleting list item with idno %1', $vs_item_idno));
 					$t_item = new ca_list_items($vn_item_id);
-					$t_item->setMode(ACCESS_WRITE);
-					$t_item->delete();
+$t_item->delete();
 					continue;
 				}
 				$t_item = $t_list->editItem($vn_item_id, $vs_item_value, $vn_enabled, $vn_default, $pn_parent_id, $vs_item_idno, '', (int)$vs_status, (int)$vs_access, (int)$vs_rank, $vs_color);
@@ -686,8 +681,7 @@ class Installer {
 				return false;
 			} else {
 				$this->logStatus(_t('Successfully updated/inserted list item with idno %1', $vs_item_idno));
-				$t_item->setMode(ACCESS_WRITE);
-				if($vo_item->settings) {
+if($vo_item->settings) {
 					$this->_processSettings($t_item, $vo_item->settings);
 					$t_item->update();
 					if ($t_item->numErrors()) {
@@ -767,8 +761,7 @@ class Installer {
 
 					// add restriction
 					$t_restriction = new ca_metadata_type_restrictions();
-					$t_restriction->setMode(ACCESS_WRITE);
-					$t_restriction->set('table_num', $vn_table_num);
+$t_restriction->set('table_num', $vn_table_num);
 					$t_restriction->set('include_subtypes', (bool)$vo_restriction->includeSubtypes ? 1 : 0);
 					$t_restriction->set('type_id', $vn_type_id);
 					$t_restriction->set('element_id', $vn_element_id);
@@ -806,9 +799,7 @@ class Installer {
 			$this->logStatus(_t('Metadata element with code %1 is new', $vs_element_code));
 		}
 
-		$t_md_element->setMode(ACCESS_WRITE);
-
-		if(self::getAttribute($po_element, 'deleted') && $t_md_element->getPrimaryKey()) {
+if(self::getAttribute($po_element, 'deleted') && $t_md_element->getPrimaryKey()) {
 			$this->logStatus(_t('Deleting metadata element with code %1', $vs_element_code));
 			$t_md_element->delete(true, array('hard' => true));
 			return false; // we don't want the postprocessing to kick in. our work here is done.
@@ -880,8 +871,7 @@ class Installer {
 
 			// insert dictionary entry
 			$t_entry = new ca_metadata_dictionary_entries();
-			$t_entry->setMode(ACCESS_WRITE);
-			$t_entry->set('bundle_name', $vs_field);
+$t_entry->set('bundle_name', $vs_field);
 			$this->_processSettings($t_entry, $vo_entry->settings);
 
 			$t_entry->insert();
@@ -897,8 +887,7 @@ class Installer {
 					$vs_level = self::getAttribute($vo_rule, "level");
 
 					$t_rule = new ca_metadata_dictionary_rules();
-					$t_rule->setMode(ACCESS_WRITE);
-					$t_rule->set('entry_id', $t_entry->getPrimaryKey());
+$t_rule->set('entry_id', $t_entry->getPrimaryKey());
 					$t_rule->set('rule_code', $vs_code);
 					$t_rule->set('rule_level', $vs_level);
 					$t_rule->set('expression', (string) $vo_rule->expression);
@@ -964,9 +953,7 @@ class Installer {
 				$this->logStatus(_t('User interface with code %1 already exists', $vs_ui_code));
 			}
 
-			$t_ui->setMode(ACCESS_WRITE);
-
-			if(self::getAttribute($vo_ui, 'deleted') && $t_ui->getPrimaryKey()) {
+if(self::getAttribute($vo_ui, 'deleted') && $t_ui->getPrimaryKey()) {
 				$this->logStatus(_t('Deleting user interface with code %1', $vs_ui_code));
 				$t_ui->delete(true, array('hard' => true));
 				continue;
@@ -1065,9 +1052,7 @@ class Installer {
 				), array('returnAs' => 'firstModelInstance'));
 
 				$t_ui_screens = $t_ui_screens ? $t_ui_screens : new ca_editor_ui_screens();
-				$t_ui_screens->setMode(ACCESS_WRITE);
-
-				if($t_ui_screens->getPrimaryKey()) {
+if($t_ui_screens->getPrimaryKey()) {
 					$this->logStatus(_t('Screen with code %1 for user interface with code %2 already exists', $vs_screen_idno, $vs_ui_code));
 				} else {
 					$this->logStatus(_t('Screen with code %1 for user interface with code %2 is new', $vs_screen_idno, $vs_ui_code));
@@ -1307,8 +1292,7 @@ class Installer {
 			);
 
 			$t_rel_type = $t_rel_type ? $t_rel_type : new ca_relationship_types();
-			$t_rel_type->setMode(ACCESS_WRITE);
-			// create relationship type root if necessary
+// create relationship type root if necessary
 			$t_rel_type->set('parent_id', null);
 			$t_rel_type->set('type_code', $vs_root_type_code);
 			$t_rel_type->set('sub_type_left_id', null);
@@ -1340,9 +1324,7 @@ class Installer {
 		ca_relationship_types::$s_relationship_type_id_to_code_cache = [];
 
 		$t_rel_type = new ca_relationship_types();
-		$t_rel_type->setMode(ACCESS_WRITE);
-
-		$vn_rank_default = (int)$t_rel_type->getFieldInfo('rank', 'DEFAULT');
+$vn_rank_default = (int)$t_rel_type->getFieldInfo('rank', 'DEFAULT');
 		foreach($po_relationship_types->children() as $vo_type) {
 			$vs_type_code = self::getAttribute($vo_type, "code");
 			$vn_default = self::getAttribute($vo_type, "default");
@@ -1356,9 +1338,7 @@ class Installer {
 			);
 
 			$t_rel_type = $t_rel_type ? $t_rel_type : new ca_relationship_types();
-			$t_rel_type->setMode(ACCESS_WRITE);
-
-			if($t_rel_type->getPrimaryKey()) {
+if($t_rel_type->getPrimaryKey()) {
 				$this->logStatus(_t('Relationship type with code %1 already exists', $vs_type_code));
 			} else {
 				$this->logStatus(_t('Relationship type with code %1 is new', $vs_type_code));
@@ -1492,9 +1472,7 @@ class Installer {
 				$this->logStatus(_t('User role with code %1 already exists', $vs_role_code));
 			}
 
-			$t_role->setMode(ACCESS_WRITE);
-
-			if(self::getAttribute($vo_role, "deleted") && $t_role->getPrimaryKey()) {
+if(self::getAttribute($vo_role, "deleted") && $t_role->getPrimaryKey()) {
 				$this->logStatus(_t('Deleting user role with code %1', $vs_role_code));
 				$t_role->delete(true);
 				continue;
@@ -1644,9 +1622,7 @@ class Installer {
 				$this->logStatus(_t('Display with code %1 already exists', $vs_display_code));
 			}
 
-			$t_display->setMode(ACCESS_WRITE);
-
-			if(self::getAttribute($vo_display, "deleted") && $t_display->getPrimaryKey()) {
+if(self::getAttribute($vo_display, "deleted") && $t_display->getPrimaryKey()) {
 				$t_display->delete(true);
 				$this->logStatus(_t('Deleting display with code %1', $vs_display_code));
 				continue;
@@ -1830,9 +1806,7 @@ class Installer {
 			} else {
 				$this->logStatus(_t('Search form with code %1 already exists', $vs_form_code));
 			}
-			$t_form->setMode(ACCESS_WRITE);
-
-			if(self::getAttribute($vo_form, "deleted") && $t_form->getPrimaryKey()) {
+if(self::getAttribute($vo_form, "deleted") && $t_form->getPrimaryKey()) {
 				$this->logStatus(_t('Deleting search form with code %1', $vs_form_code));
 				$t_form->delete(true);
 				continue;
@@ -1977,8 +1951,7 @@ class Installer {
 		$t_user_group = ca_user_groups::find(array('code' => 'Root', 'parent_id' => null), array('returnAs' => 'firstModelInstance'));
 		$t_user_group = $t_user_group ? $t_user_group : new ca_user_groups();
 
-		$t_user_group->setMode(ACCESS_WRITE);
-		$t_user_group->set('name', 'Root');
+$t_user_group->set('name', 'Root');
 		if($t_user_group->getPrimaryKey()) {
 			$t_user_group->update();
 		} else {
@@ -2017,15 +1990,12 @@ class Installer {
 					$t_group = new ca_user_groups();
 				}
 
-				$t_group->setMode(ACCESS_WRITE);
-
-				if(self::getAttribute($vo_group, "deleted") && $t_group->getPrimaryKey()) {
+if(self::getAttribute($vo_group, "deleted") && $t_group->getPrimaryKey()) {
 					$t_group->delete(true);
 					continue;
 				}
 
-				$t_group->setMode(ACCESS_WRITE);
-				$t_group->set('name', trim((string) $vo_group->name));
+$t_group->set('name', trim((string) $vo_group->name));
 				$t_group->set('description', trim((string) $vo_group->description));
 				if($t_group->getPrimaryKey()) {
 					$t_group->update();
@@ -2090,8 +2060,7 @@ class Installer {
 			}
 
 			$t_user = new ca_users();
-			$t_user->setMode(ACCESS_WRITE);
-			$t_user->set('user_name', $vs_user_name = trim((string) self::getAttribute($vo_login, "user_name")));
+$t_user->set('user_name', $vs_user_name = trim((string) self::getAttribute($vo_login, "user_name")));
 			$t_user->set('password', $vs_password);
 			$t_user->set('fname',  trim((string) self::getAttribute($vo_login, "fname")));
 			$t_user->set('lname',  trim((string) self::getAttribute($vo_login, "lname")));
@@ -2174,9 +2143,7 @@ class Installer {
 			} else {
 				$this->logStatus(_t('Metadata alert with code %1 already exists', $vs_alert_code));
 			}
-			$t_md_alert->setMode(ACCESS_WRITE);
-
-			if(self::getAttribute($vo_md_alert, "deleted") && $t_md_alert->getPrimaryKey()) {
+if(self::getAttribute($vo_md_alert, "deleted") && $t_md_alert->getPrimaryKey()) {
 				$this->logStatus(_t('Deleting metadata alert with code %1', $vs_alert_code));
 				$t_md_alert->delete(true);
 				continue;
@@ -2322,8 +2289,7 @@ class Installer {
 				}
 			}
 			$t_trigger = new ca_metadata_alert_triggers();
-			$t_trigger->setMode(ACCESS_WRITE);
-			$t_trigger->set('rule_id', $t_md_alert->get('rule_id'));
+$t_trigger->set('rule_id', $t_md_alert->get('rule_id'));
 			$t_trigger->set('element_id', $vn_element_id);
 			$t_trigger->set('element_filters', $va_metadata_element_filters);
 			$t_trigger->set('trigger_type', $vs_type);
@@ -2362,8 +2328,7 @@ class Installer {
 		# Create roots for storage locations hierarchies
 		#
 		$t_storage_location = new ca_storage_locations();
-		$t_storage_location->setMode(ACCESS_WRITE);
-		$t_storage_location->set('status', 0);
+$t_storage_location->set('status', 0);
 		$t_storage_location->set('parent_id', null);
 		$t_storage_location->insert();
 
@@ -2378,8 +2343,7 @@ class Installer {
 
 		$ps_password = $this->getRandomPassword();
 		$t_user = new ca_users();
-		$t_user->setMode(ACCESS_WRITE);
-		$t_user->set("user_name", 'administrator');
+$t_user->set("user_name", 'administrator');
 		$t_user->set("password", $ps_password);
 		$t_user->set("email", $this->ops_admin_email);
 		$t_user->set("fname", 'CollectiveAccess');

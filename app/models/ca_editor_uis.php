@@ -286,8 +286,7 @@ class ca_editor_uis extends BundlableLabelableBaseModelWithAttributes {
 		if ($this->getPrimaryKey()) {
 			// create root in ca_list_items
 			$t_item_root = new ca_editor_ui_screens();
-			$t_item_root->setMode(ACCESS_WRITE);
-			$t_item_root->set('ui_id', $this->getPrimaryKey());
+$t_item_root->set('ui_id', $this->getPrimaryKey());
 			$t_item_root->set('is_default', 0);
 			$t_item_root->insert();
 			
@@ -1055,8 +1054,7 @@ class ca_editor_uis extends BundlableLabelableBaseModelWithAttributes {
 		
 		$t_screen = new ca_editor_ui_screens();
 		$t_screen->setTransaction($o_trans);
-		$t_screen->setMode(ACCESS_WRITE);
-		$va_errors = [];
+$va_errors = [];
 		
 		
 		// delete rows not present in $pa_screen_ids
@@ -1103,8 +1101,7 @@ class ca_editor_uis extends BundlableLabelableBaseModelWithAttributes {
 		if (!$this->getPrimaryKey()) { return false; }
 		
 		$t_screen = new ca_editor_ui_screens();
-		$t_screen->setMode(ACCESS_WRITE);
-		$t_screen->set('idno', $ps_idno);
+$t_screen->set('idno', $ps_idno);
 		$t_screen->set('ui_id', $this->getPrimaryKey());
 		$t_screen->set('color', $ps_color);
 		$t_screen->set('is_default', (bool)$is_default ? 1 : 0);
@@ -1136,8 +1133,7 @@ class ca_editor_uis extends BundlableLabelableBaseModelWithAttributes {
 		$t_screen = new ca_editor_ui_screens();
 		
 		if (!$t_screen->load(array('ui_id' => $vn_ui_id, 'screen_id' => $pn_screen_id))) { return false; }
-		$t_screen->setMode(ACCESS_WRITE);
-		return $t_screen->delete(true);
+return $t_screen->delete(true);
 	}
 	# ----------------------------------------
 	# Type restrictions
@@ -1177,8 +1173,7 @@ class ca_editor_uis extends BundlableLabelableBaseModelWithAttributes {
 		}
 		
 		$t_restriction = new ca_editor_ui_type_restrictions();
-		$t_restriction->setMode(ACCESS_WRITE);
-		$t_restriction->set('table_num', $this->get('editor_type'));
+$t_restriction->set('table_num', $this->get('editor_type'));
 		$t_restriction->set('type_id', $pn_type_id);
 		$t_restriction->set('include_subtypes', caGetOption('includeSubtypes', $pa_settings, 0));
 		$t_restriction->set('ui_id', $this->getPrimaryKey());
@@ -1206,8 +1201,7 @@ class ca_editor_uis extends BundlableLabelableBaseModelWithAttributes {
 		if (!($vn_ui_id = $this->getPrimaryKey())) { return null; }		// UI must be loaded
 		$t_restriction = new ca_editor_ui_type_restrictions($pn_restriction_id);
 		if ($t_restriction->isLoaded()) {
-			$t_restriction->setMode(ACCESS_WRITE);
-			$t_restriction->set('include_subtypes', caGetOption('includeSubtypes', $pa_settings, 0));
+$t_restriction->set('include_subtypes', caGetOption('includeSubtypes', $pa_settings, 0));
 			$t_restriction->update();
 			if ($t_restriction->numErrors()) {
 				$this->errors = $t_restriction->errors();
@@ -1281,8 +1275,7 @@ class ca_editor_uis extends BundlableLabelableBaseModelWithAttributes {
 
 		if (is_array($va_uis = ca_editor_ui_type_restrictions::find($va_params, ['returnAs' => 'modelInstances']))) {
 			foreach($va_uis as $t_ui) {
-				$t_ui->setMode(ACCESS_WRITE);
-				$t_ui->delete(true);
+$t_ui->delete(true);
 				if ($t_ui->numErrors()) {
 					$this->errors = $t_ui->errors();
 					return false;

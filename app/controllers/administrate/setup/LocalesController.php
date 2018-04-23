@@ -44,8 +44,7 @@
  			AssetLoadManager::register('tableList');
  			
  			$t_locale = $this->getLocaleObject();
- 			$t_locale->setMode(ACCESS_WRITE);
- 			foreach($t_locale->getFormFields() as $vs_f => $va_field_info) {
+foreach($t_locale->getFormFields() as $vs_f => $va_field_info) {
  				$t_locale->set($vs_f, $_REQUEST[$vs_f]);
  				if ($t_locale->numErrors()) {
  					$this->request->addActionErrors($t_locale->errors(), 'field_'.$vs_f);
@@ -96,8 +95,7 @@
  		public function Delete() {
  			$t_locale = $this->getLocaleObject();
  			if ($this->request->getParameter('confirm', pInteger)) {
- 				$t_locale->setMode(ACCESS_WRITE);
- 				$t_locale->delete(false);
+$t_locale->delete(false);
 
  				if ($t_locale->numErrors()) {
  					foreach ($t_locale->errors() as $o_e) {

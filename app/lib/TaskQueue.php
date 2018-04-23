@@ -466,8 +466,7 @@ class TaskQueue extends BaseObject {
 		if (!$t_task->getPrimaryKey()) { return false; }
 		if ((int)$t_task->get('error_code') === 0) { return false; }
 		
-		$t_task->setMode(ACCESS_WRITE);
-		$t_task->set('error_code', 0);
+$t_task->set('error_code', 0);
 		$t_task->set('completed_on', null);
 		$t_task->update();
 		

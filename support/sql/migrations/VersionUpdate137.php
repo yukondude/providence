@@ -63,8 +63,7 @@ class VersionUpdate137 extends BaseVersionUpdater {
 	public function addMetadataAlertsEditor() {
 		// add a default editor for metadata alerts. it's in base.xml from v1.7 but for older systems we'll need to create it
 		$t_ui = new ca_editor_uis();
-		$t_ui->setMode(ACCESS_WRITE);
-		$t_ui->set('user_id', null);
+$t_ui->set('user_id', null);
 		$t_ui->set('is_system_ui', 1);
 		$t_ui->set('editor_type', 238);
 		$t_ui->set('editor_code', 'metadata_alert_rule_config_ui');
@@ -86,8 +85,7 @@ class VersionUpdate137 extends BaseVersionUpdater {
 		$vn_ui_id = $t_ui->getPrimaryKey();
 
 		$t_screen = new ca_editor_ui_screens();
-		$t_screen->setMode(ACCESS_WRITE);
-		$t_screen->set('ui_id', $vn_ui_id);
+$t_screen->set('ui_id', $vn_ui_id);
 		$t_screen->set('idno', 'basic');
 		$t_screen->set('rank', 1);
 		$t_screen->set('is_default', 1);

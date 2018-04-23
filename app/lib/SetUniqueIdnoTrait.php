@@ -67,8 +67,7 @@
 					$vn_len = 20;
 				}
 				
-				$this->setMode(ACCESS_WRITE);
-				if(!($vs_label = strtolower($this->getLabelForDisplay()))) { $vs_label = "{$vs_prefix}_".$this->getPrimaryKey(); }
+if(!($vs_label = strtolower($this->getLabelForDisplay()))) { $vs_label = "{$vs_prefix}_".$this->getPrimaryKey(); }
 				$vs_new_code = substr(preg_replace('![^a-z0-9]+!', '_', $vs_label), 0, $vn_len);
 				if (call_user_func_array($this->tableName().'::find', [$x=array($vs_idno_fld => $vs_new_code), array('returnAs' => 'firstId')]) > 0) {
 					$vs_new_code .= '_'.$this->getPrimaryKey();

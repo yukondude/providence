@@ -63,8 +63,7 @@
 			if (!$pn_locale_id) { $pn_locale_id = $g_ui_locale_id; }
 			
 			$t_comment = new ca_item_comments();
-			$t_comment->setMode(ACCESS_WRITE);
-			$t_comment->set('table_num', 255);
+$t_comment->set('table_num', 255);
 			$t_comment->set('row_id', 0);
 			$t_comment->set('user_id', $pn_user_id);
 			$t_comment->set('locale_id', $pn_locale_id);
@@ -120,9 +119,7 @@
 				return false;
 			}
 			
-			$t_comment->setMode(ACCESS_WRITE);
-			
-			$t_comment->set('comment', $ps_comment);
+$t_comment->set('comment', $ps_comment);
 			$t_comment->set('rating', $pn_rating);
 			$t_comment->set('user_id', $pn_user_id);
 			$t_comment->set('name', $ps_name);
@@ -166,8 +163,7 @@
 				}
 			}
 			
-			$t_comment->setMode(ACCESS_WRITE);
-			$t_comment->delete();
+$t_comment->delete();
 			
 			if ($t_comment->numErrors()) {
 				$this->errors = $t_comment->errors;

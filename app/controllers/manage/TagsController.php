@@ -136,7 +136,7 @@
 						$va_errors[] = _t("The tag does not exist");	
 						break;
 					}
-					$t_item_x_tag->setMode(ACCESS_WRITE);;
+;
 					if (!$t_item_x_tag->delete()) {
 		 				$va_errors[] = _t("Could not delete tag");
 						break;
@@ -178,7 +178,7 @@
 						$va_errors[] = _t("The tag does not exist");	
 						break;
 					}
-					$t_item_tags->setMode(ACCESS_WRITE);;
+;
 					if (!$t_item_tags->delete(1)) {
 		 				$va_errors[] = _t("Could not delete tag");
 						break;

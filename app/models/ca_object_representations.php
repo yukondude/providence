@@ -484,8 +484,7 @@ class ca_object_representations extends BundlableLabelableBaseModelWithAttribute
 					$t_rep_link = new ca_objects_x_object_representations();
 					$t_rep_link->setTransaction($this->getTransaction());
 					if ($t_rep_link->load($qr_res->get('relation_id'))) {
-						$t_rep_link->setMode(ACCESS_WRITE);
-						$t_rep_link->set('is_primary', 0);
+$t_rep_link->set('is_primary', 0);
 						$t_rep_link->update();
 			
 						if ($t_rep_link->numErrors()) {
@@ -518,7 +517,7 @@ class ca_object_representations extends BundlableLabelableBaseModelWithAttribute
 			}
 		}
 		// is it a URL?
-		if ($this->_CONFIG->get('allow_fetching_of_media_from_remote_urls')) {
+		if (self::$_CONFIG->get('allow_fetching_of_media_from_remote_urls')) {
 			if  (isURL($vs_media_path)) {
 				return false;
 			}
@@ -831,9 +830,7 @@ class ca_object_representations extends BundlableLabelableBaseModelWithAttribute
  		
  		$t_annotation = new $vs_annotation_table();
  		if($this->inTransaction()) { $t_annotation->setTransaction($this->getTransaction()); }
- 		$t_annotation->setMode(ACCESS_WRITE);
- 		
- 		$t_annotation->set('representation_id', $vn_representation_id);
+$t_annotation->set('representation_id', $vn_representation_id);
  		$t_annotation->set('type_code', $o_coder->getType());
  		$t_annotation->set('locale_id', $pn_locale_id);
  		$t_annotation->set('user_id', $pn_user_id);
@@ -933,9 +930,7 @@ class ca_object_representations extends BundlableLabelableBaseModelWithAttribute
  				$t_annotation->setPropertyValue($vs_property, $o_coder->getProperty($vs_property));
  			}
  		
- 			$t_annotation->setMode(ACCESS_WRITE);
- 		
-			$t_annotation->set('type_code', $o_coder->getType());
+$t_annotation->set('type_code', $o_coder->getType());
 			$t_annotation->set('locale_id', $pn_locale_id);
 			
 			// TODO: verify that item_id exists and is accessible by user
@@ -1000,8 +995,7 @@ class ca_object_representations extends BundlableLabelableBaseModelWithAttribute
  		$t_annotation = new $vs_annotation_table($pn_annotation_id);
  		if($this->inTransaction()) { $t_annotation->setTransaction($this->getTransaction()); }
  		if ($t_annotation->get('representation_id') == $vn_representation_id) {
- 			$t_annotation->setMode(ACCESS_WRITE);
- 			$t_annotation->delete(true);
+$t_annotation->delete(true);
  			
  			if ($t_annotation->numErrors()) {
  				$this->errors = $t_annotation->errors;
@@ -1117,9 +1111,7 @@ class ca_object_representations extends BundlableLabelableBaseModelWithAttribute
 						$t_annotation = new $vs_annotation_table($va_rel_item['annotation_id']);
 						if($this->inTransaction()) { $t_annotation->setTransaction($this->getTransaction()); }
 						if ($t_annotation->getPrimaryKey()) {
-							$t_annotation->setMode(ACCESS_WRITE);
-							
-							$va_pref_labels = $t_annotation->getPreferredLabels(array($vn_locale_id), false);
+$va_pref_labels = $t_annotation->getPreferredLabels(array($vn_locale_id), false);
 							
 							if (sizeof($va_pref_labels)) {
 								// edit existing label
@@ -1231,8 +1223,7 @@ class ca_object_representations extends BundlableLabelableBaseModelWithAttribute
  				return null;
  			}
  		}
- 		$t_multifile->setMode(ACCESS_WRITE);
- 		$t_multifile->set('representation_id', $this->getPrimaryKey());
+$t_multifile->set('representation_id', $this->getPrimaryKey());
  		$t_multifile->set('media', $ps_filepath);
  		$t_multifile->set('resource_path', $ps_resource_path);
  		
@@ -1256,8 +1247,7 @@ class ca_object_representations extends BundlableLabelableBaseModelWithAttribute
  		if($this->inTransaction()) { $t_multifile->setTransaction($this->getTransaction()); }
  		
  		if ($t_multifile->get('representation_id') == $this->getPrimaryKey()) {
- 			$t_multifile->setMode(ACCESS_WRITE);
- 			$t_multifile->delete();
+$t_multifile->delete();
  			
 			if ($t_multifile->numErrors()) {
 				$this->errors = array_merge($this->errors, $t_multifile->errors);
@@ -1406,8 +1396,7 @@ class ca_object_representations extends BundlableLabelableBaseModelWithAttribute
  			return null;
  		}
  		
- 		$t_caption->setMode(ACCESS_WRITE);
- 		$t_caption->set('representation_id', $this->getPrimaryKey());
+$t_caption->set('representation_id', $this->getPrimaryKey());
  		$va_tmp = explode("/", $ps_filepath);
  		$t_caption->set('caption_file', $ps_filepath, array('original_filename' => caGetOption('originalFilename', $pa_options, array_pop($va_tmp))));
  		$t_caption->set('locale_id', $pn_locale_id);
@@ -1432,8 +1421,7 @@ class ca_object_representations extends BundlableLabelableBaseModelWithAttribute
  		if($this->inTransaction()) { $t_caption->setTransaction($this->getTransaction()); }
  		
  		if ($t_caption->get('representation_id') == $this->getPrimaryKey()) {
- 			$t_caption->setMode(ACCESS_WRITE);
- 			$t_caption->delete();
+$t_caption->delete();
  			
 			if ($t_caption->numErrors()) {
 				$this->errors = array_merge($this->errors, $t_caption->errors);

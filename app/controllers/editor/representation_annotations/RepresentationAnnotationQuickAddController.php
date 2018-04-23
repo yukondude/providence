@@ -73,8 +73,7 @@
  			$va_response = array('code' => 0, 'id' => $vn_annotation_id, errors => array());
  			$t_annotation = new ca_representation_annotations();
  			if ($t_annotation->load($vn_annotation_id)) {
- 				$t_annotation->setMode(ACCESS_WRITE);
- 				$t_annotation->delete(true);
+$t_annotation->delete(true);
  				if ($t_annotation->numErrors()) {
  					$va_response = array(
 						'code' => 10,

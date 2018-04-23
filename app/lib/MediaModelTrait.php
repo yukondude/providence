@@ -1,4 +1,35 @@
 <?php
+/** ---------------------------------------------------------------------
+ * app/lib/MediaModelTrait.php :
+ * ----------------------------------------------------------------------
+ * CollectiveAccess
+ * Open-source collections management software
+ * ----------------------------------------------------------------------
+ *
+ * Software by Whirl-i-Gig (http://www.whirl-i-gig.com)
+ * Copyright 2018 Whirl-i-Gig
+ *
+ * For more information visit http://www.CollectiveAccess.org
+ *
+ * This program is free software; you may redistribute it and/or modify it under
+ * the terms of the provided license as published by Whirl-i-Gig
+ *
+ * CollectiveAccess is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ *
+ * This source code is free and modifiable under the terms of 
+ * GNU General Public License. (http://www.gnu.org/copyleft/gpl.html). See
+ * the "license.txt" file for details, or visit the CollectiveAccess web site at
+ * http://www.CollectiveAccess.org
+ *
+ * @package CollectiveAccess
+ * @subpackage BaseModel
+ * @license http://www.gnu.org/copyleft/gpl.html GNU Public License version 3
+ *
+ * ----------------------------------------------------------------------
+ */
+ 
 trait MediaModelTrait {
 	# --------------------------------------------------------------------------------
 	# --- Uploaded media handling
@@ -12,7 +43,7 @@ trait MediaModelTrait {
 		$va_media_info = $this->get($ps_field, array('returnWithStructure' => true));
 		if (!is_array($va_media_info) || !is_array($va_media_info = array_shift($va_media_info))) { return null; }
 		
-		$vi = $this->_MEDIA_VOLUMES->getVolumeInformation($va_media_info[$ps_version]["VOLUME"]);
+		$vi = self::$_MEDIA_VOLUMES->getVolumeInformation($va_media_info[$ps_version]["VOLUME"]);
 		if (!is_array($vi)) { return null; }
 		if (is_array($vi["mirrors"])) {
 			return true;
@@ -32,7 +63,7 @@ trait MediaModelTrait {
 		$va_media_info = $this->get($ps_field, array('returnWithStructure' => true));
 		if (!is_array($va_media_info) || !is_array($va_media_info = array_shift($va_media_info))) { return null; }
 		
-		$vi = $this->_MEDIA_VOLUMES->getVolumeInformation($va_media_info[$ps_version]["VOLUME"]);
+		$vi = self::$_MEDIA_VOLUMES->getVolumeInformation($va_media_info[$ps_version]["VOLUME"]);
 		if (!is_array($vi)) {
 			return "";
 		}
@@ -56,7 +87,7 @@ trait MediaModelTrait {
 		$va_media_info = $this->get($ps_field, array('returnWithStructure' => true));
 		if (!is_array($va_media_info) || !is_array($va_media_info = array_shift($va_media_info))) { return null; }
 		
-		$va_volume_info = $this->_MEDIA_VOLUMES->getVolumeInformation($va_media_info[$ps_version]["VOLUME"]);
+		$va_volume_info = self::$_MEDIA_VOLUMES->getVolumeInformation($va_media_info[$ps_version]["VOLUME"]);
 		if (!is_array($va_volume_info)) { return null; }
 
 		$o_tq = new TaskQueue();
@@ -103,8 +134,7 @@ trait MediaModelTrait {
 					{
 						$va_media_info["MIRROR_STATUS"][$vs_mirror_code] = ""; // pending
 						$this->setMediaInfo($ps_field, $va_media_info);
-						$this->setMode(ACCESS_WRITE);
-						$this->update();
+$this->update();
 						continue;
 					} else {
 						$this->postError(100, _t("Couldn't queue mirror using '%1' for version '%2' (handler '%3')", $vs_mirror_method, $ps_version, $vs_queue),"BaseModel->retryMediaMirror()");
@@ -157,7 +187,7 @@ trait MediaModelTrait {
 			return null;
 		}
 
-		$va_volume_info = $this->_MEDIA_VOLUMES->getVolumeInformation($va_media_info[$ps_version]["VOLUME"]);
+		$va_volume_info = self::$_MEDIA_VOLUMES->getVolumeInformation($va_media_info[$ps_version]["VOLUME"]);
 		if (!is_array($va_volume_info)) {
 			return null;
 		}
@@ -222,7 +252,7 @@ trait MediaModelTrait {
 			return null;
 		}
 
-		$va_volume_info = $this->_MEDIA_VOLUMES->getVolumeInformation($va_media_info[$ps_version]["VOLUME"]);
+		$va_volume_info = self::$_MEDIA_VOLUMES->getVolumeInformation($va_media_info[$ps_version]["VOLUME"]);
 
 		if (!is_array($va_volume_info)) {
 			return "";
@@ -550,7 +580,7 @@ trait MediaModelTrait {
 		if (!$va_media_info) { return true; }
 
 		$vs_volume = $va_media_info["VOLUME"];
-		$va_volume_info = $this->_MEDIA_VOLUMES->getVolumeInformation($vs_volume);
+		$va_volume_info = self::$_MEDIA_VOLUMES->getVolumeInformation($vs_volume);
 
 		#
 		# Get list of media files to delete
@@ -676,7 +706,7 @@ trait MediaModelTrait {
 				$vs_url_fetched_from = null;
 				$vn_url_fetched_on = null;
 			
-				$vb_allow_fetching_of_urls = (bool)$this->_CONFIG->get('allow_fetching_of_media_from_remote_urls');
+				$vb_allow_fetching_of_urls = (bool)self::$_CONFIG->get('allow_fetching_of_media_from_remote_urls');
 				$vb_is_fetched_file = false;
 
 				if($vb_allow_fetching_of_urls && ($o_remote = CA\Media\Remote\Base::getPluginInstance($this->_SET_FILES[$ps_field]['tmp_name']))) {
@@ -823,7 +853,7 @@ trait MediaModelTrait {
 					# Is an "undo" version set in options?
 					if (isset($this->_SET_FILES[$ps_field]['options']['undo']) && file_exists($this->_SET_FILES[$ps_field]['options']['undo'])) {
 						if ($volume = $version_info['original']['VOLUME']) {
-							$vi = $this->_MEDIA_VOLUMES->getVolumeInformation($volume);
+							$vi = self::$_MEDIA_VOLUMES->getVolumeInformation($volume);
 							if ($vi["absolutePath"] && (strlen($dirhash = $this->_getDirectoryHash($vi["absolutePath"], $this->getPrimaryKey())))) {
 								$magic = rand(0,99999);
 								$vs_filename = $this->_genMediaName($ps_field)."_undo_";
@@ -885,7 +915,7 @@ trait MediaModelTrait {
 						if (isset($media_desc[$basis]) && isset($media_desc[$basis]['FILENAME'])) {
 							if (!isset($va_media_objects[$basis])) {
 								$o_media = new Media();
-								$basis_vi = $this->_MEDIA_VOLUMES->getVolumeInformation($media_desc[$basis]['VOLUME']);
+								$basis_vi = self::$_MEDIA_VOLUMES->getVolumeInformation($media_desc[$basis]['VOLUME']);
 								if ($o_media->read($p=$basis_vi['absolutePath']."/".$media_desc[$basis]['HASH']."/".$media_desc[$basis]['MAGIC']."_".$media_desc[$basis]['FILENAME'])) {
 									$va_media_objects[$basis] = $o_media;
 								} else {
@@ -900,7 +930,7 @@ trait MediaModelTrait {
 						$m->reset();
 				
 						# get volume
-						$vi = $this->_MEDIA_VOLUMES->getVolumeInformation($volume);
+						$vi = self::$_MEDIA_VOLUMES->getVolumeInformation($volume);
 
 						if (!is_array($vi)) {
 							print "Invalid volume '{$volume}'<br>";
@@ -1268,7 +1298,7 @@ trait MediaModelTrait {
 					} else {
 						// Generate preview frames for media that support that (Eg. video)
 						// and add them as "multifiles" assuming the current model supports that (ca_object_representations does)
-						if (!sizeof($va_process_these_versions_only) && ((bool)$this->_CONFIG->get('video_preview_generate_frames') || (bool)$this->_CONFIG->get('document_preview_generate_pages')) && method_exists($this, 'addFile')) {
+						if (!sizeof($va_process_these_versions_only) && ((bool)self::$_CONFIG->get('video_preview_generate_frames') || (bool)self::$_CONFIG->get('document_preview_generate_pages')) && method_exists($this, 'addFile')) {
 							if (method_exists($this, 'removeAllFiles')) {
 								$this->removeAllFiles();                // get rid of any previously existing frames (they might be hanging ar
 							}
@@ -1276,14 +1306,14 @@ trait MediaModelTrait {
 								array(
 									'width' => $m->get("width"), 
 									'height' => $m->get("height"),
-									'minNumberOfFrames' => $this->_CONFIG->get('video_preview_min_number_of_frames'),
-									'maxNumberOfFrames' => $this->_CONFIG->get('video_preview_max_number_of_frames'),
-									'numberOfPages' => $this->_CONFIG->get('document_preview_max_number_of_pages'),
-									'frameInterval' => $this->_CONFIG->get('video_preview_interval_between_frames'),
-									'pageInterval' => $this->_CONFIG->get('document_preview_interval_between_pages'),
-									'startAtTime' => $this->_CONFIG->get('video_preview_start_at'),
-									'endAtTime' => $this->_CONFIG->get('video_preview_end_at'),
-									'startAtPage' => $this->_CONFIG->get('document_preview_start_page'),
+									'minNumberOfFrames' => self::$_CONFIG->get('video_preview_min_number_of_frames'),
+									'maxNumberOfFrames' => self::$_CONFIG->get('video_preview_max_number_of_frames'),
+									'numberOfPages' => self::$_CONFIG->get('document_preview_max_number_of_pages'),
+									'frameInterval' => self::$_CONFIG->get('video_preview_interval_between_frames'),
+									'pageInterval' => self::$_CONFIG->get('document_preview_interval_between_pages'),
+									'startAtTime' => self::$_CONFIG->get('video_preview_start_at'),
+									'endAtTime' => self::$_CONFIG->get('video_preview_end_at'),
+									'startAtPage' => self::$_CONFIG->get('document_preview_start_page'),
 									'outputDirectory' => __CA_APP_DIR__.'/tmp'
 								)
 							);
@@ -1324,7 +1354,7 @@ trait MediaModelTrait {
 						$vs_serialized_data = caSerializeForDatabase($this->_FILES[$ps_field], true);
 						$vs_sql =  "$ps_field = ".$this->quote($vs_serialized_data).",";
 						if (($vs_metadata_field_name = $o_media_proc_settings->getMetadataFieldName()) && $this->hasField($vs_metadata_field_name)) {
-						    $vn_embedded_media_metadata_limit = (int)$this->_CONFIG->get('dont_extract_embedded_media_metdata_when_length_exceeds');
+						    $vn_embedded_media_metadata_limit = (int)self::$_CONFIG->get('dont_extract_embedded_media_metdata_when_length_exceeds');
 						    if (($vn_embedded_media_metadata_limit > 0) && (strlen($vs_serialized_metadata = caSerializeForDatabase($media_metadata, true)) > $vn_embedded_media_metadata_limit)) {
 						        $media_metadata = null; $vs_serialized_metadata = '';
 						    }
@@ -1421,8 +1451,7 @@ trait MediaModelTrait {
 		$o_media->write($vs_tmp_basename, $o_media->get('mimetype'), array());
 		
 		// Regenerate derivatives 
-		$this->setMode(ACCESS_WRITE);
-		$this->set($ps_field, $vs_tmp_basename.".".$va_media_info['original']['EXTENSION'], $vs_undo_path ? array('undo' => $vs_undo_path, 'TRANSFORMATION_HISTORY' => $va_transformation_history) : array('TRANSFORMATION_HISTORY' => $va_transformation_history));
+$this->set($ps_field, $vs_tmp_basename.".".$va_media_info['original']['EXTENSION'], $vs_undo_path ? array('undo' => $vs_undo_path, 'TRANSFORMATION_HISTORY' => $va_transformation_history) : array('TRANSFORMATION_HISTORY' => $va_transformation_history));
 		$this->setAsChanged($ps_field);
 		$this->update();
 		
@@ -1451,8 +1480,7 @@ trait MediaModelTrait {
 		$vs_undo_path = $this->getMediaPath($ps_field, '_undo_');
 		
 		// Regenerate derivatives 
-		$this->setMode(ACCESS_WRITE);
-		$this->set($ps_field, $vs_undo_path ? $vs_undo_path : $vs_path, array('TRANSFORMATION_HISTORY' => array()));
+$this->set($ps_field, $vs_undo_path ? $vs_undo_path : $vs_path, array('TRANSFORMATION_HISTORY' => array()));
 		$this->setAsChanged($ps_field);
 		$this->update();
 		
@@ -1547,8 +1575,7 @@ trait MediaModelTrait {
 		$va_media_info['_CENTER']['x'] = $pn_center_x;
 		$va_media_info['_CENTER']['y'] = $pn_center_y;
 		
-		$this->setMode(ACCESS_WRITE);
-		$this->setMediaInfo($ps_field, $va_media_info);
+$this->setMediaInfo($ps_field, $va_media_info);
 		$this->update();
 		$this->set('media', $this->getMediaPath('media', 'original'), array('original_filename' => $vs_original_filename));
 		$this->update();
@@ -1583,8 +1610,7 @@ trait MediaModelTrait {
 			$va_media_info['_SCALE'] = $pn_percent_of_image_width/$vn_measurement;
 			$va_media_info['_SCALE_UNITS'] = caGetLengthUnitType($vo_parsed_measurement->getType(), array('short' => true));
 
-			$this->setMode(ACCESS_WRITE);
-			$this->setMediaInfo($ps_field, $va_media_info);
+$this->setMediaInfo($ps_field, $va_media_info);
 			$this->update();
 		}
 		

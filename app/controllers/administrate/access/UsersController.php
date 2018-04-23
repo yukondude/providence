@@ -71,8 +71,7 @@
  			if($t_user->get("user_id") && $this->request->config->get("email_user_when_account_activated") && ($_REQUEST["active"] != $t_user->get("active"))){
  				$vb_send_activation_email = true;
  			}
- 			$t_user->setMode(ACCESS_WRITE);
- 			foreach($t_user->getFormFields() as $vs_f => $va_field_info) {
+foreach($t_user->getFormFields() as $vs_f => $va_field_info) {
 				// dont get/set password if backend doesn't support it
 				if($vs_f == 'password' && !AuthenticationManager::supports(__CA_AUTH_ADAPTER_FEATURE_UPDATE_PASSWORDS__)) {
 					continue;
@@ -234,8 +233,7 @@
  		public function Delete() {
  			$t_user = $this->getUserObject();
  			if ($this->request->getParameter('confirm', pInteger)) {
- 				$t_user->setMode(ACCESS_WRITE);
- 				$t_user->delete(false);
+$t_user->delete(false);
 
  				if ($t_user->numErrors()) {
  					foreach ($t_user->errors() as $o_e) {
@@ -404,8 +402,7 @@
 						$va_errors[] = _t("The user does not exist");
 					}
 				
-					$t_user->setMode(ACCESS_WRITE);
-					$t_user->set("active", 1);
+$t_user->set("active", 1);
 					if($t_user->numErrors()){
 						$va_errors[] = join("; ", $t_user->getErrors());
 					}else{

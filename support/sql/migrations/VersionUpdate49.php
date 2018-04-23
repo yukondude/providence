@@ -117,8 +117,7 @@
 				$t_root = new ca_relationship_types();
 				if (!$t_root->load(array('type_code' => 'root_for_table_'.$vn_table_num))) {
 					$t_root->logChanges(false);
-					$t_root->setMode(ACCESS_WRITE);
-					$t_root->set('table_num', $vn_table_num);
+$t_root->set('table_num', $vn_table_num);
 					$t_root->set('type_code', 'root_for_table_'.$vn_table_num);
 					$t_root->set('rank', 1);
 					$t_root->set('is_default', 0);

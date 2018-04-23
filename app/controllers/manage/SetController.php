@@ -316,8 +316,7 @@
 				if (sizeof($va_set_list) > 0) {
 					// create new set
 					$t_set->clear();
-					$t_set->setMode(ACCESS_WRITE);
-					$t_set->set('set_code', $ps_set_name);
+$t_set->set('set_code', $ps_set_name);
 					$t_set->set('table_num', $vn_table_num);
 					$t_set->set('user_id', $vn_user_id);
 					$t_set->set('type_id', $vn_type_id);

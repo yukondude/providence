@@ -45,8 +45,7 @@ class ca_setsTest extends PHPUnit_Framework_TestCase {
 		$va_object_types = $t_list->getItemsForList('object_types', array('idsOnly' => true, 'enabledOnly' => true));
 
 		$t_object = new ca_objects();
-		$t_object->setMode(ACCESS_WRITE);
-		$t_object->set('type_id', array_shift($va_object_types));
+$t_object->set('type_id', array_shift($va_object_types));
 		$t_object->insert();
 		$this->opn_object_id = $t_object->getPrimaryKey();
 		$this->assertGreaterThan(0, $this->opn_object_id, 'Object should have a primary key after insert');
@@ -55,8 +54,7 @@ class ca_setsTest extends PHPUnit_Framework_TestCase {
 		$va_set_types = $t_list->getItemsForList('set_types', array('idsOnly' => true, 'enabledOnly' => true));
 
 		$t_set = new ca_sets();
-		$t_set->setMode(ACCESS_WRITE);
-		$t_set->set('type_id', array_shift($va_set_types));
+$t_set->set('type_id', array_shift($va_set_types));
 		$t_set->set('table_num', $t_object->tableNum());
 		$t_set->insert();
 		$this->opn_set_id = $t_set->getPrimaryKey();
@@ -68,8 +66,7 @@ class ca_setsTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testAddAndGetSetItem() {
 		$t_set = new ca_sets($this->opn_set_id);
-		$t_set->setMode(ACCESS_WRITE);
-		// "quick" add object (this method uses direct INSERT queries)
+// "quick" add object (this method uses direct INSERT queries)
 		$t_set->addItems(array($this->opn_object_id));
 
 		$va_set_items = $t_set->getItems();
@@ -146,13 +143,11 @@ class ca_setsTest extends PHPUnit_Framework_TestCase {
 	public function tearDown() {
 		// clean up test records
 		$t_object = new ca_objects($this->opn_object_id);
-		$t_object->setMode(ACCESS_WRITE);
-		$vb_del = $t_object->delete(true, array('hard' => true));
+$vb_del = $t_object->delete(true, array('hard' => true));
 		$this->assertTrue($vb_del, 'Deleting the test record shouldnt fail');
 
 		$t_set = new ca_sets($this->opn_set_id);
-		$t_set->setMode(ACCESS_WRITE);
-		$vb_del = $t_set->delete(true, array('hard' => true));
+$vb_del = $t_set->delete(true, array('hard' => true));
 		$this->assertTrue($vb_del, 'Deleting the test record shouldnt fail');
 	}
 }

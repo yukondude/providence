@@ -253,8 +253,7 @@ class ca_attributes extends BaseModel {
 		$this->set('table_num', $pn_table_num);
 		$this->set('row_id', $pn_row_id);
 		
-		$this->setMode(ACCESS_WRITE);
-		$this->insert();
+$this->insert();
 		
 		if ($this->numErrors()) {
 			if ($vb_web_set_transaction) {
@@ -269,9 +268,7 @@ class ca_attributes extends BaseModel {
 		$t_attr_val = new ca_attribute_values();
 		$t_attr_val->purify($this->purify());
 		$t_attr_val->setTransaction($o_trans);
-		$t_attr_val->setMode(ACCESS_WRITE);
-		
-		$vn_attribute_id = $this->getPrimaryKey();
+$vn_attribute_id = $this->getPrimaryKey();
 		$va_elements = $t_element->getElementsInSet();
 		
 		$vb_dont_create_attribute = true;
@@ -348,9 +345,7 @@ class ca_attributes extends BaseModel {
 		
 		unset(ca_attributes::$s_get_attributes_cache[$this->get('table_num').'/'.$this->get('row_id')]);
 		
-		$this->setMode(ACCESS_WRITE);
-		
-		// Force default of locale-less attributes to current user locale if possible
+// Force default of locale-less attributes to current user locale if possible
 		if (!isset($pa_values['locale_id']) || !$pa_values['locale_id']) { $pa_values['locale_id'] = $g_ui_locale_id; }
 		if (isset($pa_values['locale_id'])) { $this->set('locale_id', $pa_values['locale_id']); }
 		
@@ -369,10 +364,7 @@ class ca_attributes extends BaseModel {
 		$t_attr_val = new ca_attribute_values();
 		$t_attr_val->purify($this->purify());
 		$t_attr_val->setTransaction($o_trans);
-		$t_attr_val->setMode(ACCESS_WRITE);
-		
-		
-		$t_element = ca_attributes::getElementInstance($this->get('element_id'));
+$t_element = ca_attributes::getElementInstance($this->get('element_id'));
 		$va_elements = $t_element->getElementsInSet();
 
 		$va_attr_vals = $this->getAttributeValues();
@@ -438,9 +430,7 @@ class ca_attributes extends BaseModel {
 	 */
 	public function removeAttribute() {
 		if (!$this->getPrimaryKey()) { return null; }
-		$this->setMode(ACCESS_WRITE);
-		
-		unset(ca_attributes::$s_get_attributes_cache[$this->get('table_num').'/'.$this->get('row_id')]);
+unset(ca_attributes::$s_get_attributes_cache[$this->get('table_num').'/'.$this->get('row_id')]);
 		$vn_rc= $this->delete(true);
 		
 		if ($this->numErrors()) {

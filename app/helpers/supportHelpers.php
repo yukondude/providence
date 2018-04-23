@@ -67,8 +67,7 @@
 		// create vocabulary list record (if it doesn't exist already)
 		$t_list = new ca_lists();
 		if (!$t_list->load(array('list_code' => 'aat'))) {
-			$t_list->setMode(ACCESS_WRITE);
-			$t_list->set('list_code', 'aat');
+$t_list->set('list_code', 'aat');
 			$t_list->set('is_system_list', 0);
 			$t_list->set('is_hierarchical', 1);
 			$t_list->set('use_as_vocabulary', 1);
@@ -381,8 +380,7 @@
 		$vn_last_message_length = 0;
 	
 		$t_item = new ca_list_items();
-		$t_item->setMode(ACCESS_WRITE);
-		foreach($va_parent_child_links as $vs_child_id => $vs_parent_id) {
+foreach($va_parent_child_links as $vs_child_id => $vs_parent_id) {
 			print str_repeat(chr(8), $vn_last_message_length);
 			$vs_message = "\tLINKING {$vs_child_id} to parent {$vs_parent_id}";
 			if (($vn_l = 100-strlen($vs_message)) < 1) { $vn_l = 1; }
@@ -418,8 +416,7 @@
 		
 			$t_item = new ca_list_items();
 			$t_link = new ca_list_items_x_list_items();
-			$t_link->setMode(ACCESS_WRITE);
-			foreach($va_item_item_links as $vs_left_id => $vs_right_id) {
+foreach($va_item_item_links as $vs_left_id => $vs_right_id) {
 				print str_repeat(chr(8), $vn_last_message_length);
 				$vs_message = "\tLINKING {$vs_left_id} to {$vs_right_id}";
 				if (($vn_l = 100-strlen($vs_message)) < 1) { $vn_l = 1; }
@@ -506,8 +503,7 @@
 			// create vocabulary list record (if it doesn't exist already)
 			$t_list = new ca_lists();
 			if (!$t_list->load(array('list_code' => $vs_ulan_list_code))) {
-				$t_list->setMode(ACCESS_WRITE);
-				$t_list->set('list_code', $vs_ulan_list_code);
+$t_list->set('list_code', $vs_ulan_list_code);
 				$t_list->set('is_system_list', 0);
 				$t_list->set('is_hierarchical', 1);
 				$t_list->set('use_as_vocabulary', 1);
@@ -593,8 +589,7 @@
 									$o_log->logError("Failed to create entity for ULAN artist {$vs_preferred_term}");
 									break;
 								}
-								$t_item->setMode(ACCESS_WRITE);
-								$va_ulan_id_to_item_id[$va_subject['subject_id']] = $t_item->getPrimaryKey();
+$va_ulan_id_to_item_id[$va_subject['subject_id']] = $t_item->getPrimaryKey();
 							} else {
 								if ($t_item = $t_list->addItem($va_subject['subject_id'], $pb_is_enabled, false, null, $vn_type_id, $va_subject['subject_id'], '', 4, 1)) {
 									$va_ulan_id_to_item_id[$va_subject['subject_id']] = $t_item->getPrimaryKey();
@@ -986,9 +981,7 @@
 
 		$t_list = new ca_lists();
 		$t_item = new ca_list_items();
-		$t_item->setMode(ACCESS_WRITE);
-	
-		$vn_list_root_id = $t_list->getRootListItemID($vn_list_id);
+$vn_list_root_id = $t_list->getRootListItemID($vn_list_id);
 		foreach($va_parent_child_links as $vs_child_id => $vs_parent_id) {
 			print str_repeat(chr(8), $vn_last_message_length);
 			$vs_message = "\tLINKING {$vs_child_id} to parent {$vs_parent_id}";
@@ -1041,8 +1034,7 @@
 	
 			$t_item = new ca_list_items();
 			$t_link = new ca_list_items_x_list_items();
-			$t_link->setMode(ACCESS_WRITE);
-			foreach($va_item_item_links as $vs_left_id => $vs_right_id) {
+foreach($va_item_item_links as $vs_left_id => $vs_right_id) {
 				print str_repeat(chr(8), $vn_last_message_length);
 				$vs_message = "\tLINKING {$vs_left_id} to {$vs_right_id}";
 				if (($vn_l = 100-strlen($vs_message)) < 1) { $vn_l = 1; }

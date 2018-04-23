@@ -70,8 +70,7 @@
 	// create place hierarchy (if it doesn't exist already)
 	$t_list = new ca_lists();
 	if (!$t_list->load(array('list_code' => 'place_hierarchies'))) {
-		$t_list->setMode(ACCESS_WRITE);
-		$t_list->set('list_code', 'place_hierarchies');
+$t_list->set('list_code', 'place_hierarchies');
 		$t_list->set('is_system_list', 1);
 		$t_list->set('is_hierarchical', 1);
 		$t_list->set('use_as_vocabulary', 0);
@@ -101,8 +100,7 @@
 	// Create list for place types (if it doesn't exist already)
 	$t_place_types = new ca_lists();
 	if (!$t_place_types->load(array('list_code' => 'tgn_place_types'))) {
-		$t_place_types->setMode(ACCESS_WRITE);
-		$t_place_types->set('list_code', 'tgn_place_types');
+$t_place_types->set('list_code', 'tgn_place_types');
 		$t_place_types->set('is_system_list', 1);
 		$t_place_types->set('is_hierarchical', 1);
 		$t_place_types->set('use_as_vocabulary', 1);
@@ -128,8 +126,7 @@
 	$vn_term_count = 0;
 	
 	$t_place = new ca_places();
-	$t_place->setMode(ACCESS_WRITE);
-	$t_place->logChanges(false);		// Don't log changes to records during import – takes time and we don't need the logs
+$t_place->logChanges(false);		// Don't log changes to records during import – takes time and we don't need the logs
 	
 	
 if (true) {	
@@ -475,8 +472,7 @@ if (true) {
 
 	$t_place = new ca_places();
 	$t_parent = new ca_places();
-	$t_place->setMode(ACCESS_WRITE);
-	$vn_tgn_root_id = $t_parent->getHierarchyRootID($vn_tgn_id);
+$vn_tgn_root_id = $t_parent->getHierarchyRootID($vn_tgn_id);
 	
 if (true) {	
 	print "[Notice] LINKING TERMS IN HIERARCHY...\n";
@@ -589,12 +585,8 @@ if (true) {
 	$vn_last_message_length = 0;
 
 	$t_place = new ca_places();
-	$t_place->setMode(ACCESS_WRITE);
-	
-	$t_link = new ca_places_x_places();
-	$t_link->setMode(ACCESS_WRITE);
-	
-	$t_rel_type = new ca_relationship_types();
+$t_link = new ca_places_x_places();
+$t_rel_type = new ca_relationship_types();
 	
 	for($vn_file_index=1; $vn_file_index <= 15; $vn_file_index++) {
 		$o_xml->open("tgn_xml_12/TGN{$vn_file_index}.xml");
@@ -692,8 +684,7 @@ if (true) {
 	
 		$t_place = new ca_places();
 		$t_link = new ca_places_x_places();
-		$t_link->setMode(ACCESS_WRITE);
-		foreach($va_item_item_links as $vs_left_id => $vs_right_id) {
+foreach($va_item_item_links as $vs_left_id => $vs_right_id) {
 			print str_repeat(chr(8), $vn_last_message_length);
 			$vs_message = "[Notice] LINKING {$vs_left_id} to {$vs_right_id}";
 			if (($vn_l = 100-strlen($vs_message)) < 1) { $vn_l = 1; }

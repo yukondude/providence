@@ -180,8 +180,7 @@ include_once(__CA_LIB_DIR__."/Logging/Eventlog.php");
 						if (!is_array($md["MIRROR_STATUS"])) { $md["MIRROR_STATUS"] = array(); }
 						$md["MIRROR_STATUS"][$pa_parameters["MIRROR"]] = $vn_mirror_code;
 						$table_obj->setMediaInfo($field, $md);
-						$table_obj->setMode(ACCESS_WRITE);
-						$table_obj->update();
+$table_obj->update();
 						if ($table_obj->numErrors()) {
 							$o_eventlog->log(array(
 								"CODE" => "ERR",

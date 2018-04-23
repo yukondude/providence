@@ -235,9 +235,7 @@
  			}
 
  			$t_subject->setTransaction($o_tx);
- 			$t_subject->setMode(ACCESS_WRITE);
-
- 			$o_log = new Batchlog(array(
+$o_log = new Batchlog(array(
  				'user_id' => $po_request->getUserID(),
  				'batch_type' => 'BD',
  				'table_num' => (int)$t_set->get('table_num'),
@@ -363,9 +361,7 @@
  			}
 
  			$t_subject->setTransaction($o_tx);
- 			$t_subject->setMode(ACCESS_WRITE);
-
- 			$o_log = new Batchlog(array(
+$o_log = new Batchlog(array(
  				'user_id' => $po_request->getUserID(),
  				'batch_type' => 'TC',
  				'table_num' => (int)$t_set->get('table_num'),
@@ -638,8 +634,7 @@
  					}
 
  					if (!$t_set->getPrimaryKey()) {
-						$t_set->setMode(ACCESS_WRITE);
-						$t_set->set('user_id', $vn_user_id);
+$t_set->set('user_id', $vn_user_id);
 						$t_set->set('type_id', $o_config->get('ca_sets_default_type'));
 						$t_set->set('table_num', $t_instance->tableNum());
 						$t_set->set('set_code', $vs_set_code);
@@ -901,9 +896,7 @@
 				$t_new_rep = null;
 				if ($t_instance->getPrimaryKey() && ($t_instance instanceof RepresentableBaseModel)) {
 					// found existing object
-					$t_instance->setMode(ACCESS_WRITE);
-
-					$t_new_rep = $t_instance->addRepresentation(
+$t_new_rep = $t_instance->addRepresentation(
 						$vs_directory.'/'.$f, $vn_rep_type_id, // path
 						$vn_locale_id, $vn_object_representation_status, $vn_object_representation_access, false, // locale, status, access, primary
 						array('idno' => $vs_rep_idno), // values
@@ -936,8 +929,7 @@
 				} else {
 					// should we create new record?
 					if (in_array($vs_import_mode, array('TRY_TO_MATCH', 'DONT_MATCH'))) {
-						$t_instance->setMode(ACCESS_WRITE);
-						$t_instance->set('type_id', $vn_type_id);
+$t_instance->set('type_id', $vn_type_id);
 						$t_instance->set('locale_id', $vn_locale_id);
 						$t_instance->set('status', $vn_status);
 						$t_instance->set('access', $vn_access);

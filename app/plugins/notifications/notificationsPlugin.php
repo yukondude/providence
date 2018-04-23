@@ -80,8 +80,7 @@
 						$t_subject = new ca_notification_subjects();
 						foreach($va_notification_subject_ids as $vn_subject_id) {
 							if ($t_subject->load($vn_subject_id)) {
-								$t_subject->setMode(ACCESS_WRITE);
-								$t_subject->set('delivery_email_sent_on', _t('now'));
+$t_subject->set('delivery_email_sent_on', _t('now'));
 								if (!$t_subject->update()) {
 									$t_log->log(array('CODE' => 'ERR', 'MESSAGE' => _t('Could not set notification subject %1 as read: %2', $vn_subject_id, join('; ', $t_subject->getErrors())), 'SOURCE' => 'notificationsPlugin->hookPeriodicTask'));
 									continue;

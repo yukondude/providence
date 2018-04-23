@@ -342,8 +342,7 @@ class ReplicationService {
 			$va_return['replicated_log_id'] = $vn_last_applied_log_id;
 
 			$t_replication_log = new ca_replication_log();
-			$t_replication_log->setMode(ACCESS_WRITE);
-			$t_replication_log->set('source_system_guid', $vs_source_system_guid);
+$t_replication_log->set('source_system_guid', $vs_source_system_guid);
 			$t_replication_log->set('status', 'C');
 			$t_replication_log->set('log_id', $vn_last_applied_log_id);
 			$t_replication_log->insert();

@@ -569,8 +569,7 @@ class ca_data_importers extends BundlableLabelableBaseModelWithAttributes {
 		if(!$this->getPrimaryKey()) return false;
 		
 		$t_group = new ca_data_importer_groups();
-		$t_group->setMode(ACCESS_WRITE);
-		$t_group->set('importer_id', $this->getPrimaryKey());
+$t_group->set('importer_id', $this->getPrimaryKey());
 		$t_group->set('group_code', $ps_group_code);
 		$t_group->set('destination', $ps_destination);
 		
@@ -666,8 +665,7 @@ class ca_data_importers extends BundlableLabelableBaseModelWithAttributes {
 		}
 		
 		if($t_group->load($pn_group_id)){
-			$t_group->setMode(ACCESS_WRITE);
-			$t_group->removeItems();
+$t_group->removeItems();
 			$t_group->delete();
 		} else {
 			return false;
@@ -689,8 +687,7 @@ class ca_data_importers extends BundlableLabelableBaseModelWithAttributes {
 		$t_group = new ca_data_importer_groups();
 		
 		if($t_group->load(array("code" => $ps_group_code))){
-			$t_group->setMode(ACCESS_WRITE);
-			$t_group->removeItems();
+$t_group->removeItems();
 			$t_group->delete();
 		} else {
 			return false;
@@ -705,8 +702,7 @@ class ca_data_importers extends BundlableLabelableBaseModelWithAttributes {
 		}
 		
 		if($t_item->load($pn_item_id)){
-			$t_item->setMode(ACCESS_WRITE);
-			$t_item->delete();
+$t_item->delete();
 		} else {
 			return false;
 		}
@@ -1006,9 +1002,7 @@ class ca_data_importers extends BundlableLabelableBaseModelWithAttributes {
 		
 		
 		$t_importer = new ca_data_importers();
-		$t_importer->setMode(ACCESS_WRITE);
-		
-		// Remove any existing mapping
+// Remove any existing mapping
 		if ($t_importer->load(array('importer_code' => $va_settings['code']))) {
 			$t_importer->delete(true, array('hard' => true));
 			if ($t_importer->numErrors()) {
@@ -1684,10 +1678,7 @@ class ca_data_importers extends BundlableLabelableBaseModelWithAttributes {
 			foreach($va_idnos_for_row as $vs_idno) {
 				$t_subject = Datamodel::getInstanceByTableNum($vn_table_num);
 				if ($o_trans) { $t_subject->setTransaction($o_trans); }
-				$t_subject->setMode(ACCESS_WRITE);
-			
-			
-				// get preferred labels
+// get preferred labels
 				$va_pref_label_values = array();
 				foreach($va_preferred_label_mapping_ids as $vn_preferred_label_mapping_id => $vs_preferred_label_mapping_fld) {
 					$vs_label_val = ca_data_importers::getValueFromSource($va_mapping_items[$vn_preferred_label_mapping_id], $o_reader, array('otherValues' => $va_rule_set_values, 'environment' => $va_environment, 'log' => $o_log, 'logIdno' => $vs_idno));
@@ -1782,8 +1773,7 @@ class ca_data_importers extends BundlableLabelableBaseModelWithAttributes {
 								));
 								if (is_array($va_ids) && (sizeof($va_ids) > 0)) {
 									$t_subject->load($va_ids[0]);
-									$t_subject->setMode(ACCESS_WRITE);
-									$t_subject->delete(true, array('hard' => true));
+$t_subject->delete(true, array('hard' => true));
 									if ($t_subject->numErrors()) {
 										ca_data_importers::logImportError(_t('[%1] Could not delete existing record matched on identifier by policy %2', $vs_idno, $vs_existing_record_policy));
 										// Don't stop?
@@ -1802,8 +1792,7 @@ class ca_data_importers extends BundlableLabelableBaseModelWithAttributes {
 							));
 							if (is_array($va_ids) && (sizeof($va_ids) > 0)) {
 								$t_subject->load($va_ids[0]);
-								$t_subject->setMode(ACCESS_WRITE);
-								$t_subject->delete(true, array('hard' => true));
+$t_subject->delete(true, array('hard' => true));
 							
 								if ($t_subject->numErrors()) {
 									ca_data_importers::logImportError(_t('[%1] Could not delete existing record matched on label by policy %2', $vs_idno, $vs_existing_record_policy));
@@ -2259,8 +2248,7 @@ class ca_data_importers extends BundlableLabelableBaseModelWithAttributes {
 			
 				if (!$t_subject->getPrimaryKey()) {
 					$o_event->beginItem($vn_row, $t_subject->tableNum(), 'I') ;
-					$t_subject->setMode(ACCESS_WRITE);
-					$t_subject->set($vs_type_id_fld, $vs_type);
+$t_subject->set($vs_type_id_fld, $vs_type);
 					if ($vb_idno_is_template) {
 						$t_subject->setIdnoWithTemplate($vs_idno);
 					} else {
@@ -2325,9 +2313,7 @@ class ca_data_importers extends BundlableLabelableBaseModelWithAttributes {
 				} else {
 					$o_event->beginItem($vn_row, $t_subject->tableNum(), 'U') ;
 					// update
-					$t_subject->setMode(ACCESS_WRITE);
-					
-					if ($vn_idno_mapping_item_id || !$t_subject->get($vs_idno_fld)) {
+if ($vn_idno_mapping_item_id || !$t_subject->get($vs_idno_fld)) {
 						if ($vb_idno_is_template) {
 							$t_subject->setIdnoWithTemplate($vs_idno);
 						} else {
@@ -2444,8 +2430,7 @@ class ca_data_importers extends BundlableLabelableBaseModelWithAttributes {
 									}
 								
 									$t_subject->clearErrors();
-									$t_subject->setMode(ACCESS_WRITE);
-									switch($vs_element) {
+switch($vs_element) {
 										case 'preferred_labels':
 											if (!$vb_was_preferred_label_match) {
 												if (

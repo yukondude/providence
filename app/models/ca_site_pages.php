@@ -396,8 +396,7 @@ class ca_site_pages extends BundlableLabelableBaseModelWithAttributes {
 			}
 			
 			if (caGetOption('incrementViewCount', $pa_options, false)) {
-				$t_page->setMode(ACCESS_WRITE);
-				$t_page->set('view_count', (int)$t_page->get('view_count') + 1);
+$t_page->set('view_count', (int)$t_page->get('view_count') + 1);
 				$t_page->update();
 			}
 	
@@ -558,9 +557,7 @@ class ca_site_pages extends BundlableLabelableBaseModelWithAttributes {
 	    if (!$this->getPrimaryKey()) { return false; }
 	    $t_media = new ca_site_page_media();
 	    if ($o_trans = caGetOption('transaction', $pa_options, null)) { $t_media->setTransaction($o_trans); }
-	    $t_media->setMode(ACCESS_WRITE);
-	    
-	    if (!$ps_idno) { $ps_idno = uniqid("Media-".$this->getPrimaryKey()); }
+if (!$ps_idno) { $ps_idno = uniqid("Media-".$this->getPrimaryKey()); }
 	    if (!$ps_title) { $ps_title = $ps_idno; }
 	    
 	    $va_fld_data = [
@@ -597,9 +594,7 @@ class ca_site_pages extends BundlableLabelableBaseModelWithAttributes {
 	    $t_media = new ca_site_page_media($pn_media_id);
 	    if ($o_trans = caGetOption('transaction', $pa_options, null)) { $t_media->setTransaction($o_trans); }
 	    if (!$t_media->isLoaded()) { return null; }
-	    $t_media->setMode(ACCESS_WRITE);
-	    
-	    $va_fld_data = [
+$va_fld_data = [
 	        'page_id' => $this->getPrimaryKey(),
 	        'media' => $ps_path,
 	        'title' => $ps_title,
@@ -639,8 +634,7 @@ class ca_site_pages extends BundlableLabelableBaseModelWithAttributes {
 	    if ($t_media->get('page_id') != $this->getPrimaryKey()) { return false; } 
 	    if ($o_trans = caGetOption('transaction', $pa_options, null)) { $t_media->setTransaction($o_trans); }
 	    if (!$t_media->isLoaded()) { return null; }
-	    $t_media->setMode(ACCESS_WRITE);
-	    if (!($vn_rc = $t_media->delete(true))) {
+if (!($vn_rc = $t_media->delete(true))) {
 	        $this->errors = $t_media->errors;
 	    }
 	    return $vn_rc;

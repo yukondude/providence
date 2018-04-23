@@ -98,8 +98,7 @@
 			
 				// Create tour
 				$t_tour = new ca_tours();
-				$t_tour->setMode(ACCESS_WRITE);
-				if ($o_trans) { $t_tour->setTransaction($o_trans); }
+if ($o_trans) { $t_tour->setTransaction($o_trans); }
 				$t_tour->set('type_id', $vs_type);
 				if (is_array($pa_item['settings']['tourMaker_attributes'])) {
 					foreach($pa_item['settings']['tourMaker_attributes'] as $vs_fld => $vs_val) {

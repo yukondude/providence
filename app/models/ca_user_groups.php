@@ -376,8 +376,7 @@ class ca_user_groups extends BaseModel {
 				$t_gxr = new ca_groups_x_roles();
 				$t_gxr->set('group_id', $pn_group_id);
 				$t_gxr->set('role_id', $t_role->getPrimaryKey());
-				$t_gxr->setMode(ACCESS_WRITE);
-				$t_gxr->insert();
+$t_gxr->insert();
 				
 				if ($t_gxr->numErrors() == 0) {
 					$vn_roles_added++;
@@ -634,7 +633,7 @@ class ca_user_groups extends BaseModel {
 			}
 			$vs_buf .= "</select>\n";
 		}
-		if ($vs_format = $this->_CONFIG->get('form_element_display_format')) {
+		if ($vs_format = self::$_CONFIG->get('form_element_display_format')) {
 			$vs_format = str_replace("^ELEMENT", $vs_buf, $vs_format);
 			$vs_format = str_replace("^LABEL", $vs_label, $vs_format);
 			$vs_format = str_replace("^ERRORS", '', $vs_format);

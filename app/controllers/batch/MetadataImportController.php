@@ -212,8 +212,7 @@
 		public function Delete($pa_values=null) {
 			$t_importer = $this->getImporterInstance();
 			if ($this->request->getParameter('confirm', pInteger)) {
-				$t_importer->setMode(ACCESS_WRITE);
-				$t_importer->delete(true);
+$t_importer->delete(true);
 
 				if ($t_importer->numErrors()) {
 					foreach ($t_importer->errors() as $o_e) {

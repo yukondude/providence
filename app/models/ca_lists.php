@@ -276,8 +276,7 @@ class ca_lists extends BundlableLabelableBaseModelWithAttributes {
 		if ($this->getPrimaryKey()) {
 			// create root in ca_list_items
 			$t_item_root = new ca_list_items();
-			$t_item_root->setMode(ACCESS_WRITE);
-			if ($this->inTransaction()) { $t_item_root->setTransaction($this->getTransaction()); }
+if ($this->inTransaction()) { $t_item_root->setTransaction($this->getTransaction()); }
 			$t_item_root->set('list_id', $this->getPrimaryKey());
 			$t_item_root->set('idno', $vs_title = 'Root node for '.$this->get('list_code'));
 			$t_item_root->set('is_enabled', 0);
@@ -353,9 +352,7 @@ class ca_lists extends BundlableLabelableBaseModelWithAttributes {
 		if(!($vn_list_id = $this->getPrimaryKey())) { return null; }
 		
 		$t_item = new ca_list_items();
-		$t_item->setMode(ACCESS_WRITE);
-		
-		if ($this->inTransaction()) { $t_item->setTransaction($this->getTransaction()); }
+if ($this->inTransaction()) { $t_item->setTransaction($this->getTransaction()); }
 		
 		$t_item->set('list_id', $vn_list_id);
 		$t_item->set('item_value', $ps_value);
@@ -405,8 +402,7 @@ class ca_lists extends BundlableLabelableBaseModelWithAttributes {
 		if(!$t_item->getPrimaryKey()) { return false; }
 		if($t_item->get('list_id') != $this->getPrimaryKey()) { return false; } // don't allow editing items in other lists
 
-		$t_item->setMode(ACCESS_WRITE);
-		if ($this->inTransaction()) { $t_item->setTransaction($this->getTransaction()); }
+if ($this->inTransaction()) { $t_item->setTransaction($this->getTransaction()); }
 
 		if(is_null($pn_parent_id)) { $pn_parent_id = $this->getRootItemIDForList($this->getPrimaryKey()); }
 

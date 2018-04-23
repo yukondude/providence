@@ -255,8 +255,7 @@ class RelationshipGeneratorPluginIntegrationTest extends AbstractPluginIntegrati
 	private static function _createObject($ps_idno_base, $pa_attributes, $ps_type_code = 'test_object_type1') {
 		$pn_type_id = self::_retrieveCreatedInstance('ca_list_items', $ps_type_code)->getPrimaryKey();
 		$vo_object = new ca_objects();
-		$vo_object->setMode(ACCESS_WRITE);
-		$vo_object->set(array(
+$vo_object->set(array(
 			'idno' => self::_getIdno($ps_idno_base),
 			'type_id' => $pn_type_id
 		));

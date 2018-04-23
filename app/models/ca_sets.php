@@ -454,8 +454,7 @@ class ca_sets extends BundlableLabelableBaseModelWithAttributes implements IBund
 				foreach($va_items as $vn_item_id => $va_item) {
 					$t_item = new ca_set_items();
 					$t_item->setTransaction($o_trans);
-					$t_item->setMode(ACCESS_WRITE);
-					$va_item['set_id'] = $t_dupe->getPrimaryKey();
+$va_item['set_id'] = $t_dupe->getPrimaryKey();
 					$t_item->set($va_item);
 					$t_item->insert();
 					
@@ -1155,8 +1154,7 @@ class ca_sets extends BundlableLabelableBaseModelWithAttributes implements IBund
 		// Add it to the set
 		$t_item = new ca_set_items();
 		if ($o_trans) { $t_item->setTransaction($o_trans); }
-		$t_item->setMode(ACCESS_WRITE);
-		$t_item->set('set_id', $this->getPrimaryKey());
+$t_item->set('set_id', $this->getPrimaryKey());
 		$t_item->set('table_num', $vn_table_num);
 		$t_item->set('row_id', $pn_row_id);
 		$t_item->set('type_id', $this->get('type_id'));
@@ -1315,8 +1313,7 @@ class ca_sets extends BundlableLabelableBaseModelWithAttributes implements IBund
 		if ($pn_user_id && (!$this->haveAccessToSet($pn_user_id, __CA_SET_EDIT_ACCESS__))) { return false; }
 		
 		$t_item = new ca_set_items();
-		$t_item->setMode(ACCESS_WRITE);
-		while ($t_item->load(array('set_id' => $this->getPrimaryKey(), 'row_id' => $pn_row_id))) {
+while ($t_item->load(array('set_id' => $this->getPrimaryKey(), 'row_id' => $pn_row_id))) {
 			$t_item->delete(true);
 			if ($t_item->numErrors()) {
 				$this->errors = $t_item->errors;
@@ -1338,8 +1335,7 @@ class ca_sets extends BundlableLabelableBaseModelWithAttributes implements IBund
 		if (!$this->haveAccessToSet($pn_user_id, __CA_SET_EDIT_ACCESS__)) { return false; }
 		
 		$t_item = new ca_set_items();
-		$t_item->setMode(ACCESS_WRITE);
-		if ($t_item->load($pn_item_id)) {
+if ($t_item->load($pn_item_id)) {
 			$t_item->delete(true);
 			if ($t_item->numErrors()) {
 				$this->errors = $t_item->errors;
@@ -1362,9 +1358,7 @@ class ca_sets extends BundlableLabelableBaseModelWithAttributes implements IBund
 		if (!($vn_table_num = $this->_getTableNum($pm_table_name_or_num))) { return null; }
 		
 		$t_item = new ca_set_items();
-		$t_item->setMode(ACCESS_WRITE);
-		
-		$va_set_ids = $this->getSetIDsForItem($vn_table_num, $pn_row_id);
+$va_set_ids = $this->getSetIDsForItem($vn_table_num, $pn_row_id);
 		$vb_skipped = false;
 		foreach($va_set_ids as $vn_set_id) {
 			if ($pn_user_id && (!$this->haveAccessToSet($pn_user_id, __CA_SET_EDIT_ACCESS__, $vn_set_id))) { $vb_skipped = true; continue; }
@@ -1483,8 +1477,7 @@ class ca_sets extends BundlableLabelableBaseModelWithAttributes implements IBund
 		
 		$t_set_item = new ca_set_items();
 		$t_set_item->setTransaction($o_trans);
-		$t_set_item->setMode(ACCESS_WRITE);
-		$va_errors = array();
+$va_errors = array();
 		
 		
 		// delete rows not present in $pa_row_ids
@@ -2708,8 +2701,7 @@ LEFT JOIN ca_object_representations AS cor ON coxor.representation_id = cor.repr
 			$t_set_to_add_dupes_to->set('table_num', $this->get('table_num'));
 			$t_set_to_add_dupes_to->set('user_id', $this->get('user_id'));
 			$t_set_to_add_dupes_to->set('set_code', $this->get('set_code').'-'._t('dupes'));
-			$t_set_to_add_dupes_to->setMode(ACCESS_WRITE);
-			$t_set_to_add_dupes_to->insert();
+$t_set_to_add_dupes_to->insert();
 			if(!$t_set_to_add_dupes_to->getPrimaryKey()) {
 				$this->errors = $t_set_to_add_dupes_to->errors;
 				return false;

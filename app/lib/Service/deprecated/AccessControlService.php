@@ -64,8 +64,7 @@ class AccessControlService extends BaseService {
 		$t_user->set("lname",$lname);
 		$t_user->set("active",1);
 		
-		$t_user->setMode(ACCESS_WRITE);
-		$t_user->insert();
+$t_user->insert();
 		
 		if($t_user->numErrors()){
 			throw new SoapFault("Server", "Could not create user: ".join(" ",$t_user->getErrors()));
@@ -83,9 +82,7 @@ class AccessControlService extends BaseService {
 		if(!$t_user->load(array("user_name" => $user_name))){
 			throw new SoapFault("Server","user_name does not exist");
 		}
-		$t_user->setMode(ACCESS_WRITE);
-		
-		return $t_user;
+return $t_user;
 	}
 	/**
 	 * Internal helper for setting user record fields

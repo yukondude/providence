@@ -690,8 +690,7 @@ class ca_objects extends BaseObjectLocationModel implements IBundleProvider {
 				$t_object_x_rep = new ca_objects_x_object_representations();
 				$t_object_x_rep->setTransaction($o_t);
 				foreach($va_reps as $vn_representation_id => $va_rep) {
-					$t_object_x_rep->setMode(ACCESS_WRITE);
-					$va_rep['object_id'] = $t_dupe->getPrimaryKey();
+$va_rep['object_id'] = $t_dupe->getPrimaryKey();
 					$t_object_x_rep->set($va_rep);
 					$t_object_x_rep->insert();
 					
@@ -2084,8 +2083,7 @@ class ca_objects extends BaseObjectLocationModel implements IBundleProvider {
 				}
 			}
 			
- 			$this->setMode(ACCESS_WRITE);
- 			$this->set('current_loc_class', $vn_table_num);
+$this->set('current_loc_class', $vn_table_num);
  			$this->set('current_loc_subclass', $vn_type_id);
  			$this->set('current_loc_id', $pn_current_loc_id);
  			$this->update();
@@ -2096,8 +2094,7 @@ class ca_objects extends BaseObjectLocationModel implements IBundleProvider {
  			
  			return true;
  		} else {
- 			$this->setMode(ACCESS_WRITE);
- 			$this->set('current_loc_class', null);
+$this->set('current_loc_class', null);
  			$this->set('current_loc_subclass', null);
  			$this->set('current_loc_id', null);
  			$this->update();

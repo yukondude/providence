@@ -57,8 +57,7 @@
 				$t_watch_list = new ca_watch_list();
 				foreach($pa_watch_ids as $vn_watch_id){
 					if($t_watch_list->load(array('watch_id' => $vn_watch_id))){
-						$t_watch_list->setMode(ACCESS_WRITE);
-						$t_watch_list->delete();
+$t_watch_list->delete();
 						if ($t_watch_list->numErrors()) {
 							$va_errors = $t_item->errors;
 						}
@@ -110,8 +109,7 @@
 			}
 
 			$t_set = new ca_sets();
-			$t_set->setMode(ACCESS_WRITE);
-			$t_set->set('type_id', $this->getRequest()->getAppConfig()->get('ca_sets_default_type'));
+$t_set->set('type_id', $this->getRequest()->getAppConfig()->get('ca_sets_default_type'));
 			$t_set->set('user_id', $this->getRequest()->getUserID());
 			$t_set->set('table_num', $t_instance->tableNum());
 			$t_set->set('set_code', $vs_set_code = mb_substr(preg_replace("![^A-Za-z0-9_\-]+!", "_", $ps_set_name), 0, 100));

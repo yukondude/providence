@@ -217,8 +217,7 @@ class ca_data_importer_log extends BaseModel {
 	  */
 	static public function newEvent($pn_user_id, $ps_type, $ps_source, $ps_description) {
 		$o_instance = new ca_data_importer_log();
-		$o_instance->setMode(ACCESS_WRITE);
-		$o_instance->set('user_id', $pn_user_id);
+$o_instance->set('user_id', $pn_user_id);
 		$o_instance->set('type_code', $ps_type);
 		$o_instance->set('source', $ps_source);
 		$o_instance->set('description', $ps_description);
@@ -373,8 +372,7 @@ class ca_data_importer_log extends BaseModel {
 	 	if (!($vn_log_id = $this->getPrimaryKey())) { return null; } 
 	 	
 		$t_log = new ca_data_import_event_log();
-	 	$t_log->setMode(ACCESS_WRITE);
-	 	$t_log->set('log_id', $vn_log_id);
+$t_log->set('log_id', $vn_log_id);
 	 	$t_log->set('item_id', $pn_item_id);
 	 	$t_log->set('message', $ps_message);
 	 	$t_log->set('source', $ps_source);

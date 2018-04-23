@@ -152,8 +152,7 @@
 						$t_list = new ca_lists();
 			
  			$t_role = $this->getRoleObject();
- 			$t_role->setMode(ACCESS_WRITE);
- 			foreach($t_role->getFormFields() as $vs_f => $va_field_info) {
+foreach($t_role->getFormFields() as $vs_f => $va_field_info) {
  				$t_role->set($vs_f, $_REQUEST[$vs_f]);
  				if ($t_role->numErrors()) {
  					$this->request->addActionErrors($t_role->errors(), 'field_'.$vs_f);
@@ -307,8 +306,7 @@
  		public function Delete() {
  			$t_role = $this->getRoleObject();
  			if ($this->request->getParameter('confirm', pInteger)) {
- 				$t_role->setMode(ACCESS_WRITE);
- 				$t_role->delete(true);
+$t_role->delete(true);
 
  				if ($t_role->numErrors()) {
  					foreach ($t_role->errors() as $o_e) {

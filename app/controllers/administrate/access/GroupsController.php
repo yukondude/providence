@@ -44,8 +44,7 @@
  			AssetLoadManager::register('tableList');
  			
  			$t_group = $this->getGroupObject();
- 			$t_group->setMode(ACCESS_WRITE);
- 			foreach($t_group->getFormFields() as $vs_f => $va_field_info) {
+foreach($t_group->getFormFields() as $vs_f => $va_field_info) {
  				$t_group->set($vs_f, $_REQUEST[$vs_f]);
  				if ($t_group->numErrors()) {
  					$this->request->addActionErrors($t_group->errors(), 'field_'.$vs_f);
@@ -126,8 +125,7 @@
  		public function Delete() {
  			$t_group = $this->getGroupObject();
  			if ($this->request->getParameter('confirm', pInteger)) {
- 				$t_group->setMode(ACCESS_WRITE);
- 				$t_group->delete(true);
+$t_group->delete(true);
 
  				if ($t_group->numErrors()) {
  					foreach ($t_group->errors() as $o_e) {

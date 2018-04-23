@@ -55,9 +55,7 @@ class BundlableLabelableBaseModelWithAttributesTest extends PHPUnit_Framework_Te
 		$vn_locale_id = 1;
 
 		$t_object = new ca_objects();
-		$t_object->setMode(ACCESS_WRITE);
-
-		$vn_item_id = 0;
+$vn_item_id = 0;
 		foreach($va_object_types as $va_object_type) {
 			if (intval($va_object_type['is_enabled']) === 1) {
 				$vn_item_id = $va_object_type['item_id'];
@@ -129,8 +127,7 @@ class BundlableLabelableBaseModelWithAttributesTest extends PHPUnit_Framework_Te
 		$va_prepopulate_options = array('prepopulateConfig' => dirname(__FILE__).DIRECTORY_SEPARATOR.'conf'.DIRECTORY_SEPARATOR.'prepopulate_simple.conf');
 
 		$t_object = new ca_objects();
-		$t_object->setMode(ACCESS_WRITE);
-		$t_object->set('type_id', 'image');
+$t_object->set('type_id', 'image');
 		$t_object->set('idno', 'test123');
 		$t_object->insert();
 
@@ -149,8 +146,7 @@ class BundlableLabelableBaseModelWithAttributesTest extends PHPUnit_Framework_Te
 		$va_prepopulate_options = array('prepopulateConfig' => dirname(__FILE__).DIRECTORY_SEPARATOR.'conf'.DIRECTORY_SEPARATOR.'prepopulate_simple.conf');
 
 		$t_object = new ca_objects();
-		$t_object->setMode(ACCESS_WRITE);
-		$t_object->set('type_id', 'image');
+$t_object->set('type_id', 'image');
 		$t_object->set('idno', 'test123');
 
 		$t_object->addAttribute(array(
@@ -174,8 +170,7 @@ class BundlableLabelableBaseModelWithAttributesTest extends PHPUnit_Framework_Te
 		$va_prepopulate_options = array('prepopulateConfig' => dirname(__FILE__).DIRECTORY_SEPARATOR.'conf'.DIRECTORY_SEPARATOR.'prepopulate_simple.conf');
 
 		$t_object = new ca_objects();
-		$t_object->setMode(ACCESS_WRITE);
-		$t_object->set('type_id', 'moving_image');
+$t_object->set('type_id', 'moving_image');
 		$t_object->set('idno', 'test123');
 
 		$t_object->addAttribute(array(
@@ -198,8 +193,7 @@ class BundlableLabelableBaseModelWithAttributesTest extends PHPUnit_Framework_Te
 		$va_prepopulate_options = array('prepopulateConfig' => dirname(__FILE__).DIRECTORY_SEPARATOR.'conf'.DIRECTORY_SEPARATOR.'prepopulate_simple.conf');
 
 		$t_object = new ca_objects();
-		$t_object->setMode(ACCESS_WRITE);
-		$t_object->set('type_id', 'image');
+$t_object->set('type_id', 'image');
 		$t_object->set('idno', 'skipThis');
 
 		$t_object->addAttribute(array(
@@ -222,8 +216,7 @@ class BundlableLabelableBaseModelWithAttributesTest extends PHPUnit_Framework_Te
 		$va_prepopulate_options = array('prepopulateConfig' => dirname(__FILE__).DIRECTORY_SEPARATOR.'conf'.DIRECTORY_SEPARATOR.'prepopulate_dont_overwrite.conf');
 
 		$t_object = new ca_objects();
-		$t_object->setMode(ACCESS_WRITE);
-		$t_object->set('type_id', 'image');
+$t_object->set('type_id', 'image');
 		$t_object->set('idno', 'test123');
 
 		$t_object->addAttribute(array(
@@ -247,8 +240,7 @@ class BundlableLabelableBaseModelWithAttributesTest extends PHPUnit_Framework_Te
 		$va_prepopulate_options = array('prepopulateConfig' => dirname(__FILE__).DIRECTORY_SEPARATOR.'conf'.DIRECTORY_SEPARATOR.'prepopulate_intrinsic.conf');
 
 		$t_object = new ca_objects();
-		$t_object->setMode(ACCESS_WRITE);
-		$t_object->set('type_id', 'image');
+$t_object->set('type_id', 'image');
 
 		$t_object->insert();
 
@@ -273,8 +265,7 @@ class BundlableLabelableBaseModelWithAttributesTest extends PHPUnit_Framework_Te
 		$va_prepopulate_options = array('prepopulateConfig' => dirname(__FILE__).DIRECTORY_SEPARATOR.'conf'.DIRECTORY_SEPARATOR.'prepopulate_intrinsic.conf');
 
 		$t_object = new ca_objects();
-		$t_object->setMode(ACCESS_WRITE);
-		$t_object->set('type_id', 'image');
+$t_object->set('type_id', 'image');
 		$t_object->set('idno', 'test123');
 
 		$t_object->insert();
@@ -300,8 +291,7 @@ class BundlableLabelableBaseModelWithAttributesTest extends PHPUnit_Framework_Te
 		$va_prepopulate_options = array('prepopulateConfig' => dirname(__FILE__).DIRECTORY_SEPARATOR.'conf'.DIRECTORY_SEPARATOR.'prepopulate_labels.conf');
 
 		$t_object = new ca_objects();
-		$t_object->setMode(ACCESS_WRITE);
-		$t_object->set('type_id', 'image');
+$t_object->set('type_id', 'image');
 
 		$t_object->addAttribute(array(
 			'description' => 'Description'
@@ -322,8 +312,7 @@ class BundlableLabelableBaseModelWithAttributesTest extends PHPUnit_Framework_Te
 		$va_prepopulate_options = array('prepopulateConfig' => dirname(__FILE__).DIRECTORY_SEPARATOR.'conf'.DIRECTORY_SEPARATOR.'prepopulate_labels.conf');
 
 		$t_object = new ca_objects();
-		$t_object->setMode(ACCESS_WRITE);
-		$t_object->set('type_id', 'image');
+$t_object->set('type_id', 'image');
 
 		$t_object->addAttribute(array(
 			'description' => 'Description'
@@ -350,8 +339,7 @@ class BundlableLabelableBaseModelWithAttributesTest extends PHPUnit_Framework_Te
 		$va_prepopulate_options = array('prepopulateConfig' => dirname(__FILE__).DIRECTORY_SEPARATOR.'conf'.DIRECTORY_SEPARATOR.'prepopulate_labels_overwrite.conf');
 
 		$t_object = new ca_objects();
-		$t_object->setMode(ACCESS_WRITE);
-		$t_object->set('type_id', 'image');
+$t_object->set('type_id', 'image');
 
 		$t_object->addAttribute(array(
 			'description' => 'Description'
@@ -378,8 +366,7 @@ class BundlableLabelableBaseModelWithAttributesTest extends PHPUnit_Framework_Te
 		$va_prepopulate_options = array('prepopulateConfig' => dirname(__FILE__).DIRECTORY_SEPARATOR.'conf'.DIRECTORY_SEPARATOR.'prepopulate_container.conf');
 
 		$t_object = new ca_objects();
-		$t_object->setMode(ACCESS_WRITE);
-		$t_object->set('type_id', 'image');
+$t_object->set('type_id', 'image');
 		$t_object->set('idno', 'test123');
 
 		$t_object->insert();
@@ -397,8 +384,7 @@ class BundlableLabelableBaseModelWithAttributesTest extends PHPUnit_Framework_Te
 		$va_prepopulate_options = array('prepopulateConfig' => dirname(__FILE__).DIRECTORY_SEPARATOR.'conf'.DIRECTORY_SEPARATOR.'prepopulate_container.conf');
 
 		$t_object = new ca_objects();
-		$t_object->setMode(ACCESS_WRITE);
-		$t_object->set('type_id', 'image');
+$t_object->set('type_id', 'image');
 		$t_object->set('idno', 'test123');
 
 		$t_object->addAttribute(array(
@@ -422,8 +408,7 @@ class BundlableLabelableBaseModelWithAttributesTest extends PHPUnit_Framework_Te
 		$va_prepopulate_options = array('prepopulateConfig' => dirname(__FILE__).DIRECTORY_SEPARATOR.'conf'.DIRECTORY_SEPARATOR.'prepopulate_container.conf');
 
 		$t_object = new ca_objects();
-		$t_object->setMode(ACCESS_WRITE);
-		$t_object->set('type_id', 'image');
+$t_object->set('type_id', 'image');
 		$t_object->set('idno', 'test123');
 
 		$t_object->addAttribute(array(
@@ -446,8 +431,7 @@ class BundlableLabelableBaseModelWithAttributesTest extends PHPUnit_Framework_Te
 		$va_prepopulate_options = array('prepopulateConfig' => dirname(__FILE__).DIRECTORY_SEPARATOR.'conf'.DIRECTORY_SEPARATOR.'prepopulate_container_overwrite.conf');
 
 		$t_object = new ca_objects();
-		$t_object->setMode(ACCESS_WRITE);
-		$t_object->set('type_id', 'image');
+$t_object->set('type_id', 'image');
 		$t_object->set('idno', 'test123');
 
 		$t_object->addAttribute(array(
@@ -477,9 +461,7 @@ class BundlableLabelableBaseModelWithAttributesTest extends PHPUnit_Framework_Te
 	public function tearDown() {
 				foreach($this->opa_test_record_ids as $vs_table => $va_record_ids) {
 			$t_instance = Datamodel::getInstance($vs_table);
-			$t_instance->setMode(ACCESS_WRITE);
-
-			foreach($va_record_ids as $vn_record_id) {
+foreach($va_record_ids as $vn_record_id) {
 				$t_instance->load($vn_record_id);
 				$t_instance->delete(true, array('hard' => true));
 			}

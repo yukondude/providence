@@ -352,8 +352,7 @@ class ca_search_forms extends BundlableLabelableBaseModelWithAttributes {
 		}
 
 		$t_placement = new ca_search_form_placements(null, is_array($pa_options['additional_settings']) ? $pa_options['additional_settings'] : null);
-		$t_placement->setMode(ACCESS_WRITE);
-		$t_placement->set('form_id', $vn_form_id);
+$t_placement->set('form_id', $vn_form_id);
 		$t_placement->set('bundle_name', $ps_bundle_name);
 		$t_placement->set('rank', $pn_rank);
 
@@ -390,8 +389,7 @@ class ca_search_forms extends BundlableLabelableBaseModelWithAttributes {
 
 		$t_placement = new ca_search_form_placements($pn_placement_id);
 		if ($t_placement->getPrimaryKey() && ($t_placement->get('form_id') == $vn_form_id)) {
-			$t_placement->setMode(ACCESS_WRITE);
-			$t_placement->delete(true);
+$t_placement->delete(true);
 
 			if ($t_placement->numErrors()) {
 				$this->errors = array_merge($this->errors, $t_placement->errors);
@@ -1396,8 +1394,7 @@ class ca_search_forms extends BundlableLabelableBaseModelWithAttributes {
 					}
 				} else {
 					$t_placement = new ca_search_form_placements($vn_placement_id, $va_available_bundles[$vs_bundle]['settings']);
-					$t_placement->setMode(ACCESS_WRITE);
-					$t_placement->set('rank', $vn_i + 1);
+$t_placement->set('rank', $vn_i + 1);
 
 					if (is_array($va_settings[$vn_placement_id])) {
 						//foreach($va_settings[$vn_placement_id] as $vs_setting => $vs_val) {
@@ -1455,8 +1452,7 @@ class ca_search_forms extends BundlableLabelableBaseModelWithAttributes {
 		}
 		
 		$t_restriction = new ca_search_form_type_restrictions();
-		$t_restriction->setMode(ACCESS_WRITE);
-		$t_restriction->set('table_num', $this->get('table_num'));
+$t_restriction->set('table_num', $this->get('table_num'));
 		$t_restriction->set('type_id', $pn_type_id);
 		$t_restriction->set('include_subtypes', caGetOption('includeSubtypes', $pa_settings, 0));
 		$t_restriction->set('form_id', $this->getPrimaryKey());
@@ -1484,8 +1480,7 @@ class ca_search_forms extends BundlableLabelableBaseModelWithAttributes {
 		if (!($vn_form_id = $this->getPrimaryKey())) { return null; }		// UI must be loaded
 		$t_restriction = new ca_search_form_type_restrictions($pn_restriction_id);
 		if ($t_restriction->isLoaded()) {
-			$t_restriction->setMode(ACCESS_WRITE);
-			$t_restriction->set('include_subtypes', caGetOption('includeSubtypes', $pa_settings, 0));
+$t_restriction->set('include_subtypes', caGetOption('includeSubtypes', $pa_settings, 0));
 			$t_restriction->update();
 			if ($t_restriction->numErrors()) {
 				$this->errors = $t_restriction->errors();
@@ -1559,8 +1554,7 @@ class ca_search_forms extends BundlableLabelableBaseModelWithAttributes {
 
 		if (is_array($va_uis = ca_search_form_type_restrictions::find($va_params, ['returnAs' => 'modelInstances']))) {
 			foreach($va_uis as $t_ui) {
-				$t_ui->setMode(ACCESS_WRITE);
-				$t_ui->delete(true);
+$t_ui->delete(true);
 				if ($t_ui->numErrors()) {
 					$this->errors = $t_ui->errors();
 					return false;

@@ -114,8 +114,7 @@ abstract class BaseTestWithData extends PHPUnit_Framework_TestCase {
 				rsort($va_records);
 				foreach($va_records as $vn_id) {
 					if($t_instance->load($vn_id)) {
-						$t_instance->setMode(ACCESS_WRITE);
-						$t_instance->delete(true, array('hard' => true));
+$t_instance->delete(true, array('hard' => true));
 					}
 				}
 			}

@@ -302,8 +302,7 @@ class ca_bookmark_folders extends BaseModel {
 			return $t_bookmark->getPrimaryKey();
 		}
 		
-		$t_bookmark->setMode(ACCESS_WRITE);
-		$t_bookmark->set('folder_id', $vn_folder_id);
+$t_bookmark->set('folder_id', $vn_folder_id);
 		$t_bookmark->set('table_num', $vn_table_num);
 		$t_bookmark->set('row_id', $pn_row_id);
 		$t_bookmark->set('notes', $ps_notes);
@@ -329,8 +328,7 @@ class ca_bookmark_folders extends BaseModel {
 			return false;
 		}
 		
-		$t_bookmark->setMode(ACCESS_WRITE);
-		$t_bookmark->delete();
+$t_bookmark->delete();
 		
 		if ($t_bookmark->numErrors()) {
 			$this->errors = $t_bookmark->errors;
@@ -385,8 +383,7 @@ class ca_bookmark_folders extends BaseModel {
 		
 		$t_bookmark = new ca_bookmarks();
 		$t_bookmark->setTransaction($o_trans);
-		$t_bookmark->setMode(ACCESS_WRITE);
-		$va_errors = array();
+$va_errors = array();
 		
 		
 		// delete rows not present in $pa_stop_ids

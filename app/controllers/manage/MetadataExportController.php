@@ -276,8 +276,7 @@ class MetadataExportController extends ActionController {
 	public function Delete() {
 		$t_exporter = $this->getExporterInstance();
 		if ($this->getRequest()->getParameter('confirm', pInteger)) {
-			$t_exporter->setMode(ACCESS_WRITE);
-			$t_exporter->delete(true);
+$t_exporter->delete(true);
 
 			if ($t_exporter->numErrors()) {
 				foreach ($t_exporter->errors() as $o_e) {

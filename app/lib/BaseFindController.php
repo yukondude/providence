@@ -656,8 +656,7 @@
 					if (!$vs_set_name) { $vs_set_name = $this->opo_result_context->getSearchExpression(); }
 			
 					$t_set = new ca_sets();
-					$t_set->setMode(ACCESS_WRITE);
-					if($vn_set_type_id = $this->getRequest()->getParameter('set_type_id', pInteger)) {
+if($vn_set_type_id = $this->getRequest()->getParameter('set_type_id', pInteger)) {
 						$t_set->set('type_id', $vn_set_type_id);
 					} else {
 						$t_set->set('type_id', $this->getRequest()->getAppConfig()->get('ca_sets_default_type'));

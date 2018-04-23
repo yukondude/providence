@@ -225,8 +225,7 @@ class ca_notifications extends BaseModel {
 	public static function add($pn_type, $ps_message, array $pa_subjects, $pb_system=false, array $pa_options = []) {
 		$t_notification = new ca_notifications();
 
-		$t_notification->setMode(ACCESS_WRITE);
-		$t_notification->set('notification_type', $pn_type);
+$t_notification->set('notification_type', $pn_type);
 		$t_notification->set('message', $ps_message);
 		$t_notification->set('datetime', caGetOption('datetime', $pa_options, time()));
 		$t_notification->set('is_system', $pb_system ? 1 : 0);
@@ -243,9 +242,7 @@ class ca_notifications extends BaseModel {
 			}
 
 			$t_subject = new ca_notification_subjects();
-			$t_subject->setMode(ACCESS_WRITE);
-
-			$t_subject->set('notification_id', $t_notification->getPrimaryKey());
+$t_subject->set('notification_id', $t_notification->getPrimaryKey());
 			$t_subject->set('table_num', $va_subject['table_num']);
 			$t_subject->set('row_id', $va_subject['row_id']);
 
@@ -274,9 +271,7 @@ class ca_notifications extends BaseModel {
 			if (($t_subject->get('table_num') == 94) && ($pn_user_id) && ((int)$pn_user_id !== (int)$t_subject->get('row_id'))) { // 94 = ca_users
 				return false;
 			}
-			$t_subject->setMode(ACCESS_WRITE);
-
-			$t_subject->set('was_read', 1);
+$t_subject->set('was_read', 1);
 			return $t_subject->update();
 		}
 		return false;

@@ -383,8 +383,7 @@ class ca_object_lots extends RepresentableBaseModel {
 		$vb_errors = false;
 		while($qr_res->nextRow()) {
 			if ($t_object->load($qr_res->get('object_id'))) {
-				$t_object->setMode(ACCESS_WRITE);
-				$t_object->set('lot_id', null);
+$t_object->set('lot_id', null);
 				$t_object->update();
 				
 				if ($t_object->numErrors()) {
@@ -548,9 +547,7 @@ class ca_object_lots extends RepresentableBaseModel {
 					if ($po_application_plugin_manager) {
 						$po_application_plugin_manager->hookBeforeSaveItem(array('id' => $vn_object_id, 'table_num' => $t_object->tableNum(), 'table_name' => $t_object->tableName(), 'instance' => $t_object));
 					}
-					$t_object->setMode(ACCESS_WRITE);
-					
-					$va_tmp = explode($vs_separator, $t_object->get('idno'));
+$va_tmp = explode($vs_separator, $t_object->get('idno'));
 					$vs_last_num = array_pop($va_tmp);
 					foreach($va_lot_num as $vn_i => $vs_n) {
 						$va_tmp[$vn_i] = $vs_n;

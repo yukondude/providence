@@ -348,8 +348,7 @@ class ca_item_comments extends BaseModel {
 	 */
 	public function moderate($pn_user_id) {
 		if (!$this->getPrimaryKey()) { return null; }
-		$this->setMode(ACCESS_WRITE);
-		$this->set('moderated_by_user_id', $pn_user_id);
+$this->set('moderated_by_user_id', $pn_user_id);
 		$this->set('moderated_on', _t('now'));
 		return $this->update();
 	}

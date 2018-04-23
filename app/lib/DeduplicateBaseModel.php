@@ -137,9 +137,7 @@ trait DeduplicateBaseModel {
 		if(!$t_main_record->load(array_shift($pa_records))) {
 			throw new DeduplicateException('Could not load main record for deduplication');
 		}
-		$t_main_record->setMode(ACCESS_WRITE);
-
-		/** @var BundlableLabelableBaseModelWithAttributes $t_other_record */
+/** @var BundlableLabelableBaseModelWithAttributes $t_other_record */
 		$t_other_record = Datamodel::getInstance(get_called_class(), false);
 
 		foreach($pa_records as $vn_record_id) {
@@ -152,8 +150,7 @@ trait DeduplicateBaseModel {
 			self::mergeRelationships($t_main_record, $t_other_record);
 			self::mergeAttributes($t_main_record, $t_other_record);
 
-			$t_other_record->setMode(ACCESS_WRITE);
-			$t_other_record->delete(true);
+$t_other_record->delete(true);
 		}
 
 		return $t_main_record->getPrimaryKey();
@@ -189,9 +186,7 @@ trait DeduplicateBaseModel {
 	 * @param BundlableLabelableBaseModelWithAttributes $t_dupe
 	 */
 	protected static function mergeAttributes($t_main, $t_dupe) {
-		$t_main->setMode(ACCESS_WRITE);
-		$t_dupe->setMode(ACCESS_WRITE);
-		$va_move_codes = [];
+$va_move_codes = [];
 
 		foreach($t_dupe->getApplicableElementCodes() as $vs_element_code) { // dupe and main applicable codes are the same
 			// pairwise comparison of attributes

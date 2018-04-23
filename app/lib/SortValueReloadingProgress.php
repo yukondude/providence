@@ -110,8 +110,7 @@
 							}
 							
 							if ($t_label->load($vn_label_pk_val)) {
-								$t_label->setMode(ACCESS_WRITE);
-								$t_label->update();
+$t_label->update();
 							}
 							$vn_c++;
 						}
@@ -140,8 +139,7 @@
 						}
 						
 						if ($t_table->load($vn_pk_val)) {
-							$t_table->setMode(ACCESS_WRITE);
-							if ($vs_table == 'ca_object_representations') {
+if ($vs_table == 'ca_object_representations') {
 								$t_table->set('md5', $t_table->getMediaInfo('ca_object_representations.media', 'original', 'MD5'));
 								$t_table->set('mimetype', $t_table->getMediaInfo('ca_object_representations.media', 'original', 'MIMETYPE'));
 								

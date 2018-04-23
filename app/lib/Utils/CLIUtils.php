@@ -333,8 +333,7 @@
 						print CLIProgressBar::next();
 						if ($t_label->load($vn_label_pk_val)) {
 							$t_table->logChanges(false);
-							$t_label->setMode(ACCESS_WRITE);
-							$t_label->update();
+$t_label->update();
 						}
 					}
 					print CLIProgressBar::finish();
@@ -346,8 +345,7 @@
 					print CLIProgressBar::next();
 					if ($t_table->load($vn_pk_val)) {
 						$t_table->logChanges(false);
-						$t_table->setMode(ACCESS_WRITE);
-						$t_table->update();
+$t_table->update();
 					}
 				}
 				print CLIProgressBar::finish();
@@ -399,9 +397,7 @@
 			$o_db = new Db();
 
 			$t_rep = new ca_object_representations();
-			$t_rep->setMode(ACCESS_WRITE);
-
-			$qr_reps = $o_db->query("SELECT * FROM ca_object_representations");
+$qr_reps = $o_db->query("SELECT * FROM ca_object_representations");
 			print CLIProgressBar::start($qr_reps->numRows(), _t('Loading valid file paths from database'))."\n";
 
 			$va_paths = array();
@@ -494,8 +490,7 @@
 			$o_db = new Db();
 
 			$t_rep = new ca_object_representations();
-			$t_rep->setMode(ACCESS_WRITE);
-			$va_paths = array();
+$va_paths = array();
 
 			$qr_reps = $o_db->query("SELECT * FROM ca_object_representations WHERE deleted=1");
 
@@ -515,8 +510,7 @@
 
 				if($vb_delete_opt) {
 					$t_rep->load($qr_reps->get('representation_id'));
-					$t_rep->setMode(ACCESS_WRITE);
-					$t_rep->removeAllLabels();
+$t_rep->removeAllLabels();
 					$t_rep->delete(true, array('hard' => true));
 				}
 			}
@@ -586,9 +580,7 @@
 				if (!$t_instance = Datamodel::getInstanceByTableName($vs_table, true)) { continue; }
 				if (!$t_instance->hasField('deleted')) { continue; }
 			
-				$t_instance->setMode(ACCESS_WRITE);
-
-				$qr_del = $o_db->query("SELECT * FROM {$vs_table} WHERE deleted=1");
+$qr_del = $o_db->query("SELECT * FROM {$vs_table} WHERE deleted=1");
 				if($qr_del->numRows() > 0) {
 					print CLIProgressBar::start($qr_del->numRows(), _t('Removing deleted %1 from database', $t_instance->getProperty('NAME_PLURAL')));
 
@@ -596,8 +588,7 @@
 					while($qr_del->nextRow()) {
 						print CLIProgressBar::next();
 						$t_instance->load($qr_del->get($t_instance->primaryKey()));
-						$t_instance->setMode(ACCESS_WRITE);
-						$t_instance->removeAllLabels();
+$t_instance->removeAllLabels();
 						$t_instance->delete(true, array('hard' => true));
 						$vn_c++;
 					}
@@ -776,9 +767,7 @@
 			$o_db = new Db();
 
 			$t_rep = new ca_object_representations();
-			$t_rep->setMode(ACCESS_WRITE);
-
-			$pa_mimetypes = caGetOption('mimetypes', $po_opts, null, ['delimiter' => [',', ';']]);
+$pa_mimetypes = caGetOption('mimetypes', $po_opts, null, ['delimiter' => [',', ';']]);
 			$pa_versions = caGetOption('versions', $po_opts, null, ['delimiter' => [',', ';']]);
 			$pa_kinds = caGetOption('kinds', $po_opts, 'all', ['forceLowercase' => true, 'validValues' => ['all', 'ca_object_representations', 'ca_attributes'], 'delimiter' => [',', ';']]);
 			
@@ -898,8 +887,7 @@
 							foreach($va_vals as $vn_value_id) {
 								$t_attr_val = new ca_attribute_values($vn_value_id);
 								if ($t_attr_val->getPrimaryKey()) {
-									$t_attr_val->setMode(ACCESS_WRITE);
-									$t_attr_val->useBlobAsMediaField(true);
+$t_attr_val->useBlobAsMediaField(true);
 
 									$va_media_info = $t_attr_val->getMediaInfo('value_blob');
 									$vs_original_filename = is_array($va_media_info) ? $va_media_info['ORIGINAL_FILENAME'] : '';
@@ -977,9 +965,7 @@
 			$o_db = new Db();
 
 			$t_rep = new ca_object_representations();
-			$t_rep->setMode(ACCESS_WRITE);
-
-			$va_versions = array("original");
+$va_versions = array("original");
 			$va_kinds = ($vs_kinds = $po_opts->getOption("kinds")) ? explode(",", $vs_kinds) : array();
 
 			if (!is_array($va_kinds) || !sizeof($va_kinds)) {
@@ -1088,8 +1074,7 @@
 					foreach($va_vals as $vn_value_id) {
 						$t_attr_val = new ca_attribute_values($vn_value_id);
 						if ($t_attr_val->getPrimaryKey()) {
-							$t_attr_val->setMode(ACCESS_WRITE);
-							$t_attr_val->useBlobAsMediaField(true);
+$t_attr_val->useBlobAsMediaField(true);
 
 							$va_media_info = $t_attr_val->getMediaInfo('value_blob');
 							$vs_original_filename = $va_media_info['ORIGINAL_FILENAME'];
@@ -1580,9 +1565,7 @@
 			$o_db = new Db();
 
 			$t_rep = new ca_object_representations();
-			$t_rep->setMode(ACCESS_WRITE);
-
-			if (!($vn_start = (int)$po_opts->getOption('start_id'))) { $vn_start = null; }
+if (!($vn_start = (int)$po_opts->getOption('start_id'))) { $vn_start = null; }
 			if (!($vn_end = (int)$po_opts->getOption('end_id'))) { $vn_end = null; }
 
 			$vs_sql_where = null;
@@ -1610,8 +1593,7 @@
 			while($qr_reps->nextRow()) {
 				$t_instance = new ca_representation_annotations($vn_id = $qr_reps->get('annotation_id'));
 				print CLIProgressBar::next(1, _t('Annotation %1', $vn_id));
-				$t_instance->setMode(ACCESS_WRITE);
-				$t_instance->update(array('forcePreviewGeneration' => true));
+$t_instance->update(array('forcePreviewGeneration' => true));
 
 				$vn_c++;
 			}
@@ -1896,8 +1878,7 @@
 				return false;
 			}
 			
-			$t_user->setMode(ACCESS_WRITE);
-			$t_user->set('password', $vs_password);
+$t_user->set('password', $vs_password);
 			$t_user->update();
 			if ($t_user->numErrors()) {
 				CLIUtils::addError(_t("Password change for user %1 failed: %2", $vs_user_name, join("; ", $t_user->getErrors())));
@@ -2053,8 +2034,7 @@
 				$t_entry->set('bundle_name', $va_data[0]);
 				$vn_add_count++;
 
-				$t_entry->setMode(ACCESS_WRITE);
-				$t_entry->setSetting('label', '');
+$t_entry->setSetting('label', '');
 				$t_entry->setSetting('definition', $va_data[2]);
 				$t_entry->setSetting('mandatory', (bool)$va_data[1] ? 1 : 0);
 
@@ -2091,8 +2071,7 @@
 					}
 					foreach($va_rules as $va_rule) {
 						$t_rule = new ca_metadata_dictionary_rules();
-						$t_rule->setMode(ACCESS_WRITE);
-						$t_rule->set('entry_id', $t_entry->getPrimaryKey());
+$t_rule->set('entry_id', $t_entry->getPrimaryKey());
 						$t_rule->set('rule_code', (string)$va_rule['ruleCode']);
 						$t_rule->set('rule_level', (string)$va_rule['ruleLevel']);
 						$t_rule->set('expression', (string)$va_rule['expression']);
@@ -2210,11 +2189,9 @@
 					if (!$vb_skip && ExpressionParser::evaluate($va_rule['expression'], $va_row)) {
 						// violation
 						if ($t_violation->getPrimaryKey()) {
-							$t_violation->setMode(ACCESS_WRITE);
-							$t_violation->update();
+$t_violation->update();
 						} else {
-							$t_violation->setMode(ACCESS_WRITE);
-							$t_violation->set('rule_id', $va_rule['rule_id']);
+$t_violation->set('rule_id', $va_rule['rule_id']);
 							$t_violation->set('table_num', $t_instance->tableNum());
 							$t_violation->set('row_id', $qr_records->getPrimaryKey());
 							$t_violation->insert();
@@ -2409,8 +2386,7 @@
 							foreach($va_vals as $vn_value_id) {
 								$t_attr_val = new ca_attribute_values($vn_value_id);
 								if ($t_attr_val->getPrimaryKey()) {
-									$t_attr_val->setMode(ACCESS_WRITE);
-									$t_attr_val->useBlobAsMediaField(true);
+$t_attr_val->useBlobAsMediaField(true);
 
 
 									print CLIProgressBar::next(1, _t("Checking attribute media %1", $vn_value_id));
@@ -2485,8 +2461,7 @@
 							foreach($va_vals as $vn_value_id) {
 								$t_attr_val = new ca_attribute_values($vn_value_id);
 								if ($t_attr_val->getPrimaryKey()) {
-									$t_attr_val->setMode(ACCESS_WRITE);
-									$t_attr_val->useBlobAsFileField(true);
+$t_attr_val->useBlobAsFileField(true);
 
 
 									print CLIProgressBar::next(1, _t("Checking attribute file %1", $vn_value_id));
@@ -3425,8 +3400,7 @@
 			
 			if (!($t_list = ca_lists::find(['list_code' => $ps_list_code], ['returnAs' => 'firstModelInstance']))) {
 				$t_list = new ca_lists();
-				$t_list->setMode(ACCESS_WRITE);
-				$t_list->set('list_code', $ps_list_code);
+$t_list->set('list_code', $ps_list_code);
 				$t_list->set('is_system_list', 1);
 				$t_list->set('is_hierarchical', 1);
 				$t_list->set('use_as_vocabulary', 1);
@@ -3531,8 +3505,7 @@
 						}
 						
 						if ($vn_parent_id != $t_item->get('ca_list_items.parent_id')) {
-							$t_item->setMode(ACCESS_WRITE);
-							$t_item->set('parent_id', $vn_parent_id);
+$t_item->set('parent_id', $vn_parent_id);
 							if (!$t_item->update()) {
 								CLIUtils::addError(_t("Could not update parent for term %1: %2", $vs_term, join("; ", $t_item->getErrors())));
 							}
@@ -4496,8 +4469,7 @@
 			                    
 			                    $va_values[$va_element['element_code']] = $vs_processed_value;
 			                    if (!$t_instance->load($vn_row_id)) { continue; }
-			                    $t_instance->setMode(ACCESS_WRITE);
-			                    $t_instance->editAttribute(
+$t_instance->editAttribute(
 			                        $vn_attr_id, $vn_root_id, $va_values
 			                    );
 			                    $t_instance->update();

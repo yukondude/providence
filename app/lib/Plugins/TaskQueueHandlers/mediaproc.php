@@ -455,8 +455,7 @@ include_once(__CA_LIB_DIR__."/Logging/Eventlog.php");
 					$va_merged_media_desc[$vs_k] = $va_v;
 				}
 				
-				$t_instance->setMode(ACCESS_WRITE);
-				$t_instance->setMediaInfo($vs_field, $va_merged_media_desc);
+$t_instance->setMediaInfo($vs_field, $va_merged_media_desc);
 				
 				$t_instance->update();
 				if ($t_instance->numErrors()) {

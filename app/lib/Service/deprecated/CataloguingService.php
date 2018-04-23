@@ -589,12 +589,10 @@ class CataloguingService extends BaseService {
 				if(!$t_instance->load($pn_type_id_to_load)){
 					return false;
 				} else {
-					$t_instance->setMode(ACCESS_WRITE);
-					return $t_instance;
+return $t_instance;
 				}
 			} else {
-				$t_instance->setMode(ACCESS_WRITE);
-				return $t_instance;
+return $t_instance;
 			}
 		}
 	}
@@ -611,8 +609,7 @@ class CataloguingService extends BaseService {
 			if(!$t_rel_instance->load($pn_relation_id)){
 				throw new SoapFault("Server", "Invalid relation ID");
 			} else {
-				$t_rel_instance->setMode(ACCESS_WRITE);
-				return $t_rel_instance;
+return $t_rel_instance;
 			}
 		} else {
 			throw new SoapFault("Server", "There is no applicable path from {$ps_left_table} to {$ps_right_table}");

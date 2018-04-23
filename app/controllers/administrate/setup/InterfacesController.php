@@ -79,8 +79,7 @@ class InterfacesController extends BaseEditorController {
 		
 		$t_ui = new ca_editor_uis();
 		if (!$t_ui->load(array('editor_type' => 101))) {
-			$t_ui->setMode(ACCESS_WRITE);
-			$t_ui->set('user_id', null);
+$t_ui->set('user_id', null);
 			$t_ui->set('is_system_ui', 1);
 			$t_ui->set('editor_type', 101);
 			$t_ui->set('editor_code', 'ui_editor');
@@ -101,8 +100,7 @@ class InterfacesController extends BaseEditorController {
 			$vn_ui_id = $t_ui->getPrimaryKey();
 			
 			$t_screen = new ca_editor_ui_screens();
-			$t_screen->setMode(ACCESS_WRITE);
-			$t_screen->set('ui_id', $vn_ui_id);
+$t_screen->set('ui_id', $vn_ui_id);
 			$t_screen->set('idno', 'basic_'.$vn_ui_id);
 			$t_screen->set('rank', 1);
 			$t_screen->set('is_default', 1);
@@ -128,8 +126,7 @@ class InterfacesController extends BaseEditorController {
 		}
 		
 		if (!$t_ui->load(array('editor_type' => 100))) {
-			$t_ui->setMode(ACCESS_WRITE);
-			$t_ui->set('user_id', null);
+$t_ui->set('user_id', null);
 			$t_ui->set('is_system_ui', 1);
 			$t_ui->set('editor_type', 100);
 			$t_ui->set('color', 'CC0000');
@@ -150,8 +147,7 @@ class InterfacesController extends BaseEditorController {
 			$vn_ui_id = $t_ui->getPrimaryKey();
 			
 			$t_screen = new ca_editor_ui_screens();
-			$t_screen->setMode(ACCESS_WRITE);
-			$t_screen->set('ui_id', $vn_ui_id);
+$t_screen->set('ui_id', $vn_ui_id);
 			$t_screen->set('idno', 'basic_'.$vn_ui_id);
 			$t_screen->set('rank', 1);
 			$t_screen->set('is_default', 1);

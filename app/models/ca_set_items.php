@@ -556,8 +556,7 @@ class ca_set_items extends BundlableLabelableBaseModelWithAttributes {
 		
 		$va_reps = $this->getSelectedRepresentationIDs();
 		$va_reps[$pn_representation_id] = 1;
-		$this->setMode(ACCESS_WRITE);
-		$this->setVar('selected_representations', $va_reps);
+$this->setVar('selected_representations', $va_reps);
 	}
 	# ----------------------------------------
 	/**
@@ -568,8 +567,7 @@ class ca_set_items extends BundlableLabelableBaseModelWithAttributes {
 		
 		$va_reps = $this->getSelectedRepresentationIDs();
 		unset($va_reps[$pn_representation_id]);
-		$this->setMode(ACCESS_WRITE);
-		$this->setVar('selected_representations', $va_reps);
+$this->setVar('selected_representations', $va_reps);
 	}
 	
 	# ----------------------------------------

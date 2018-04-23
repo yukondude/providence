@@ -47,8 +47,7 @@
  *         self::_switchInTestPlugin('fancyPants', new fancyPantsPlugin(__DIR__ . '/conf/integration'));
  *         // Now create the reference data you need for the test, for example:
  *         $vo_test_collection = new ca_collections();
- *         $vo_test_collection->setMode(ACCESS_WRITE);
- *         $vo_test_collection->set(array( 'idno' => self::_getIdno('test_collection'), 'name' => 'test collection' )); // and perform any other object setup
+ **         $vo_test_collection->set(array( 'idno' => self::_getIdno('test_collection'), 'name' => 'test collection' )); // and perform any other object setup
  *         $vo_test_collection->insert();
  *         self::_recordCreatedInstance($vo_test_collection, 'test_collection');
  *     }
@@ -128,8 +127,7 @@ abstract class AbstractPluginIntegrationTest extends PHPUnit_Framework_TestCase 
 		foreach (self::$s_created_instances as $va_instances) {
 			/** @var BundlableLabelableBaseModelWithAttributes $vo_instance */
 			foreach ($va_instances as $vo_instance) {
-				$vo_instance->setMode(ACCESS_WRITE);
-				$vo_instance->delete(true, array( 'hard' => true ));
+$vo_instance->delete(true, array( 'hard' => true ));
 			}
 		}
 	}
@@ -215,8 +213,7 @@ abstract class AbstractPluginIntegrationTest extends PHPUnit_Framework_TestCase 
 
 	protected static function _createRelationshipType($ps_code_base, $ps_table_name) {
 		$vo_relationship_type = new ca_relationship_types();
-		$vo_relationship_type->setMode(ACCESS_WRITE);
-		$vo_relationship_type->set(array(
+$vo_relationship_type->set(array(
 				'type_code' => self::_getIdno($ps_code_base),
 				'table_num' => Datamodel::getTableNum($ps_table_name)
 		));
@@ -236,8 +233,7 @@ abstract class AbstractPluginIntegrationTest extends PHPUnit_Framework_TestCase 
 
 	protected static function _createList($ps_idno_base) {
 		$vo_list = new ca_lists();
-		$vo_list->setMode(ACCESS_WRITE);
-		$vo_list->set(array(
+$vo_list->set(array(
 			'list_code' => self::_getIdno($ps_idno_base)
 		));
 		$vo_list->insert();
@@ -247,8 +243,7 @@ abstract class AbstractPluginIntegrationTest extends PHPUnit_Framework_TestCase 
 
 	protected static function _createListItem($ps_idno_base, $pn_list_id, $ps_type_code = null) {
 		$vo_list_item = new ca_list_items();
-		$vo_list_item->setMode(ACCESS_WRITE);
-		/** @var ca_list_items $vo_test_list_item_type_list_item */
+/** @var ca_list_items $vo_test_list_item_type_list_item */
 		$vo_test_list_item_type_list_item = null;
 		if (!is_null($ps_type_code)) {
 			$vo_test_list_item_type_list_item = self::_retrieveCreatedInstance('ca_list_items', $ps_type_code);
@@ -278,8 +273,7 @@ abstract class AbstractPluginIntegrationTest extends PHPUnit_Framework_TestCase 
 
 	protected static function _createMetadataElement($ps_code_base, $ps_datatype = __CA_ATTRIBUTE_VALUE_TEXT__) {
 		$vo_metadata_element = new ca_metadata_elements();
-		$vo_metadata_element->setMode(ACCESS_WRITE);
-		$vo_metadata_element->set(array(
+$vo_metadata_element->set(array(
 				'element_code' => self::_getIdno($ps_code_base),
 				'datatype' => $ps_datatype
 		));
@@ -290,8 +284,7 @@ abstract class AbstractPluginIntegrationTest extends PHPUnit_Framework_TestCase 
 
 	protected static function _createCollection($ps_idno_base) {
 		$vo_collection = new ca_collections();
-		$vo_collection->setMode(ACCESS_WRITE);
-		$vo_test_collection_type_list_item = self::_retrieveCreatedInstance('ca_list_items', 'test_collection_type');
+$vo_test_collection_type_list_item = self::_retrieveCreatedInstance('ca_list_items', 'test_collection_type');
 		if (is_null($vo_test_collection_type_list_item)) {
 			$vo_test_collection_type_list_item = self::_createListItem('test_collection_type', BaseModel::$s_ca_models_definitions['ca_collections']['FIELDS']['type_id']['LIST_CODE']);
 		}
@@ -317,8 +310,7 @@ abstract class AbstractPluginIntegrationTest extends PHPUnit_Framework_TestCase 
 
 	protected static function _createEntity($ps_idno_base) {
 		$vo_entity = new ca_entities();
-		$vo_entity->setMode(ACCESS_WRITE);
-		$vo_test_entity_type_list_item = self::_retrieveCreatedInstance('ca_list_items', 'test_entity_type');
+$vo_test_entity_type_list_item = self::_retrieveCreatedInstance('ca_list_items', 'test_entity_type');
 		if (is_null($vo_test_entity_type_list_item)) {
 			$vo_test_entity_type_list_item = self::_createListItem('test_entity_type', BaseModel::$s_ca_models_definitions['ca_entities']['FIELDS']['type_id']['LIST_CODE']);
 		}

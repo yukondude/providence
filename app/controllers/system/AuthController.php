@@ -170,8 +170,7 @@
 						$this->render('password_reset_form_html.php');
 					} else {
 						$t_user->set('password', $vs_pw);
-						$t_user->setMode(ACCESS_WRITE);
-						$t_user->update();
+$t_user->update();
 
 						$this->notification->addNotification(_t("Password was successfully changed. You can now log in with your new password."), __NOTIFICATION_TYPE_INFO__);
 						$this->view->setVar('notifications', $this->notification->getNotifications());

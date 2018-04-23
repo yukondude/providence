@@ -528,8 +528,7 @@
 			}
 			
 			if (!$vn_rep_id) {
-				$t_rep->setMode(ACCESS_WRITE);
-				$t_rep->set('type_id', $pn_type_id);
+$t_rep->set('type_id', $pn_type_id);
 				$t_rep->set('locale_id', $pn_locale_id);
 				$t_rep->set('status', $pn_status);
 				$t_rep->set('access', $pn_access);
@@ -580,9 +579,7 @@
 				}
 			} else {
 				$t_rep->load($vn_rep_id);
-				$t_rep->setMode(ACCESS_WRITE);
-				
-				$t_rep->set('status', $pn_status);
+$t_rep->set('status', $pn_status);
 				$t_rep->set('access', $pn_access);
 				if ($ps_media_path) { $t_rep->set('media', $ps_media_path, $pa_options); }
 		
@@ -632,8 +629,7 @@
 			$vs_pk = $this->primaryKey();
 			
 			if ($this->inTransaction()) { $t_oxor->setTransaction($this->getTransaction()); }
-			$t_oxor->setMode(ACCESS_WRITE);
-			$t_oxor->set($vs_pk, $vn_id);
+$t_oxor->set($vs_pk, $vn_id);
 			$t_oxor->set('representation_id', $t_rep->getPrimaryKey());
 			$t_oxor->set('is_primary', $pb_is_primary ? 1 : 0);
 			$t_oxor->set('rank', isset($pa_options['rank']) ? (int)$pa_options['rank'] : $t_rep->getPrimaryKey());
@@ -692,8 +688,7 @@
 				$this->postError(750, _t("Representation id=%1 does not exist", $pn_representation_id), "RepresentableBaseModel->editRepresentation()");
 				return false;
 			} else {
-				$t_rep->setMode(ACCESS_WRITE);
-				if ($pn_locale_id) { $t_rep->set('locale_id', $pn_locale_id); }
+if ($pn_locale_id) { $t_rep->set('locale_id', $pn_locale_id); }
 				if (!is_null($pn_status)) { $t_rep->set('status', $pn_status); }
 				if (!is_null($pn_access)) { $t_rep->set('access', $pn_access); }
 				if ($pm_type_id = caGetOption('type_id', $pa_options, null)) {  $t_rep->set('type_id', $pm_type_id, ['allowSettingOfTypeID' => true]); }
@@ -760,8 +755,7 @@
 					$this->postError(750, _t("Representation id=%1 is not related to %3 id=%2", $pn_representation_id, $vn_id, $this->getProperty('NAME_SINGULAR')), "RepresentableBaseModel->editRepresentation()");
 					return false;
 				} else {
-					$t_oxor->setMode(ACCESS_WRITE);
-					if (!is_null($pb_is_primary)) {
+if (!is_null($pb_is_primary)) {
 						$t_oxor->set('is_primary', (bool)$pb_is_primary ? 1 : 0);
 					}
 					if (isset($pa_options['rank']) && ($vn_rank = (int)$pa_options['rank'])) {
@@ -802,8 +796,7 @@
 						if ($t_rel->hasField('is_primary') && $t_rel->get('is_primary')) {
 							$vb_update_is_primary = true;
 						}
-						$t_rel->setMode(ACCESS_WRITE);
-						$t_rel->delete();
+$t_rel->delete();
 						if ($t_rel->numErrors()) {
 							$this->errors = array_merge($this->errors, $t_rel->errors());
 							return false;
@@ -812,8 +805,7 @@
 						if (($vb_update_is_primary) && (is_array($va_rels = call_user_func("{$vs_rel_table}::find", [$this->primaryKey() => $this->getPrimaryKey()], ['returnAs' => 'arrays']))) && sizeof($va_rels)) {
 							if(!sizeof($va_primary_rels = array_filter($va_rels, function($v) { return (bool)$v['is_primary']; }))) {	// no primary rels
 								$t_rel->load($va_rels[0]['relation_id']);
-								$t_rel->setMode(ACCESS_WRITE);
-								$t_rel->set('is_primary', 1);
+$t_rel->set('is_primary', 1);
 								$t_rel->update();
 								if ($t_rel->numErrors()) {
 									$this->errors = array_merge($this->errors, $t_rel->errors());
@@ -844,8 +836,7 @@
 				}
 
 				if (!is_array($va_rels) || (sizeof($va_rels) == 0)) {
-					$t_rep->setMode(ACCESS_WRITE);
-					$t_rep->delete(true, $pa_options);
+$t_rep->delete(true, $pa_options);
 				
 					if ($t_rep->numErrors()) {
 						$this->errors = array_merge($this->errors, $t_rep->errors());
@@ -897,8 +888,7 @@
 			if ($this->inTransaction()) {
 				$t_oxor->setTransaction($this->getTransaction());
 			}
-			$t_oxor->setMode(ACCESS_WRITE);
-			$t_oxor->set($vs_pk, $vn_id);
+$t_oxor->set($vs_pk, $vn_id);
 			$t_oxor->set('representation_id', $pn_representation_id);
 			$t_oxor->set('is_primary', $pb_is_primary ? 1 : 0);
 			$t_oxor->set('rank', isset($pa_options['rank']) ? (int)$pa_options['rank'] : $pn_representation_id);

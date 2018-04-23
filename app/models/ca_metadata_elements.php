@@ -1343,8 +1343,7 @@ class ca_metadata_elements extends LabelableBaseModelWithAttributes implements I
 		if (!is_array($pa_settings)) { $pa_settings = array(); }
 
 		$t_restriction = new ca_metadata_type_restrictions();
-		$t_restriction->setMode(ACCESS_WRITE);
-		$t_restriction->set('table_num', $pn_table_num);
+$t_restriction->set('table_num', $pn_table_num);
 		$t_restriction->set('type_id', $pn_type_id);
 		$t_restriction->set('element_id', $this->getPrimaryKey());
 		foreach($pa_settings as $vs_setting => $vs_setting_value) {
@@ -1538,7 +1537,7 @@ class ca_metadata_elements extends LabelableBaseModelWithAttributes implements I
 	public function htmlFormElement($ps_field, $ps_format=null, $pa_options=null) {
 		if ($ps_field == 'list_id') {
 			// Custom list drop-down
-			$vs_format = $this->_CONFIG->get('form_element_display_format');
+			$vs_format = self::$_CONFIG->get('form_element_display_format');
 
 			$t_list = new ca_lists();
 			$va_lists = caExtractValuesByUserLocale($t_list->getListOfLists());

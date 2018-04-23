@@ -421,8 +421,7 @@ class ca_relationship_types extends BundlableLabelableBaseModelWithAttributes {
 		
 		if (isset($pa_options['create']) && $pa_options['create'] && $pn_locale_id && is_array($pa_values)) {
 			$t_rel = new ca_relationship_types();
-			$t_rel->setMode(ACCESS_WRITE);
-			$t_rel->set('type_code', $pm_type_code_or_id);
+$t_rel->set('type_code', $pm_type_code_or_id);
 			$t_rel->set('table_num', $vn_table_num);
 			$t_rel->set('sub_type_left_id', isset($pa_values['sub_type_left_id']) ? (int)$pa_values['sub_type_left_id'] : null);
 			$t_rel->set('include_subtypes_left', (isset($pa_values['include_subtypes_left']) && (bool)$pa_values['include_subtypes_left']) ? 1 : 0);
