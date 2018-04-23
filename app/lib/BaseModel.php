@@ -137,14 +137,6 @@ class BaseModel extends BaseObject {
 	# --------------------------------------------------------------------------------
 	# --- Properties
 	# --------------------------------------------------------------------------------
-	/**
-	 * representation of the access mode of the current instance.
-	 * 0 (ACCESS_READ) means read-only,
-	 * 1 (ACCESS_WRITE) characterizes a BaseModel instance that is able to write to the database.
-	 *
-	 * @access private
-	 */
-	private $ACCESS_MODE;
 
 	/**
 	 * local Db object for database access
@@ -158,13 +150,13 @@ class BaseModel extends BaseObject {
 	 *
 	 * @access private
 	 */
-	var $debug = false;
+	public $debug = false;
 
 
 	/**
 	 * @access private
 	 */
-	var $_FIELD_VALUES;
+	protected $_FIELD_VALUES;
 
 	/**
 	 * @access protected
@@ -179,7 +171,7 @@ class BaseModel extends BaseObject {
 	/**
 	 * @access private
 	 */
-	var $_FIELD_VALUES_OLD;
+	protected $_FIELD_VALUES_OLD;
 
 	/**
 	 * @access private
@@ -209,6 +201,11 @@ class BaseModel extends BaseObject {
 	 * @access private
 	 */
 	protected static $_FILE_VOLUMES;
+	
+	/**
+	 *
+	 */
+	protected static $_APPLICATION_PLUGIN_MANAGER;
 
 	/**
 	 * if true, DATETIME fields take Unix date/times,
@@ -244,7 +241,7 @@ class BaseModel extends BaseObject {
 	 *
 	 * @access private
 	 */
-	var $ops_locale = "en_us";				#
+	protected $ops_locale = "en_us";
 
 	/**
 	 * prepared change log statement (primary log entry)
@@ -397,6 +394,7 @@ class BaseModel extends BaseObject {
 		if (!self::$_TRANSLATIONS) { self::$_TRANSLATIONS = Configuration::load(__CA_CONF_DIR__."/translations.conf"); }
 		if (!self::$_MEDIA_VOLUMES) { self::$_MEDIA_VOLUMES = MediaVolumes::load(); }
 		if (!self::$_FILE_VOLUMES) { self::$_FILE_VOLUMES = FileVolumes::load(); }
+ 		if (!self::$_APPLICATION_PLUGIN_MANAGER) { self::$_APPLICATION_PLUGIN_MANAGER = new ApplicationPluginManager(); }
 		
 		$this->_FIELD_VALUE_CHANGED = $this->_FIELD_VALUE_DID_CHANGE = [];
 		$this->_FILES_CLEAR = [];
@@ -408,7 +406,6 @@ class BaseModel extends BaseObject {
 		
 		$this->opb_purify_input = strlen(self::$_CONFIG->get("purify_all_text_input")) ? (bool)self::$_CONFIG->get("purify_all_text_input") : true;
 		
- 		$this->opo_app_plugin_manager = new ApplicationPluginManager();
 
 		if ($pn_id) { $this->load($pn_id, $pb_use_cache);}
 	}
@@ -1591,19 +1588,17 @@ class BaseModel extends BaseObject {
 									$this->_FIELD_VALUE_CHANGED[$vs_field] = true;
 								}
 								$this->_FIELD_VALUES[$vs_field] = $vs_value_entity_encoded;
-							} else {
-								if ($this->getFieldInfo($vs_field, "URL_ENCODE_INPUT")) {
-									$vs_value_url_encoded = urlencode($vm_value);
-									if ($vs_cur_value !== $vs_value_url_encoded) {
-										$this->_FIELD_VALUE_CHANGED[$vs_field] = true;
-									}
-									$this->_FIELD_VALUES[$vs_field] = $vs_value_url_encoded;
-								} else {
-									if ($vs_cur_value !== $vm_value) {
-										$this->_FIELD_VALUE_CHANGED[$vs_field] = true;
-									}
-									$this->_FIELD_VALUES[$vs_field] = $vm_value;
+							} elseif ($this->getFieldInfo($vs_field, "URL_ENCODE_INPUT")) {
+								$vs_value_url_encoded = urlencode($vm_value);
+								if ($vs_cur_value !== $vs_value_url_encoded) {
+									$this->_FIELD_VALUE_CHANGED[$vs_field] = true;
 								}
+								$this->_FIELD_VALUES[$vs_field] = $vs_value_url_encoded;
+							} else {
+								if ($vs_cur_value !== $vm_value) {
+									$this->_FIELD_VALUE_CHANGED[$vs_field] = true;
+								}
+								$this->_FIELD_VALUES[$vs_field] = $vm_value;
 							}
 						}
 						break;
@@ -1919,7 +1914,7 @@ class BaseModel extends BaseObject {
 		if ($pb_use_cache && is_numeric($pm_id) && isset(BaseModel::$s_instance_cache[$vs_table_name][(int)$pm_id]) && is_array(BaseModel::$s_instance_cache[$vs_table_name][(int)$pm_id])) {
 			$this->_FIELD_VALUES = BaseModel::$s_instance_cache[$vs_table_name][(int)$pm_id];
 			$this->_FIELD_VALUES_OLD = $this->_FIELD_VALUES;
-			$this->_FILES_CLEAR = array();
+			$this->_FILES_CLEAR = [];
 			$this->opn_instantiated_at = time();
 			return true;
 		}
@@ -3758,7 +3753,7 @@ if (!isset($pa_options['dontSetHierarchicalIndexing']) || !$pa_options['dontSetH
 	 * 
 	 * @access public
 	 */
-	public function clear () {
+	public function clear() {
 		$this->clearErrors();
 
 		foreach($this->FIELDS as $field => $attr) {
@@ -3775,7 +3770,7 @@ if (!isset($pa_options['dontSetHierarchicalIndexing']) || !$pa_options['dontSetH
 	 * 
 	 * @access public
 	 */ 
-	public function dump () {
+	public function dump() {
 		$this->clearErrors();
 		reset($this->FIELDS);
 		while (list($field, $attr) = each($this->FIELDS)) {
@@ -3809,7 +3804,7 @@ if (!isset($pa_options['dontSetHierarchicalIndexing']) || !$pa_options['dontSetH
      * @param int $pn_type_id Optional record type
 	 * @return bool
 	 */ 
-	public function hasBundle ($ps_bundle, $pn_type_id=null) {
+	public function hasBundle($ps_bundle, $pn_type_id=null) {
 		$va_bundle_bits = explode(".", $ps_bundle);
 		$vn_num_bits = sizeof($va_bundle_bits);
 	
@@ -8998,10 +8993,7 @@ $pa_options["display_form_field_tips"] = true;
 	 * Destructor
 	 */
 	public function __destruct() {
-		//print "Destruct ".$this->tableName()."\n";
-		//print (memory_get_usage()/1024)." used in ".$this->tableName()." destructor\n";
 		unset($this->o_db);
-		unset($this->opo_app_plugin_manager);
 		unset($this->_TRANSACTION);
 		
 		parent::__destruct();

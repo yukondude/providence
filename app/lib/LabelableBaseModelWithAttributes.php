@@ -145,11 +145,11 @@
 			
 			$t_label->set($this->primaryKey(), $vn_id);
 			
-			$this->opo_app_plugin_manager->hookBeforeLabelInsert(array('id' => $this->getPrimaryKey(), 'table_num' => $this->tableNum(), 'table_name' => $this->tableName(), 'instance' => $this, 'label_instance' => $t_label));
+			self::$_APPLICATION_PLUGIN_MANAGER->hookBeforeLabelInsert(array('id' => $this->getPrimaryKey(), 'table_num' => $this->tableNum(), 'table_name' => $this->tableName(), 'instance' => $this, 'label_instance' => $t_label));
 		
 			$vn_label_id = $t_label->insert(array('queueIndexing' => $pb_queue_indexing, 'subject' => $this));
 			
-			$this->opo_app_plugin_manager->hookAfterLabelInsert(array('id' => $this->getPrimaryKey(), 'table_num' => $this->tableNum(), 'table_name' => $this->tableName(), 'instance' => $this, 'label_instance' => $t_label));
+			self::$_APPLICATION_PLUGIN_MANAGER->hookAfterLabelInsert(array('id' => $this->getPrimaryKey(), 'table_num' => $this->tableNum(), 'table_name' => $this->tableName(), 'instance' => $this, 'label_instance' => $t_label));
 		
 			if ($t_label->numErrors()) { 
 				$this->errors = $t_label->errors; //array_merge($this->errors, $t_label->errors);
@@ -234,12 +234,12 @@
 			
 			$t_label->set($this->primaryKey(), $vn_id);
 			
-			$this->opo_app_plugin_manager->hookBeforeLabelUpdate(array('id' => $this->getPrimaryKey(), 'table_num' => $this->tableNum(), 'table_name' => $this->tableName(), 'instance' => $this, 'label_instance' => $t_label));
+			self::$_APPLICATION_PLUGIN_MANAGER->hookBeforeLabelUpdate(array('id' => $this->getPrimaryKey(), 'table_num' => $this->tableNum(), 'table_name' => $this->tableName(), 'instance' => $this, 'label_instance' => $t_label));
 		
 			try {
 				$t_label->update(array('queueIndexing' => $pb_queue_indexing, 'subject' => $this));
 			
-				$this->opo_app_plugin_manager->hookAfterLabelUpdate(array('id' => $this->getPrimaryKey(), 'table_num' => $this->tableNum(), 'table_name' => $this->tableName(), 'instance' => $this, 'label_instance' => $t_label));
+				self::$_APPLICATION_PLUGIN_MANAGER->hookAfterLabelUpdate(array('id' => $this->getPrimaryKey(), 'table_num' => $this->tableNum(), 'table_name' => $this->tableName(), 'instance' => $this, 'label_instance' => $t_label));
 		
 				if ($t_label->numErrors()) { 
 					$this->errors = $t_label->errors;
@@ -278,11 +278,11 @@
  			
  			if (!($t_label->get($this->primaryKey()) == $this->getPrimaryKey())) { return null; }
  			
- 			$this->opo_app_plugin_manager->hookBeforeLabelDelete(array('id' => $this->getPrimaryKey(), 'table_num' => $this->tableNum(), 'table_name' => $this->tableName(), 'instance' => $this, 'label_instance' => $t_label));
+ 			self::$_APPLICATION_PLUGIN_MANAGER->hookBeforeLabelDelete(array('id' => $this->getPrimaryKey(), 'table_num' => $this->tableNum(), 'table_name' => $this->tableName(), 'instance' => $this, 'label_instance' => $t_label));
 
  			$t_label->delete(false, array('queueIndexing' => $pb_queue_indexing));
  			
- 			$this->opo_app_plugin_manager->hookAfterLabelDelete(array('id' => $this->getPrimaryKey(), 'table_num' => $this->tableNum(), 'table_name' => $this->tableName(), 'instance' => $this, 'label_instance' => $t_label));
+ 			self::$_APPLICATION_PLUGIN_MANAGER->hookAfterLabelDelete(array('id' => $this->getPrimaryKey(), 'table_num' => $this->tableNum(), 'table_name' => $this->tableName(), 'instance' => $this, 'label_instance' => $t_label));
 		
  			if ($t_label->numErrors()) { 
 				$this->errors = array_merge($this->errors, $t_label->errors);

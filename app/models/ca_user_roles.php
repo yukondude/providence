@@ -188,8 +188,6 @@ class ca_user_roles extends BaseModel {
 
 	protected $FIELDS;
 	
-	protected $opo_app_plugin_manager;
-	
 	static $s_action_list;
 	static $s_bundle_list;
 	
@@ -207,7 +205,6 @@ class ca_user_roles extends BaseModel {
 	public function __construct($pn_id=null) {
 		parent::__construct($pn_id);	# call superclass constructor
 		
- 		$this->opo_app_plugin_manager = new ApplicationPluginManager();
 		$this->opo_widget_manager = new WidgetManager();
 
 		ca_user_roles::$s_bundle_list = array();

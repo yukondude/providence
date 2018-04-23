@@ -154,7 +154,7 @@ class BundlableLabelableBaseModelWithAttributes extends LabelableBaseModelWithAt
 				$vb_we_set_transaction = true;
 			}
 		
-			$this->opo_app_plugin_manager->hookBeforeBundleInsert(array('id' => null, 'table_num' => $this->tableNum(), 'table_name' => $this->tableName(), 'instance' => $this));
+			self::$_APPLICATION_PLUGIN_MANAGER->hookBeforeBundleInsert(array('id' => null, 'table_num' => $this->tableNum(), 'table_name' => $this->tableName(), 'instance' => $this));
 		
 			$vb_web_set_change_log_unit_id = BaseModel::setChangeLogUnitID();
 		
@@ -268,7 +268,7 @@ class BundlableLabelableBaseModelWithAttributes extends LabelableBaseModelWithAt
 		
 		if ($vb_web_set_change_log_unit_id) { BaseModel::unsetChangeLogUnitID(); }
 	
-		$this->opo_app_plugin_manager->hookAfterBundleInsert(array('id' => $this->getPrimaryKey(), 'table_num' => $this->tableNum(), 'table_name' => $this->tableName(), 'instance' => $this));
+		self::$_APPLICATION_PLUGIN_MANAGER->hookAfterBundleInsert(array('id' => $this->getPrimaryKey(), 'table_num' => $this->tableNum(), 'table_name' => $this->tableName(), 'instance' => $this));
 		
 		if ($vb_we_set_transaction) { $this->removeTransaction(true); }
 		
@@ -300,7 +300,7 @@ class BundlableLabelableBaseModelWithAttributes extends LabelableBaseModelWithAt
 		
 		$vb_web_set_change_log_unit_id = BaseModel::setChangeLogUnitID();
 		
-		$this->opo_app_plugin_manager->hookBeforeBundleUpdate(array('id' => $this->getPrimaryKey(), 'table_num' => $this->tableNum(), 'table_name' => $this->tableName(), 'instance' => $this));
+		self::$_APPLICATION_PLUGIN_MANAGER->hookBeforeBundleUpdate(array('id' => $this->getPrimaryKey(), 'table_num' => $this->tableNum(), 'table_name' => $this->tableName(), 'instance' => $this));
 		
 		$va_errors = array();
 		if (!$this->_validateIncomingAdminIDNo(true, false)) { 
@@ -336,7 +336,7 @@ class BundlableLabelableBaseModelWithAttributes extends LabelableBaseModelWithAt
 		$vn_rc = parent::update($pa_options);
 		$this->errors = array_merge($this->errors, $va_errors);
 		
-		$this->opo_app_plugin_manager->hookAfterBundleUpdate(array('id' => $this->getPrimaryKey(), 'table_num' => $this->tableNum(), 'table_name' => $this->tableName(), 'instance' => $this));
+		self::$_APPLICATION_PLUGIN_MANAGER->hookAfterBundleUpdate(array('id' => $this->getPrimaryKey(), 'table_num' => $this->tableNum(), 'table_name' => $this->tableName(), 'instance' => $this));
 		
 		if ($vb_web_set_change_log_unit_id) { BaseModel::unsetChangeLogUnitID(); }
 		
@@ -661,7 +661,7 @@ class BundlableLabelableBaseModelWithAttributes extends LabelableBaseModelWithAt
 	private function _validateIncomingAdminIDNo($pb_post_errors=true, $pb_dont_validate_idnos_for_parents_in_mono_hierarchies=false) {
 	
 		// we should not bother to validate
-		$vn_hier_type = $this->getHierarchyType();
+		$vn_hier_type = $this->isHierarchical() ? $this->getHierarchyType() : null;
 		if ($pb_dont_validate_idnos_for_parents_in_mono_hierarchies && in_array($vn_hier_type, array(__CA_HIER_TYPE_SIMPLE_MONO__, __CA_HIER_TYPE_MULTI_MONO__)) && ($this->get('parent_id') == null)) { return true; }
 		
 		if ($vs_idno_field = $this->getProperty('ID_NUMBERING_ID_FIELD')) {
@@ -6954,7 +6954,7 @@ side. For many self-relations the direction determines the nature and display te
 	 */
 	public function addRelationship($pm_rel_table_name_or_num, $pn_rel_id, $pm_type_id=null, $ps_effective_date=null, $ps_source_info=null, $ps_direction=null, $pn_rank=null, $pa_options=null) {
 
-		$this->opo_app_plugin_manager->hookAddRelationship(array(
+		self::$_APPLICATION_PLUGIN_MANAGER->hookAddRelationship(array(
 			'table_name' => $this->tableName(), 
 			'instance' => &$this,
 			'related_table' => &$pm_rel_table_name_or_num,
@@ -7030,7 +7030,7 @@ side. For many self-relations the direction determines the nature and display te
 			$vb_we_set_transaction = true;
 		}
 
-		$this->opo_app_plugin_manager->hookBeforeMoveRelationships(array(
+		self::$_APPLICATION_PLUGIN_MANAGER->hookBeforeMoveRelationships(array(
 			'table_name' => $this->tableName(),
 			'instance' => &$this,
 			'related_table' => &$pm_rel_table_name_or_num,
@@ -7040,7 +7040,7 @@ side. For many self-relations the direction determines the nature and display te
 
 		$vn_rc = parent::moveRelationships($pm_rel_table_name_or_num, $pn_to_id, $pa_options=null);
 
-		$this->opo_app_plugin_manager->hookAfterMoveRelationships(array(
+		self::$_APPLICATION_PLUGIN_MANAGER->hookAfterMoveRelationships(array(
 			'table_name' => $this->tableName(),
 			'instance' => &$this,
 			'related_table' => &$pm_rel_table_name_or_num,

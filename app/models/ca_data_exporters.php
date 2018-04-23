@@ -219,7 +219,6 @@ class ca_data_exporters extends BundlableLabelableBaseModelWithAttributes {
 	}
 	# ------------------------------------------------------
 	public function __construct($pn_id=null) {
-		$this->opo_app_plugin_manager = new ApplicationPluginManager();
 
 		global $_ca_data_exporters_settings;
 		parent::__construct($pn_id);
@@ -2036,7 +2035,7 @@ foreach($va_items as $vn_item_id => $va_item) {
 		$va_replacements = ca_data_exporter_items::getReplacementArray($vs_original_values,$vs_replacement_values);
 
 		foreach($va_item_info as $vn_key => &$va_item) {
-			$this->opo_app_plugin_manager->hookExportItemBeforeSettings(array('instance' => $t_instance, 'exporter_item_instance' => $t_exporter_item, 'export_item' => &$va_item));
+			self::$_APPLICATION_PLUGIN_MANAGER->hookExportItemBeforeSettings(array('instance' => $t_instance, 'exporter_item_instance' => $t_exporter_item, 'export_item' => &$va_item));
 
 			// handle dontReturnValueIfOnSameDayAsStart
 			if(caGetOption('dontReturnValueIfOnSameDayAsStart', $va_get_options, false)) {
@@ -2090,7 +2089,7 @@ foreach($va_items as $vn_item_id => $va_item) {
 			}
 
 			// if returned value is null then we skip the item
-			$this->opo_app_plugin_manager->hookExportItem(array('instance' => $t_instance, 'exporter_item_instance' => $t_exporter_item, 'export_item' => &$va_item));
+			self::$_APPLICATION_PLUGIN_MANAGER->hookExportItem(array('instance' => $t_instance, 'exporter_item_instance' => $t_exporter_item, 'export_item' => &$va_item));
 		}
 
 		$o_log->logInfo(_t("Extracted data for this mapping is as follows:"));
