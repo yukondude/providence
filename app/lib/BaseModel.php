@@ -2449,7 +2449,7 @@ class BaseModel extends BaseObject {
 					}
 				}
 
-				if ((sizeof($va_media_fields) > 0) || (sizeof($va_file_fields) > 0) || ($this->getHierarchyType() == __CA_HIER_TYPE_ADHOC_MONO__)) {
+				if ((sizeof($va_media_fields) > 0) || (sizeof($va_file_fields) > 0) || ($this->isHierarchical() && ($this->getHierarchyType() == __CA_HIER_TYPE_ADHOC_MONO__))) {
 					$vs_sql  = "";
 					if (sizeof($va_media_fields) > 0) {
 						foreach($va_media_fields as $f) {
@@ -2467,7 +2467,7 @@ class BaseModel extends BaseObject {
 						}
 					}
 
-					if($this->getHierarchyType() == __CA_HIER_TYPE_ADHOC_MONO__) {	// Ad-hoc hierarchy
+					if($this->isHierarchical() && ($this->getHierarchyType() == __CA_HIER_TYPE_ADHOC_MONO__)) {	// Ad-hoc hierarchy
 						if (!$this->get($this->getProperty('HIERARCHY_ID_FLD'))) {
 							$this->set($this->getProperty('HIERARCHY_ID_FLD'), $this->getPrimaryKey());
 							$vs_sql .= $this->getProperty('HIERARCHY_ID_FLD').' = '.$this->getPrimaryKey().' ';
