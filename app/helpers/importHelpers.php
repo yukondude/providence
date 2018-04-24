@@ -249,7 +249,7 @@
 			caProcessRefineryRelatedMultiple($o_refinery_instance, $va_item, $pa_source_data, null, $o_log, $o_reader, $va_val, $va_attr_vals, $pa_options);
 		
 			if (is_array($va_val['_related_related'])) {
-								$t_subject = Datamodel::getInstanceByTableName($ps_table, true);
+				$t_subject = Datamodel::getInstanceByTableName($ps_table, true);
 				if ($t_subject->load($vn_id)) {
 					foreach($va_val['_related_related'] as $vs_table => $va_rels) { 
 						foreach($va_rels as $va_rel) {
@@ -416,7 +416,7 @@
 		$o_trans = caGetOption('transaction', $pa_options, null);
 		
 		if (is_array($pa_item['settings']["{$ps_refinery_name}_interstitial"])) {
-						if (!($ps_import_tablename = Datamodel::getTableName($pm_import_tablename_or_num))) { return null; }
+			if (!($ps_import_tablename = Datamodel::getTableName($pm_import_tablename_or_num))) { return null; }
 			if (!($ps_target_tablename = Datamodel::getTableName($pm_target_tablename_or_num))) { return null; }
 			if (!($t_target = Datamodel::getInstanceByTableName($ps_target_tablename, true))) { return null; }
 			if ($o_trans) { $t_target->setTransaction($o_trans); }
@@ -470,7 +470,7 @@
 		$o_log = caGetOption('log', $pa_options, null);
 		$o_trans = caGetOption('transaction', $pa_options, null);
 		
-				$t_rel_instance = Datamodel::getInstanceByTableName($ps_related_table, true);
+		$t_rel_instance = Datamodel::getInstanceByTableName($ps_related_table, true);
 		
 		global $g_ui_locale_id;
 		$va_attr_vals = array();
@@ -1026,7 +1026,11 @@
 							        $vn_c++;
 							        continue(2);
 								} else {
-									$va_val['media']['media'] = $vs_batch_media_directory.'/'.$vs_item;
+								    if (preg_match("!^http[s]{0,1}://!", strtolower($vs_item))) {
+								        $va_val['media']['media'] = $vs_item;
+								    } else {
+									    $va_val['media']['media'] = $vs_batch_media_directory.'/'.$vs_item;
+									}
 								}
 								if(!isset($va_val['idno'])) { $va_val['idno'] = pathinfo($vs_item, PATHINFO_FILENAME); }
 								break;
