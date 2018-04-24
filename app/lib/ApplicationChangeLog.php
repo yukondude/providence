@@ -284,7 +284,7 @@ require_once(__CA_LIB_DIR__."/Db.php");
 			//
 			// Init
 			//
-						$va_change_types = array(
+			$va_change_types = array(
 				'I' => _t('Added'),
 				'U' => _t('Edited'),
 				'D' => _t('Deleted')
@@ -599,7 +599,7 @@ require_once(__CA_LIB_DIR__."/Db.php");
  		if (!is_array($pa_row_ids) || !sizeof($pa_row_ids)) { return array(); }
  		
  		if (!is_numeric($pm_table_name_or_num)) {
- 			 			$pn_table_num = (int)Datamodel::getTableNum($pm_table_name_or_num);
+ 			$pn_table_num = (int)Datamodel::getTableNum($pm_table_name_or_num);
  		} else {
  			$pn_table_num = (int)$pm_table_name_or_num;
  		}
@@ -620,7 +620,9 @@ require_once(__CA_LIB_DIR__."/Db.php");
 				'fname' => $qr_res->get('fname'),
 				'lname' => $qr_res->get('lname'),
 				'email' => $qr_res->get('email'),
-				'timestamp' => $qr_res->get('log_datetime')
+				'timestamp' => $qr_res->get('log_datetime'),
+				'date' => caGetLocalizedDate($qr_res->get('log_datetime'), ['timeOmit' => true]),
+				'datetime' => caGetLocalizedDate($qr_res->get('log_datetime'))
 			);
 		}
  		
@@ -634,7 +636,7 @@ require_once(__CA_LIB_DIR__."/Db.php");
  		if (!is_array($pa_row_ids) || !sizeof($pa_row_ids)) { return array(); }
  		
  		if (!is_numeric($pm_table_name_or_num)) {
- 			 			$pn_table_num = (int)Datamodel::getTableNum($pm_table_name_or_num);
+ 			$pn_table_num = (int)Datamodel::getTableNum($pm_table_name_or_num);
  		} else {
  			$pn_table_num = (int)$pm_table_name_or_num;
  		}
@@ -671,7 +673,9 @@ require_once(__CA_LIB_DIR__."/Db.php");
 				'lname' => $qr_res->get('lname'),
 				'user' => $qr_res->get('fname').' '.$qr_res->get('lname'),
 				'email' => $qr_res->get('email'),
-				'timestamp' => $qr_res->get('log_datetime')
+				'timestamp' => $qr_res->get('log_datetime'),
+				'date' => caGetLocalizedDate($qr_res->get('log_datetime'), ['timeOmit' => true]),
+				'datetime' => caGetLocalizedDate($qr_res->get('log_datetime'))
 			);
 		}
 		
@@ -703,7 +707,9 @@ require_once(__CA_LIB_DIR__."/Db.php");
 					'lname' => $qr_res->get('lname'),
 					'user' => $qr_res->get('fname').' '.$qr_res->get('lname'),
 					'email' => $qr_res->get('email'),
-					'timestamp' => $qr_res->get('log_datetime')
+					'timestamp' => $qr_res->get('log_datetime'),
+                    'date' => caGetLocalizedDate($qr_res->get('log_datetime'), ['timeOmit' => true]),
+                    'datetime' => caGetLocalizedDate($qr_res->get('log_datetime'))
 				);
 			}
 		}
@@ -719,7 +725,7 @@ require_once(__CA_LIB_DIR__."/Db.php");
  		if (!is_array($pa_row_ids) || !sizeof($pa_row_ids)) { return array(); }
  		
  		if (!is_numeric($pm_table_name_or_num)) {
- 			 			$pn_table_num = (int)Datamodel::getTableNum($pm_table_name_or_num);
+ 			$pn_table_num = (int)Datamodel::getTableNum($pm_table_name_or_num);
  		} else {
  			$pn_table_num = (int)$pm_table_name_or_num;
  		}
@@ -754,7 +760,7 @@ require_once(__CA_LIB_DIR__."/Db.php");
  	public function getEarliestTimestampForIDs($pm_table_name_or_num, $pa_row_ids=null) {
  		
  		if (!is_numeric($pm_table_name_or_num)) {
- 			 			$pn_table_num = (int)Datamodel::getTableNum($pm_table_name_or_num);
+ 			$pn_table_num = (int)Datamodel::getTableNum($pm_table_name_or_num);
  		} else {
  			$pn_table_num = (int)$pm_table_name_or_num;
  		}
@@ -796,7 +802,7 @@ require_once(__CA_LIB_DIR__."/Db.php");
 	 * @return array Change log data
  	 */
  	public function getDeletions($pm_table_name_or_num, $pa_options=null) {
- 		 		$vn_table_num = Datamodel::getTableNum($pm_table_name_or_num);
+ 		$vn_table_num = Datamodel::getTableNum($pm_table_name_or_num);
  		$vs_table_name = Datamodel::getTableName($pm_table_name_or_num);
  		$t_subject = Datamodel::getInstanceByTableNum($vn_table_num, true);
  		
