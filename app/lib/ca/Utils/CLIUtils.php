@@ -4186,6 +4186,10 @@
 				CLIUtils::addMessage(_t('Setting import mode to default value TRY_TO_MATCH'));
 				$vs_import_mode = 'TRY_TO_MATCH';
 			}
+
+			# 20180509 drogers: Force ALWAYS_MATCH to avoid "true" value that somehow gets set.
+			$vs_import_mode = 'ALWAYS_MATCH';
+
 			$vs_match_mode = $po_opts->getOption('match-mode');
 			if (!in_array($vs_match_mode, ['DIRECTORY_NAME', 'DIRECTORY_NAME', 'FILE_NAME'])) {
 				CLIUtils::addMessage(_t('Setting match mode to default value FILE_NAME'));
@@ -4244,8 +4248,13 @@
 			if ($vs_import_target_access = $po_opts->getOption('import-target-access')) {
 			    $vn_access = caGetListItemID('access_statuses', $vs_import_target_access);
 			}
-			if (!$vn_access) {
-			    $vn_id = caGetDefaultItemID('access_statuses');
+
+      # 20180509 drogers: Force a '0' value meaning 'not public' and use is_null() next to check explicitly for Null and
+      # not falsiness.
+      $vn_access = "0";
+
+      if (is_null($vn_access)) {
+		      $vn_id = caGetDefaultItemID('access_statuses');
 			    $vn_access = caGetListItemValueForID($vn_id);
 			    CLIUtils::addMessage(_t('Setting target access to default %1', caGetListItemByIDForDisplay($vn_id)));
 			}
@@ -4254,7 +4263,12 @@
 			if ($vs_rep_access = $po_opts->getOption('import-representation-access')) {
 			    $vn_rep_access = caGetListItemID('access_statuses', $vs_import_target_access);
 			}
-			if (!$vn_rep_access) {
+
+      # 20180509 drogers: Force a '0' value meaning 'not public' and use is_null() next to check explicitly for Null and
+      # not falsiness.
+      $vn_rep_access = "0";
+
+			if (is_null($vn_rep_access)) {
 			    $vn_id = caGetDefaultItemID('access_statuses');
 			    $vn_rep_access = caGetListItemValueForID($vn_id);
 			    CLIUtils::addMessage(_t('Setting representation access to default %1', caGetListItemByIDForDisplay($vn_id)));
@@ -4264,7 +4278,12 @@
 			if ($vs_import_target_status = $po_opts->getOption('import-target-status')) {
 			    $vn_status = caGetListItemID('workflow_statuses', $vs_import_target_status);
 			}
-			if (!$vn_status) {
+
+      # 20180509 drogers: Force a '0' value meaning 'draft' and use is_null() next to check explicitly for Null and
+      # not falsiness.
+      $vn_status = "0";
+
+      if (is_null($vn_status)) {
 			    $vn_id = caGetDefaultItemID('workflow_statuses');
 			    $vn_status = caGetListItemValueForID($vn_id);
 			    CLIUtils::addMessage(_t('Setting target status to default %1', caGetListItemByIDForDisplay($vn_id)));
@@ -4274,7 +4293,12 @@
 			if ($vs_rep_status = $po_opts->getOption('import-representation-status')) {
 			    $vn_rep_status = caGetListItemID('workflow_statuses', $vs_import_target_status);
 			}
-			if (!$vn_rep_status) {
+
+      # 20180509 drogers: Force a '0' value meaning 'draft' and use is_null() next to check explicitly for Null and
+      # not falsiness.
+      $vn_rep_status = "0";
+
+      if (is_null($vn_rep_status)) {
 			    $vn_id = caGetDefaultItemID('workflow_statuses');
 			    $vn_rep_status = caGetListItemValueForID($vn_id);
 			    CLIUtils::addMessage(_t('Setting representation status to default %1', caGetListItemByIDForDisplay($vn_id)));
