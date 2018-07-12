@@ -15,7 +15,7 @@ span.label { width:30%; display:inline-block; font-size: 12px; font-weight: bold
 span.meta { width: 350px; display:inline-block; font-weight: normal; color:#000;}
 div.data { font-family: helvetica, sans-serif;  font-size: 12px; border-bottom: 1px solid #eeeeee; margin-top: 20px; }
 div.findingAid.data { border-bottom: 0; }
-.title { font-family: helvetica, sans-serif; font-size: 18px; height: 25px; text-align: center; font-weight: bold; margin-bottom: 20px; }
+.title { font-family: helvetica, sans-serif; font-size: 18px; height: 25px; text-align: center; font-weight: bold; padding-bottom: 20px; }
 .representationList { margin-top:10px; text-align: center; }
 
 .thumbnail { font-family: helvetica, sans-serif; font-size: 11px; border: 1px solid #999; width: 200px; height: 160px; float: left; text-align: center; margin-left: 10px; padding: 5px; overflow: hidden; }
