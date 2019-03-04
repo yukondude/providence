@@ -125,7 +125,50 @@
 				</div>
 			</div>
 		</div>
-		<div class='bundleLabel'>
+
+        <!-- YMD 201902 -->
+        <div class='bundleLabel'>
+            <span class="formLabelText">"De-rotate" images</span>
+            <div class="bundleContainer">
+                <p><a href="#" id="derotate-image-metadata">Click here to "de-rotate" the image metadata in the selected directory
+                    before importing.</a></p>
+                <p><span class="formLabel">CollectiveAccess uses each image's internal metadata
+                    (<a href="https://en.wikipedia.org/wiki/Exif" target="_blank">EXIF</a>) to determine that image's
+                    orientation when it is displayed.
+                    However, the metadata orientation might not match the actual orientation of the image if it were
+                    opened in a desktop image viewer application (i.e., it might appear rotated 90&deg; or 180&deg;
+                    and/or flipped as if by a mirror).
+                    The "de-rotate" operation overwrites the metadata for all of the images in the selected directory
+                    so that the metadata orientation matches the actual orientation.
+                    </span></p>
+                <p><span class="formLabel">It may take a couple of minutes for this operation to complete.</span></p>
+                <p><span class="formLabel">If you encounter permission errors in performing this operation, contact the
+                    CA system administrator and ask that the Apache webserver be given write permissions to the CA
+                    import directory's files.
+                    If the operation reports that certain files "weren't updated due to errors", this should not be a
+                    cause for concern and usually means that there are inconsistencies in the image metadata.
+                    If you prefer, contact the CA system administrator to run the de-rotate operation manually, or for
+                    just certain files.</span></p>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            $("#derotate-image-metadata").click(function() {
+                var derotateDir = jQuery('#caDirectoryValue').val();
+
+                if (derotateDir === "") {
+                    alert("Please select an import directory above before de-rotating.");
+                    return false;
+                }
+
+                window.open("<?php echo(__CA_URL_ROOT__)?>/ymdcustom/derotate?dir=" + derotateDir, "_blank");
+
+                return false;
+            });
+        </script>
+        <!-- /YMD 201902 -->
+
+        <div class='bundleLabel'>
 			<span class="formLabelText"><?php print _t('Import mode'); ?></span>
 				<div class="bundleContainer">
 					<div class="caLabelList" >
