@@ -1129,6 +1129,10 @@ class WLPlugMediaImageMagick Extends BaseMediaPlugin Implements IWLPlugMedia {
 			if(isset($this->metadata['EXIF']) && is_array($va_exif = $this->metadata['EXIF'])) {
 				if (isset($va_exif['IFD0']['Orientation'])) {
 					$vn_orientation = $va_exif['IFD0']['Orientation'];
+
+					// YMD: never rotate
+					$vn_orientation = 1;
+
 					switch($vn_orientation) {
 						case 3:
 							$this->properties["orientation_rotate"] = -180;

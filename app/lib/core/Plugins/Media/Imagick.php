@@ -525,7 +525,10 @@ class WLPlugMediaImagick Extends BaseMediaPlugin Implements IWLPlugMedia {
 										$vb_is_rotated = true;
 										break;
 								}
-								
+
+								// YMD: never rotate.
+								$vb_is_rotated = false;
+
 								if($vb_is_rotated) {								
 									if ( $this->handle->writeImage($vs_tmp_basename) ) {
 										$va_tmp = $this->handle->getImageGeometry();
